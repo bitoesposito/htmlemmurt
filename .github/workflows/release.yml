@@ -1,0 +1,136 @@
+name: Release
+
+# A tag vX.Y.Z builds the emmurt binaries, the .vsix and the npm tarball,
+# publishes the npm package if that version is not on npm yet, and creates
+# the GitHub release.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  versions:
+    name: Versions match the tag
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - run: |
+          tag="${GITHUB_REF_NAME#v}"
+          cargo="$(grep -m1 '^version' Cargo.toml | cut -d'"' -f2)"
+          npm="$(node -p "require('./packages/htmlemmurt/package.json').version")"
+          echo "tag $tag, Cargo.toml $cargo, npm $npm"
+          [ "$tag" = "$cargo" ] && [ "$tag" = "$npm" ]
+
+  cli:
+    name: emmurt for ${{ matrix.target }}
+    needs: versions
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - { os: ubuntu-24.04, target: x86_64-unknown-linux-gnu }
+          - { os: ubuntu-24.04-arm, target: aarch64-unknown-linux-gnu }
+          - { os: macos-15, target: aarch64-apple-darwin }
+          - { os: macos-15-intel, target: x86_64-apple-darwin }
+          - { os: windows-2025, target: x86_64-pc-windows-msvc }
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - run: cargo build --release --locked -p emmurt-cli --target ${{ matrix.target }}
+      - name: Archive
+        shell: bash
+        run: |
+          name="emmurt-$GITHUB_REF_NAME-${{ matrix.target }}"
+          mkdir "$name"
+          cp README.md LICENSE "$name/"
+          if [ "$RUNNER_OS" = Windows ]; then
+            cp "target/${{ matrix.target }}/release/emmurt.exe" "$name/"
+            7z a -bd "$name.zip" "$name" > /dev/null
+          else
+            cp "target/${{ matrix.target }}/release/emmurt" "$name/"
+            tar -czf "$name.tar.gz" "$name"
+          fi
+      - uses: actions/upload-artifact@v7
+        with:
+          name: cli-${{ matrix.target }}
+          path: emmurt-*.*
+
+  packages:
+    name: npm tarball and .vsix
+    needs: versions
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - name: Install wasm-pack
+        run: curl -fsSL https://github.com/rustwasm/wasm-pack/releases/download/v0.15.0/wasm-pack-v0.15.0-x86_64-unknown-linux-musl.tar.gz | tar -xz -C ~/.cargo/bin --strip-components=1 --wildcards '*/wasm-pack'
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: npm package
+        working-directory: packages/htmlemmurt
+        run: npm run build && npm test && npm pack --pack-destination "$GITHUB_WORKSPACE"
+      - name: VS Code extension
+        working-directory: packages/vscode-extension
+        run: npm test && npm run package && mv ./*.vsix "$GITHUB_WORKSPACE/"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: packages
+          path: |
+            htmlemmurt-*.tgz
+            *.vsix
+
+  npm:
+    name: Publish to npm
+    needs: packages
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - uses: actions/download-artifact@v8
+        with:
+          name: packages
+      - name: Publish with trusted publishing
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          if npm view "htmlemmurt@$version" version > /dev/null 2>&1; then
+            echo "htmlemmurt@$version is on npm already"
+            exit 0
+          fi
+          # Trusted publishing (OIDC) needs npm 11.5.1 or later
+          npm install -g npm@latest
+          npm publish "htmlemmurt-$version.tgz" --access public --provenance
+
+  release:
+    name: GitHub release
+    needs: [cli, packages]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          merge-multiple: true
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sha256sum emmurt-* htmlemmurt-* > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --generate-notes \
+            emmurt-* htmlemmurt-* SHA256SUMS.txt
