@@ -3,7 +3,7 @@
   "displayName": "htmlemmurt",
   "description": "HTML in napoletano: colori, snippet, completamento ed errori mentre scrivi",
   "version": "0.1.0",
-  "publisher": "htmlemmurt",
+  "publisher": "bitoesposito",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -73,8 +73,11 @@
     }
   },
   "scripts": {
+    "vscode:prepublish": "node scripts/copy-compiler.mjs",
     "compiler": "node scripts/copy-compiler.mjs",
     "test": "node --test test/*.test.js",
-    "package": "node scripts/copy-compiler.mjs && npx --yes @vscode/vsce package --no-dependencies"
-  }
+    "package": "npx --yes @vscode/vsce package --no-dependencies",
+    "publish": "npx --yes @vscode/vsce publish --no-dependencies"
+  },
+  "author": "Vito Esposito"
 }
