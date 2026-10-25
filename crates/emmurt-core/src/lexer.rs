@@ -1,5 +1,5 @@
 //! Splits htmlemmurt source into text, comments, tags and the raw content of
-//! elements like `<fratm>` and `<stile>`. Names are kept as written; the
+//! elements like `<fratm>` and `<cess>`. Names are kept as written; the
 //! compiler translates and checks them.
 
 use crate::vocabolario;
@@ -75,7 +75,7 @@ pub fn tokenize(source: &str) -> Result<Vec<Token>, Fail> {
             }
         } else if lx.starts_with("<!") {
             return Err(Fail::new(lx.pos(), "<!DOCTYPE> nun serve.")
-                .hint("Quanno scrive <paggena> 'o metto io."));
+                .hint("Quanno scrive <cristian> 'o metto io."));
         } else if lx.peek(1) == Some('/') && lx.peek(2).is_some_and(char::is_alphabetic) {
             flush(&mut text, &mut tokens);
             lx.bump();
@@ -296,11 +296,11 @@ mod tests {
     #[test]
     fn tags_attributes_and_text() {
         let tokens =
-            tokenize("<cascetta classe=\"a\" chi='b' annascuso data-x=1>\n Uè</cascetta>").unwrap();
+            tokenize("<cascett classe=\"a\" chi='b' annascuso data-x=1>\n Uè</cascett>").unwrap();
         let Token::Start(tag) = &tokens[0] else {
             panic!()
         };
-        assert_eq!(tag.name, "cascetta");
+        assert_eq!(tag.name, "cascett");
         assert_eq!(tag.pos, p(1, 2));
         let attrs: Vec<_> = tag
             .attrs
@@ -316,12 +316,12 @@ mod tests {
                 ("data-x", Some("1"))
             ]
         );
-        assert_eq!(tag.attrs[0].value_pos, p(1, 19));
+        assert_eq!(tag.attrs[0].value_pos, p(1, 18));
         assert_eq!(tokens[1], Token::Text("\n Uè".into()));
         assert_eq!(
             tokens[2],
             Token::End {
-                name: "cascetta".into(),
+                name: "cascett".into(),
                 pos: p(2, 6)
             }
         );
@@ -342,14 +342,14 @@ mod tests {
 
     #[test]
     fn comments_and_lone_brackets_are_text() {
-        let tokens = tokenize("a < b <!-- <cascetta> -->").unwrap();
-        assert_eq!(tokens, [Token::Text("a < b <!-- <cascetta> -->".into())]);
+        let tokens = tokenize("a < b <!-- <cascett> -->").unwrap();
+        assert_eq!(tokens, [Token::Text("a < b <!-- <cascett> -->".into())]);
     }
 
     #[test]
     fn errors_point_at_the_problem() {
-        let err = tokenize("<cascetta classe=\"a>").unwrap_err();
-        assert_eq!(err.pos, p(1, 18));
+        let err = tokenize("<cascett classe=\"a>").unwrap_err();
+        assert_eq!(err.pos, p(1, 17));
         let err = tokenize("\n<fratm> tien x = 1").unwrap_err();
         assert_eq!(
             (err.pos, err.message.as_str()),
@@ -357,6 +357,6 @@ mod tests {
         );
         assert!(tokenize("<!-- ").is_err());
         assert!(tokenize("<!DOCTYPE html>").is_err());
-        assert!(tokenize("<cascetta").is_err());
+        assert!(tokenize("<cascett").is_err());
     }
 }

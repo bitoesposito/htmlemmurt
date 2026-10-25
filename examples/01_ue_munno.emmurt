@@ -1,10 +1,10 @@
 <!-- Ciao munno: 'a paggena cchiù piccerella -->
-<paggena lengua="nap">
+<cristian lengua="nap">
   <capa>
     <titulo>Uè munno</titulo>
   </capa>
-  <cuorpo>
-    <strilla1>Uè munno!</strilla1>
-    <parlata>Chesta è na paggena scritta in <forte>htmlemmurt</forte>.</parlata>
-  </cuorpo>
-</paggena>
+  <panz>
+    <luccolone>Uè munno!</luccolone>
+    <chiacchier>Chesta è na paggena scritta in <fort>htmlemmurt</fort>.</chiacchier>
+  </panz>
+</cristian>

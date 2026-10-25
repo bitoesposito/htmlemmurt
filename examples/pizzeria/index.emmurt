@@ -1,21 +1,21 @@
 <!-- 'A paggena 'e casa -->
-<paggena lengua="it">
+<cristian lengua="it">
   <capa>
-    <nutizia nomme="viewport" cuntenuto="width=device-width, initial-scale=1">
+    <inciucc nomme="viewport" cuntenuto="width=device-width, initial-scale=1">
     <titulo>'A Pizzeria 'e Gennaro</titulo>
     <attacca rapporto="icona" addo="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍕</text></svg>">
     <attacca rapporto="stile" addo="/stile.css">
   </capa>
-  <cuorpo>
-    <chiamm da="pezzi/ncapo.emmurt" />
-    <mmiezo>
-      <pezzo classe="eroe">
-        <strilla1>Uè, trase!</strilla1>
-        <parlata>'O furno è caldo. Quante pizze sfurnammo oggi?</parlata>
-        <scamazza tipo="buttone" quanno-tuocche="sforna()">Sforna na pizza</scamazza>
-        <parlata>Pizze sfurnate: <forte chi="sfurnate">0</forte></parlata>
-      </pezzo>
-    </mmiezo>
+  <panz>
+    <chiamm da="pezzi/cappiell.emmurt" />
+    <core>
+      <piezz classe="eroe">
+        <luccolone>Uè, trase!</luccolone>
+        <chiacchier>'O furno è caldo. Quante pizze sfurnammo oggi?</chiacchier>
+        <citofono tipo="buttone" quanno-tuocche="sforna()">Sforna na pizza</citofono>
+        <chiacchier>Pizze sfurnate: <fort chi="sfurnate">0</fort></chiacchier>
+      </piezz>
+    </core>
     <chiamm da="pezzi/pere.emmurt" />
     <fratm>
       tien sfurnate = 0
@@ -25,5 +25,5 @@
       }
     </fratm>
     <fratm da="/src/main.fratm" />
-  </cuorpo>
-</paggena>
+  </panz>
+</cristian>

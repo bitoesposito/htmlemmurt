@@ -7,8 +7,8 @@ import { compile, compileFratm, formatError } from './index.js';
 const FRATM = /\.fratm$/;
 // A request for a .fratm file that Vite would serve as it is
 const RAW_FRATM_REQUEST = /^[^?#]*\.fratm(?:$|[?#])/;
-// A page starts with <paggena>, maybe after comments
-const PAGE = /^\s*(?:<!--[\s\S]*?-->\s*)*<paggena[\s>/]/i;
+// A page starts with <cristian>, maybe after comments
+const PAGE = /^\s*(?:<!--[\s\S]*?-->\s*)*<cristian[\s>/]/i;
 const SKIP_DIRS = new Set(['node_modules', 'dist', 'public']);
 
 export default function htmlemmurt() {

@@ -4,7 +4,7 @@
 //   <script type="text/htmlemmurt" src="index.emmurt"></script>
 //
 // Each <script type="text/htmlemmurt"> (inline or with src) is compiled and
-// takes the place of the tag; a whole page (<paggena>) replaces the document.
+// takes the place of the tag; a whole page (<cristian>) replaces the document.
 // Errors are shown in the page and in the console, in Neapolitan. `ready`
 // resolves when every script has been shown.
 import { init, compile, runtimeError, formatError } from './web.js';

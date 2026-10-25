@@ -1,14 +1,14 @@
-<paggena lengua="it">
+<cristian lengua="it">
   <capa>
     <titulo>FratmScript int'a paggena</titulo>
   </capa>
-  <cuorpo>
-    <strilla1 chi="titolo">Sforna!</strilla1>
-    <scamazza tipo="buttone" quanno-tuocche="sforna(1)">Una</scamazza>
-    <scamazza tipo="buttone" quanno-tuocche="sforna(3)">Tre</scamazza>
-    <scamazza tipo="buttone" quanno-tuocche-doje-vote="azzera()">Azzera (doje vote)</scamazza>
-    <campo tipo="testo" esempio="Comme te chiamme?" quanno-scrive="saluta(stu cos.value)">
-    <parlata chi="saluto"></parlata>
+  <panz>
+    <luccolone chi="titolo">Sforna!</luccolone>
+    <citofono tipo="buttone" quanno-tuocche="sforna(1)">Una</citofono>
+    <citofono tipo="buttone" quanno-tuocche="sforna(3)">Tre</citofono>
+    <citofono tipo="buttone" quanno-tuocche-doje-vote="azzera()">Azzera (doje vote)</citofono>
+    <miett tipo="testo" esempio="Comme te chiamme?" quanno-scrive="saluta(stu cos.value)">
+    <chiacchier chi="saluto"></chiacchier>
 
     <!-- Nu blocco <fratm> classico: 'e funzioni so' globali, 'e quanno-* 'e vedeno -->
     <fratm>
@@ -35,5 +35,5 @@
       chiamm { a_caso } da "fratm"
       stamm a dì("Pizza 'e oggi n.", a_caso(1, 10))
     </fratm>
-  </cuorpo>
-</paggena>
+  </panz>
+</cristian>

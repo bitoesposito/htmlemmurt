@@ -6,7 +6,7 @@
 //! ```rust
 //! use emmurt_core::{compile, Options};
 //!
-//! let out = compile("<cascetta classe=\"menu\">Uè!</cascetta>", &Options::default()).unwrap();
+//! let out = compile("<cascett classe=\"menu\">Uè!</cascett>", &Options::default()).unwrap();
 //! assert_eq!(out.html, "<div class=\"menu\">Uè!</div>");
 //! ```
 //!
@@ -123,7 +123,7 @@ impl Fail {
 }
 
 /// Compiles a page or a fragment. A page is a file whose first element is
-/// `<paggena>`: it also gets `<!DOCTYPE html>` and, when it has none, a
+/// `<cristian>`: it also gets `<!DOCTYPE html>` and, when it has none, a
 /// `<meta charset="utf-8">`.
 pub fn compile(source: &str, options: &Options) -> Result<Output, Error> {
     let mut compiler = Compiler {
@@ -674,11 +674,11 @@ mod tests {
     #[test]
     fn translates_tags_attributes_and_values() {
         assert_eq!(
-            html("<scamazza tipo=\"buttone\" classe='a \"b\"' stutato>Sforna</scamazza>"),
+            html("<citofono tipo=\"buttone\" classe='a \"b\"' stutato>Sforna</citofono>"),
             "<button type=\"button\" class=\"a &quot;b&quot;\" disabled>Sforna</button>"
         );
         assert_eq!(
-            html("<modulo addo=\"/ordina\" metodo=\"manna\"><campo tipo=\"posta\" perforza></modulo>"),
+            html("<modulo addo=\"/ordina\" metodo=\"manna\"><miett tipo=\"posta\" perforza></modulo>"),
             "<form action=\"/ordina\" method=\"post\"><input type=\"email\" required></form>"
         );
         assert_eq!(
@@ -689,8 +689,8 @@ mod tests {
 
     #[test]
     fn void_and_self_closing_elements() {
-        assert_eq!(html("<acapo><acapo /><riga/>"), "<br><br><hr>");
-        assert_eq!(html("<cascetta />"), "<div></div>");
+        assert_eq!(html("<acap><acap /><stacc/>"), "<br><br><hr>");
+        assert_eq!(html("<cascett />"), "<div></div>");
     }
 
     #[test]
@@ -708,20 +708,20 @@ mod tests {
     #[test]
     fn raw_elements_keep_their_content() {
         assert_eq!(
-            html("<stile>cascetta > p { color: red }</stile><titulo>a <b></titulo>"),
-            "<style>cascetta > p { color: red }</style><title>a <b></title>"
+            html("<cess>div > p { color: red }</cess><titulo>a <b></titulo>"),
+            "<style>div > p { color: red }</style><title>a <b></title>"
         );
     }
 
     #[test]
     fn pages_get_doctype_and_charset() {
         assert_eq!(
-            html("<paggena lengua=\"nap\">\n<capa>\n  <titulo>Uè</titulo>\n</capa>\n</paggena>\n"),
+            html("<cristian lengua=\"nap\">\n<capa>\n  <titulo>Uè</titulo>\n</capa>\n</cristian>\n"),
             "<!DOCTYPE html>\n<html lang=\"nap\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>Uè</title>\n</head>\n</html>\n"
         );
-        let own = html("<paggena><capa><nutizia codifica=\"latin1\"></capa></paggena>");
+        let own = html("<cristian><capa><inciucc codifica=\"latin1\"></capa></cristian>");
         assert!(!own.contains("utf-8"), "{own}");
-        assert!(!html("<cascetta></cascetta>").contains("DOCTYPE"));
+        assert!(!html("<cascett></cascett>").contains("DOCTYPE"));
     }
 
     #[test]
@@ -767,7 +767,7 @@ mod tests {
     #[test]
     fn handlers_are_fratmscript() {
         assert_eq!(
-            html("<scamazza quanno-tuocche=\"si (a e b) { sforna(&quot;x&quot;) }\"></scamazza>"),
+            html("<citofono quanno-tuocche=\"si (a e b) { sforna(&quot;x&quot;) }\"></citofono>"),
             "<button onclick=\"if ((a &amp;&amp; b)) {\n  sforna(&quot;x&quot;);\n}\"></button>"
         );
     }
@@ -777,7 +777,7 @@ mod tests {
         let files = [
             (
                 "sito/pezzi/menu.emmurt",
-                "<strade><chiamm da=\"voce.emmurt\" /></strade>\n",
+                "<tomtom><chiamm da=\"voce.emmurt\" /></tomtom>\n",
             ),
             ("sito/pezzi/voce.emmurt", "<voce>Pizze</voce>"),
         ];
@@ -796,7 +796,7 @@ mod tests {
 
     #[test]
     fn include_errors_name_the_included_file() {
-        let files = [("sito/pere.emmurt", "\n<cascetta>")];
+        let files = [("sito/pere.emmurt", "\n<cascett>")];
         let e = with_files(&files, "<chiamm da=\"pere.emmurt\" />", FratmSrc::Keep).unwrap_err();
         assert_eq!(
             (e.file.as_str(), e.line, e.column),
@@ -819,20 +819,20 @@ mod tests {
         let e = error("<div classe=\"menu\">");
         assert_eq!((e.line, e.column), (1, 2));
         assert_eq!(e.message, "<div> nun è napoletano.");
-        assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire <cascetta>?"));
+        assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire <cascett>?"));
 
-        let e = error("<cascetta class=\"menu\">");
+        let e = error("<cascett class=\"menu\">");
         assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire 'classe'?"));
-        let e = error("<scamazza onclick=\"x()\">");
+        let e = error("<citofono onclick=\"x()\">");
         assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire 'quanno-tuocche'?"));
-        let e = error("<campo tipo=\"password\">");
+        let e = error("<miett tipo=\"password\">");
         assert_eq!(
             (e.column, e.suggestion.as_deref()),
             (14, Some("Vuoi dire tipo=\"segreto\"?"))
         );
-        let e = error("<cascett>");
-        assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire <cascetta>?"));
-        let e = error("<cascetta clase=\"a\">");
+        let e = error("<cascet>");
+        assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire <cascett>?"));
+        let e = error("<cascett clase=\"a\">");
         assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire 'classe'?"));
         assert_eq!(
             error("<embed>").message,
@@ -842,37 +842,37 @@ mod tests {
 
     #[test]
     fn structure_errors() {
-        let e = error("<cascetta>\n  <pezzullo>Uè\n</cascetta>");
+        let e = error("<cascett>\n  <scatulell>Uè\n</cascett>");
         assert_eq!((e.line, e.column), (3, 3));
         assert_eq!(
             e.message,
-            "Hê chiuso </cascetta> ma <pezzullo> (riga 2) è ancora araputo."
+            "Hê chiuso </cascett> ma <scatulell> (riga 2) è ancora araputo."
         );
-        let e = error("<cascetta>\n<pezzullo>");
+        let e = error("<cascett>\n<scatulell>");
         assert_eq!(
             (e.line, e.message.as_str()),
-            (2, "<pezzullo> nun l'hê maje chiuso.")
+            (2, "<scatulell> nun l'hê maje chiuso.")
         );
         assert_eq!(
-            error("</cascetta>").message,
-            "</cascetta> chiude na cosa ca nun è maje stata araputa."
+            error("</cascett>").message,
+            "</cascett> chiude na cosa ca nun è maje stata araputa."
         );
         assert_eq!(
-            error("<acapo></acapo>").message,
-            "<acapo> nun se chiude: è sempe vacante."
+            error("<acap></acap>").message,
+            "<acap> nun se chiude: è sempe vacante."
         );
         assert_eq!(
-            error("<cascetta classe=a classe=b>").message,
+            error("<cascett classe=a classe=b>").message,
             "'classe' l'hê scritto doje vote."
         );
     }
 
     #[test]
     fn fratm_errors_point_into_the_page() {
-        let e = error("<cascetta>\n<fratm>\n  chist nome = 1\n</fratm>");
+        let e = error("<cascett>\n<fratm>\n  chist nome = 1\n</fratm>");
         assert_eq!((e.line, e.column), (3, 9));
         assert!(e.message.contains("chist"), "{}", e.message);
-        let e = error("<scamazza quanno-tuocche=\"chist x = 1\">");
+        let e = error("<citofono quanno-tuocche=\"chist x = 1\">");
         assert_eq!(e.line, 1);
         assert!(e.column >= 26, "{e}");
     }

@@ -1,52 +1,52 @@
-<paggena lengua="it">
+<cristian lengua="it">
   <capa>
-    <nutizia nomme="viewport" cuntenuto="width=device-width, initial-scale=1">
+    <inciucc nomme="viewport" cuntenuto="width=device-width, initial-scale=1">
     <titulo>Menù · 'A Pizzeria 'e Gennaro</titulo>
     <attacca rapporto="icona" addo="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍕</text></svg>">
     <attacca rapporto="stile" addo="/stile.css">
   </capa>
-  <cuorpo>
-    <chiamm da="pezzi/ncapo.emmurt" />
-    <mmiezo>
-      <strilla1>'O menù</strilla1>
-      <tavula classe="menu">
+  <panz>
+    <chiamm da="pezzi/cappiell.emmurt" />
+    <core>
+      <luccolone>'O menù</luccolone>
+      <tavulat classe="menu">
         <capotavula>
           <fila><capocasella>Pizza</capocasella><capocasella>Prezzo</capocasella><capocasella></capocasella></fila>
         </capotavula>
         <cuorpotavula>
           <fila>
             <casella>Margherita</casella><casella>5 €</casella>
-            <casella><scamazza tipo="buttone" data-pizza="Margherita">Miettela int'o carrello</scamazza></casella>
+            <casella><citofono tipo="buttone" data-pizza="Margherita">Miettela int'o carrello</citofono></casella>
           </fila>
           <fila>
             <casella>Marinara</casella><casella>4 €</casella>
-            <casella><scamazza tipo="buttone" data-pizza="Marinara">Miettela int'o carrello</scamazza></casella>
+            <casella><citofono tipo="buttone" data-pizza="Marinara">Miettela int'o carrello</citofono></casella>
           </fila>
           <fila>
             <casella>Diavola</casella><casella>6,50 €</casella>
-            <casella><scamazza tipo="buttone" data-pizza="Diavola">Miettela int'o carrello</scamazza></casella>
+            <casella><citofono tipo="buttone" data-pizza="Diavola">Miettela int'o carrello</citofono></casella>
           </fila>
         </cuorpotavula>
-      </tavula>
+      </tavulat>
 
-      <strilla2>Ordina</strilla2>
+      <luccolo>Ordina</luccolo>
       <modulo chi="ordine">
-        <etichetta pe="nomme">Comme te chiamme?</etichetta>
-        <campo chi="nomme" nomme="nomme" tipo="testo" esempio="Gennaro" perforza>
-        <etichetta pe="telefono">Telefono</etichetta>
-        <campo chi="telefono" nomme="telefono" tipo="telefono" esempio="081 …" perforza>
+        <targhett pe="nomme">Comme te chiamme?</targhett>
+        <miett chi="nomme" nomme="nomme" tipo="testo" esempio="Gennaro" perforza>
+        <targhett pe="telefono">Telefono</targhett>
+        <miett chi="telefono" nomme="telefono" tipo="telefono" esempio="081 …" perforza>
         <recinto>
           <leggenda>Comme 'a vuò?</leggenda>
-          <etichetta><campo tipo="pallino" nomme="consegna" valore="casa" spuntato> A casa</etichetta>
-          <etichetta><campo tipo="pallino" nomme="consegna" valore="banco"> 'A vengo a piglià</etichetta>
+          <targhett><miett tipo="pallino" nomme="consegna" valore="casa" spuntato> A casa</targhett>
+          <targhett><miett tipo="pallino" nomme="consegna" valore="banco"> 'A vengo a piglià</targhett>
         </recinto>
-        <etichetta pe="note">Note pe' 'o pizzaiuolo</etichetta>
-        <quaderno chi="note" nomme="note" righe="3"></quaderno>
-        <scamazza tipo="manna">Manna l'ordine</scamazza>
+        <targhett pe="note">Note pe' 'o pizzaiuolo</targhett>
+        <ragionamento chi="note" nomme="note" righe="3"></ragionamento>
+        <citofono tipo="manna">Manna l'ordine</citofono>
       </modulo>
-      <parlata chi="risposta" annascuso></parlata>
-    </mmiezo>
+      <chiacchier chi="risposta" annascuso></chiacchier>
+    </core>
     <chiamm da="pezzi/pere.emmurt" />
     <fratm da="/src/main.fratm" />
-  </cuorpo>
-</paggena>
+  </panz>
+</cristian>

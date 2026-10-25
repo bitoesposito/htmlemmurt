@@ -7,7 +7,7 @@
     { "include": "#comment" },
     { "include": "#fratm" },
     { "include": "#copione" },
-    { "include": "#stile" },
+    { "include": "#cess" },
     { "include": "#chiamm" },
     { "include": "#tag" },
     { "include": "#entity" }
@@ -68,13 +68,13 @@
         }
       ]
     },
-    "stile": {
-      "begin": "(?i)(<)(stile)\\b(?![^>]*/>)",
+    "cess": {
+      "begin": "(?i)(<)(cess)\\b(?![^>]*/>)",
       "beginCaptures": {
         "1": { "name": "punctuation.definition.tag.begin.html" },
         "2": { "name": "entity.name.tag.html" }
       },
-      "end": "(?i)(</)(stile)\\s*(>)",
+      "end": "(?i)(</)(cess)\\s*(>)",
       "endCaptures": {
         "1": { "name": "punctuation.definition.tag.begin.html" },
         "2": { "name": "entity.name.tag.html" },
@@ -84,7 +84,7 @@
         { "include": "#start-tag-rest" },
         {
           "begin": "(?<=>)",
-          "end": "(?i)(?=</stile\\s*>)",
+          "end": "(?i)(?=</cess\\s*>)",
           "contentName": "meta.embedded.block.css source.css",
           "patterns": [{ "include": "source.css" }]
         }

@@ -2,17 +2,17 @@
 
 HTML, ma comme si deve 🤌
 
-htmlemmurt è HTML in napoletano. Scrivi `<cascetta>` e il compilatore scrive `<div>`. È il fratello di [FratmScript](https://github.com/kkratterf/fratmscript): i blocchi `<fratm>` e gli attributi `quanno-*` sono FratmScript e diventano JavaScript. Il compilatore è in Rust e gira anche in Node, in Vite e nel browser grazie a WebAssembly.
+htmlemmurt è HTML in napoletano. Scrivi `<cascett>` e il compilatore scrive `<div>`. È il fratello di [FratmScript](https://github.com/kkratterf/fratmscript): i blocchi `<fratm>` e gli attributi `quanno-*` sono FratmScript e diventano JavaScript. Il compilatore è in Rust e gira anche in Node, in Vite e nel browser grazie a WebAssembly.
 
 ```html
-<paggena lengua="it">
+<cristian lengua="it">
   <capa>
     <titulo>'A Pizzeria</titulo>
   </capa>
-  <cuorpo>
-    <chiamm da="pezzi/ncapo.emmurt" />
-    <strilla1>Uè, trase!</strilla1>
-    <scamazza tipo="buttone" quanno-tuocche="sforna()">Sforna</scamazza>
+  <panz>
+    <chiamm da="pezzi/cappiell.emmurt" />
+    <luccolone>Uè, trase!</luccolone>
+    <citofono tipo="buttone" quanno-tuocche="sforna()">Sforna</citofono>
     <fratm>
       tien pizze = 0
       facc sforna() {
@@ -20,8 +20,8 @@ htmlemmurt è HTML in napoletano. Scrivi `<cascetta>` e il compilatore scrive `<
           stamm a dì(`Sfurnate: ${pizze}`)
       }
     </fratm>
-  </cuorpo>
-</paggena>
+  </panz>
+</cristian>
 ```
 
 diventa
@@ -71,18 +71,18 @@ Il compilatore accetta solo napoletano. `<div>` è un errore, e l'errore ti dice
 ✗ index.emmurt:3:6: <div> nun è napoletano.
      3 |     <div classe="menu">
        |      ^
-  Vuoi dire <cascetta>?
+  Vuoi dire <cascett>?
 ```
 
 Lo stesso vale per attributi (`class` → `classe`), eventi (`onclick` → `quanno-tuocche`) e valori fissi (`tipo="password"` → `tipo="segreto"`). Passano così come sono gli attributi `data-*` e `aria-*` e gli elementi con un trattino nel nome, come `<pizza-card>`, perché sono tuoi.
 
-I tag si chiudono sempre e nell'ordine giusto, a parte quelli vuoti come `<acapo>` e `<campo>`. `<cascetta />` vale `<cascetta></cascetta>`.
+I tag si chiudono sempre e nell'ordine giusto, a parte quelli vuoti come `<acap>` e `<miett>`. `<cascett />` vale `<cascett></cascett>`.
 
-Un file che comincia con `<paggena>` è una pagina: il compilatore ci mette `<!DOCTYPE html>` e, se manca, `<meta charset="utf-8">`. Gli altri file sono pezzi da incollare con `<chiamm da="pezzi/menu.emmurt" />`. Il percorso è relativo al file che chiama; se comincia con `/` parte dalla cartella del progetto.
+Un file che comincia con `<cristian>` è una pagina: il compilatore ci mette `<!DOCTYPE html>` e, se manca, `<meta charset="utf-8">`. Gli altri file sono pezzi da incollare con `<chiamm da="pezzi/menu.emmurt" />`. Il percorso è relativo al file che chiama; se comincia con `/` parte dalla cartella del progetto.
 
 `<fratm>` contiene FratmScript e diventa `<script>`. Se usa `chiamm` o `mann for` diventa `<script type="module">`. Un blocco classico rende globali le sue funzioni, così gli attributi `quanno-*` le possono chiamare. `<fratm da="main.fratm" />` dentro Vite resta un modulo, e Vite compila il file e quello che importa; con la CLI e nel browser il codice viene incollato nella pagina, quindi lì il file non può importare altri `.fratm`.
 
-Per il JavaScript normale c'è `<copione>`, per il CSS `<stile>`. Il CSS in napoletano sarà un progetto a parte.
+Per il JavaScript normale c'è `<copione>`, per il CSS `<cess>`. Cess sarà anche il nome del CSS in napoletano, che arriverà come progetto a parte.
 
 ## Con Vite
 
@@ -97,7 +97,7 @@ export default {
 };
 ```
 
-Le pagine sono i file `.emmurt` che cominciano con `<paggena>`, e la build le include tutte. In sviluppo una pagina con un errore mostra il messaggio in napoletano e si ricarica quando salvi. Il plugin compila già i `.fratm`, quindi non serve aggiungere anche `fratmscript/vite`.
+Le pagine sono i file `.emmurt` che cominciano con `<cristian>`, e la build le include tutte. In sviluppo una pagina con un errore mostra il messaggio in napoletano e si ricarica quando salvi. Il plugin compila già i `.fratm`, quindi non serve aggiungere anche `fratmscript/vite`.
 
 htmlemmurt non è ancora su npm. Per ora si installa da un clone, dopo aver compilato il WebAssembly (serve [wasm-pack](https://github.com/rustwasm/wasm-pack)):
 
@@ -158,37 +158,37 @@ code --install-extension htmlemmurt-vscode-0.1.0.vsix
 
 | htmlemmurt | HTML |
 |---|---|
-| `<paggena>` | `<html>` |
+| `<cristian>` | `<html>` |
 | `<capa>` | `<head>` |
-| `<cuorpo>` | `<body>` |
+| `<panz>` | `<body>` |
 | `<titulo>` | `<title>` |
-| `<nutizia>` | `<meta>` |
+| `<inciucc>` | `<meta>` |
 | `<attacca>` | `<link>` |
 | `<basa>` | `<base>` |
-| `<stile>` | `<style>` |
+| `<cess>` | `<style>` |
 | `<fratm>` | `<script>` con FratmScript compilato |
 | `<copione>` | `<script>` con JavaScript così com'è |
 | `<senzafratm>` | `<noscript>` |
-| `<ncapo>` | `<header>` |
+| `<cappiell>` | `<header>` |
 | `<pere>` | `<footer>` |
-| `<strade>` | `<nav>` |
-| `<mmiezo>` | `<main>` |
-| `<pezzo>` | `<section>` |
-| `<articulo>` | `<article>` |
+| `<tomtom>` | `<nav>` |
+| `<core>` | `<main>` |
+| `<piezz>` | `<section>` |
+| `<fattariello>` | `<article>` |
 | `<allato>` | `<aside>` |
 | `<indirizzo>` | `<address>` |
-| `<strilla1>` | `<h1>` |
-| `<strilla2>` | `<h2>` |
-| `<strilla3>` | `<h3>` |
-| `<strilla4>` | `<h4>` |
-| `<strilla5>` | `<h5>` |
-| `<strilla6>` | `<h6>` |
-| `<cascetta>` | `<div>` |
-| `<parlata>` | `<p>` |
-| `<riga>` | `<hr>` |
+| `<luccolone>` | `<h1>` |
+| `<luccolo>` | `<h2>` |
+| `<luccoliello>` | `<h3>` |
+| `<luccolillo>` | `<h4>` |
+| `<luccolino>` | `<h5>` |
+| `<luccolicchio>` | `<h6>` |
+| `<cascett>` | `<div>` |
+| `<chiacchier>` | `<p>` |
+| `<stacc>` | `<hr>` |
 | `<accussì>` / `<accussi>` | `<pre>` |
 | `<citazione>` | `<blockquote>` |
-| `<lista>` | `<ul>` |
+| `<list>` | `<ul>` |
 | `<elenco>` | `<ol>` |
 | `<voce>` | `<li>` |
 | `<vocabolario>` | `<dl>` |
@@ -197,15 +197,15 @@ code --install-extension htmlemmurt-vscode-0.1.0.vsix
 | `<quadro>` | `<figure>` |
 | `<didascalia>` | `<figcaption>` |
 | `<vattenn>` | `<a>` |
-| `<pezzullo>` | `<span>` |
-| `<acapo>` | `<br>` |
-| `<forte>` | `<strong>` |
+| `<scatulell>` | `<span>` |
+| `<acap>` | `<br>` |
+| `<fort>` | `<strong>` |
 | `<calcato>` | `<em>` |
-| `<grassetto>` | `<b>` |
+| `<guapp>` | `<b>` |
 | `<stuorto>` | `<i>` |
 | `<sottolineato>` | `<u>` |
 | `<cancellato>` | `<s>` |
-| `<piccirillo>` | `<small>` |
+| `<piccirill>` | `<small>` |
 | `<evidenziato>` | `<mark>` |
 | `<codice>` | `<code>` |
 | `<fonte>` | `<cite>` |
@@ -217,7 +217,7 @@ code --install-extension htmlemmurt-vscode-0.1.0.vsix
 | `<tastiera>` | `<kbd>` |
 | `<levato>` | `<del>` |
 | `<aggiunto>` | `<ins>` |
-| `<fotografia>` | `<img>` |
+| `<cartulin>` | `<img>` |
 | `<cornice>` | `<picture>` |
 | `<funtana>` | `<source>` |
 | `<filmato>` | `<video>` |
@@ -225,7 +225,7 @@ code --install-extension htmlemmurt-vscode-0.1.0.vsix
 | `<fenestella>` | `<iframe>` |
 | `<tela>` | `<canvas>` |
 | `<disegno>` | `<svg>` |
-| `<tavula>` | `<table>` |
+| `<tavulat>` | `<table>` |
 | `<cartello>` | `<caption>` |
 | `<capotavula>` | `<thead>` |
 | `<cuorpotavula>` | `<tbody>` |
@@ -234,21 +234,21 @@ code --install-extension htmlemmurt-vscode-0.1.0.vsix
 | `<casella>` | `<td>` |
 | `<capocasella>` | `<th>` |
 | `<modulo>` | `<form>` |
-| `<campo>` | `<input>` |
-| `<scamazza>` | `<button>` |
-| `<etichetta>` | `<label>` |
+| `<miett>` | `<input>` |
+| `<citofono>` | `<button>` |
+| `<targhett>` | `<label>` |
 | `<scegli>` | `<select>` |
 | `<scelta>` | `<option>` |
 | `<gruppo>` | `<optgroup>` |
-| `<quaderno>` | `<textarea>` |
+| `<ragionamento>` | `<textarea>` |
 | `<recinto>` | `<fieldset>` |
 | `<leggenda>` | `<legend>` |
 | `<suggerimenti>` | `<datalist>` |
 | `<risultato>` | `<output>` |
 | `<avanzamento>` | `<progress>` |
 | `<misura>` | `<meter>` |
-| `<dettaglie>` | `<details>` |
-| `<riassunto>` | `<summary>` |
+| `<spoiler>` | `<details>` |
+| `<anteprim>` | `<summary>` |
 | `<dialogo>` | `<dialog>` |
 | `<stampo>` | `<template>` |
 | `<fessura>` | `<slot>` |
@@ -265,8 +265,8 @@ Un attributo con `ncopp'a` vale solo su quegli elementi; gli altri valgono ovunq
 | htmlemmurt | HTML | Valori |
 |---|---|---|
 | `addo` (ncopp'a `<modulo>`) | `action` |  |
-| `tipo` (ncopp'a `<campo>`) | `type` | `testo` → `text`, `segreto` → `password`, `posta` → `email`, `numero` → `number`, `spunta` → `checkbox`, `pallino` → `radio`, `manna` → `submit`, `azzera` → `reset`, `buttone` → `button`, `carta` → `file`, `data` → `date`, `ora` → `time`, `dataeora` → `datetime-local`, `mese` → `month`, `settimana` → `week`, `colore` → `color`, `cursore` → `range`, `cerca` → `search`, `telefono` → `tel`, `indirizzo` → `url`, `annascuso` → `hidden`, `fotografia` → `image` |
-| `tipo` (ncopp'a `<scamazza>`) | `type` | `manna` → `submit`, `azzera` → `reset`, `buttone` → `button` |
+| `tipo` (ncopp'a `<miett>`) | `type` | `testo` → `text`, `segreto` → `password`, `posta` → `email`, `numero` → `number`, `spunta` → `checkbox`, `pallino` → `radio`, `manna` → `submit`, `azzera` → `reset`, `buttone` → `button`, `carta` → `file`, `data` → `date`, `ora` → `time`, `dataeora` → `datetime-local`, `mese` → `month`, `settimana` → `week`, `colore` → `color`, `cursore` → `range`, `cerca` → `search`, `telefono` → `tel`, `indirizzo` → `url`, `annascuso` → `hidden`, `fotografia` → `image` |
+| `tipo` (ncopp'a `<citofono>`) | `type` | `manna` → `submit`, `azzera` → `reset`, `buttone` → `button` |
 | `tipo` (ncopp'a `<fratm>`) | `type` | `modulo` → `module` |
 | `classe` | `class` |  |
 | `chi` | `id` |  |

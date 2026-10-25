@@ -1,11 +1,11 @@
-<paggena lengua="it">
+<cristian lengua="it">
   <capa>
     <titulo>Senza build</titulo>
   </capa>
-  <cuorpo>
+  <panz>
     <chiamm da="pezzi/saluto.emmurt" />
-    <scamazza tipo="buttone" quanno-tuocche="conta()">Tuocca</scamazza>
-    <parlata>Tuccate: <forte chi="tuccate">0</forte></parlata>
+    <citofono tipo="buttone" quanno-tuocche="conta()">Tuocca</citofono>
+    <chiacchier>Tuccate: <fort chi="tuccate">0</fort></chiacchier>
     <fratm da="conta.fratm" />
-  </cuorpo>
-</paggena>
+  </panz>
+</cristian>

@@ -4,7 +4,7 @@ import { compile } from '../index.js';
 import { compileWithFiles, scriptName } from '../lib/runtime.js';
 
 const files = {
-  'sito/pezzi/menu.emmurt': '<strade><chiamm da="voce.emmurt" /></strade>',
+  'sito/pezzi/menu.emmurt': '<tomtom><chiamm da="voce.emmurt" /></tomtom>',
   'sito/pezzi/voce.emmurt': '<voce>Pizze</voce>',
   'sito/main.fratm': 'stamm a dì("Uè")',
 };

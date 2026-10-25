@@ -82,7 +82,7 @@ async function runtimeWorks(browser, base) {
   await page.waitForSelector('pre');
   assert.equal(await page.textContent('#x'), 'Uè!');
   assert.match(await page.textContent('pre'), /<div> nun è napoletano/);
-  assert.ok(page.problems.some((p) => p.includes('Vuoi dire <cascetta>?')), page.problems.join('\n'));
+  assert.ok(page.problems.some((p) => p.includes('Vuoi dire <cascett>?')), page.problems.join('\n'));
   await page.close();
 }
 

@@ -1,2 +1,2 @@
-crates/emmurt-core/tests/golden/cases/vuoto_chiuso.sbagliato.emmurt:1:16: <acapo> nun se chiude: è sempe vacante.
-  Leva </acapo>.
+crates/emmurt-core/tests/golden/cases/vuoto_chiuso.sbagliato.emmurt:1:15: <acap> nun se chiude: è sempe vacante.
+  Leva </acap>.

@@ -21,7 +21,7 @@ emmurt: HTML, ma comme si deve
 
   --json   Na risposta JSON sola, pe' editor e agenti
 
-Na cartella compila sulo 'e pagine (file ca accummenciano cu <paggena>):
+Na cartella compila sulo 'e pagine (file ca accummenciano cu <cristian>):
 'e pezzi pe' <chiamm> nun diventano .html.
 ";
 

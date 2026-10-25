@@ -1,2 +1,2 @@
-crates/emmurt-core/tests/golden/cases/non_chiuso.sbagliato.emmurt:4:3: Hê chiuso </mmiezo> ma <cascetta> (riga 2) è ancora araputo.
-  Chiudi primma </cascetta>.
+crates/emmurt-core/tests/golden/cases/non_chiuso.sbagliato.emmurt:4:3: Hê chiuso </core> ma <cascett> (riga 2) è ancora araputo.
+  Chiudi primma </cascett>.

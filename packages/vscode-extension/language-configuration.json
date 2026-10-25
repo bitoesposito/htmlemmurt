@@ -83,7 +83,7 @@
   "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\!\\@\\$\\^\\&\\*\\(\\)\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\s]+)",
   "onEnterRules": [
     {
-      "beforeText": "<(?!(?:acapo|riga|nutizia|attacca|basa|fotografia|campo|funtana)\\b)([A-Za-zÀ-ÿ][\\w\\-À-ÿ]*)(?:[^'\"/>]|\"[^\"]*\"|'[^']*')*>[^<]*$",
+      "beforeText": "<(?!(?:acap|stacc|inciucc|attacca|basa|cartulin|miett|funtana)\\b)([A-Za-zÀ-ÿ][\\w\\-À-ÿ]*)(?:[^'\"/>]|\"[^\"]*\"|'[^']*')*>[^<]*$",
       "afterText": "^<\\/([A-Za-zÀ-ÿ][\\w\\-À-ÿ]*)\\s*>",
       "action": {
         "indent": "indentOutdent"

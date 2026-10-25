@@ -10,12 +10,12 @@
 body { margin: 0; }
 main { max-width: 44rem; margin: 0 auto; padding: 2rem 1rem; }
 
-.ncapo {
+.cappiell {
   display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;
   padding: 1rem; border-bottom: 2px solid var(--forno);
 }
-.ncapo a { color: inherit; }
-.ncapo nav { display: flex; gap: 1rem; }
+.cappiell a { color: inherit; }
+.cappiell nav { display: flex; gap: 1rem; }
 .marchio { font-weight: bold; text-decoration: none; }
 
 .eroe { text-align: center; padding: 3rem 0; }

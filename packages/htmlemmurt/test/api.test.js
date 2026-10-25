@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { compile, compileFratm, vocabulary, version, runtimeError, formatError } from '../index.js';
 
 test('compile translates a page', () => {
-  const { html, errors } = compile('<paggena><cuorpo><cascetta classe="a">Uè</cascetta></cuorpo></paggena>');
+  const { html, errors } = compile('<cristian><panz><cascett classe="a">Uè</cascett></panz></cristian>');
   assert.deepEqual(errors, []);
   assert.equal(html, '<!DOCTYPE html>\n<html><body><div class="a">Uè</div></body></html>');
 });
@@ -20,10 +20,10 @@ test('compile reports errors in Neapolitan, never throws', () => {
       file: 'index.emmurt',
       line: 1,
       column: 2,
-      suggestion: 'Vuoi dire <cascetta>?',
+      suggestion: 'Vuoi dire <cascett>?',
     },
   ]);
-  assert.equal(formatError(errors[0]), 'index.emmurt:1:2: <div> nun è napoletano.\n  Vuoi dire <cascetta>?');
+  assert.equal(formatError(errors[0]), 'index.emmurt:1:2: <div> nun è napoletano.\n  Vuoi dire <cascett>?');
 });
 
 test('compile reads includes from disk, relative to the page', () => {
@@ -40,7 +40,7 @@ test('compile reads includes from disk, relative to the page', () => {
 });
 
 test('compile takes a custom read function', () => {
-  const files = { 'pezzi/a.emmurt': '<pezzullo>a</pezzullo>' };
+  const files = { 'pezzi/a.emmurt': '<scatulell>a</scatulell>' };
   const read = (path) => files[path] ?? null;
   assert.equal(compile('<chiamm da="pezzi/a.emmurt" />', { read }).html, '<span>a</span>');
   const { errors } = compile('<chiamm da="nada.emmurt" />', { read });
@@ -59,7 +59,7 @@ test('compileFratm compiles modules, with a source map', () => {
 });
 
 test('vocabulary, version and runtime errors', () => {
-  assert.deepEqual(vocabulary().tags[0], ['paggena', 'html']);
+  assert.deepEqual(vocabulary().tags[0], ['cristian', 'html']);
   assert.equal(vocabulary().attributes.find((a) => a.nap === 'classe').html, 'class');
   assert.match(version(), /^\d+\.\d+\.\d+$/);
   assert.match(runtimeError(new ReferenceError('x is not defined')), /x/);

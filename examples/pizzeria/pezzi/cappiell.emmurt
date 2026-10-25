@@ -1,8 +1,8 @@
-<ncapo classe="ncapo">
+<cappiell classe="cappiell">
   <vattenn addo="/" classe="marchio">🍕 'A Pizzeria 'e Gennaro</vattenn>
-  <strade>
+  <tomtom>
     <vattenn addo="/">Casa</vattenn>
     <vattenn addo="/menu.html">Menù</vattenn>
-  </strade>
-  <pezzullo classe="carrello">Carrello: <forte chi="quante">0</forte></pezzullo>
-</ncapo>
+  </tomtom>
+  <scatulell classe="carrello">Carrello: <fort chi="quante">0</fort></scatulell>
+</cappiell>

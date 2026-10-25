@@ -1,14 +1,14 @@
 // Editor logic that needs no VS Code API, so tests can run it in Node.
 'use strict';
 
-const RAW = ['fratm', 'copione', 'stile'];
+const RAW = ['fratm', 'copione', 'cess'];
 
 /**
  * What the cursor is in, from the text before it: a tag name, a closing tag,
  * an attribute name or an attribute value. Null in text and in raw elements.
  */
 function context(before) {
-  // Past the start tag of an unclosed <fratm>, <copione> or <stile>: code, not markup
+  // Past the start tag of an unclosed <fratm>, <copione> or <cess>: code, not markup
   const lower = before.toLowerCase();
   for (const raw of RAW) {
     const start = lower.lastIndexOf(`<${raw}`);

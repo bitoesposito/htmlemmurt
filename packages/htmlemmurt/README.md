@@ -7,7 +7,7 @@ Il compilatore di [htmlemmurt](https://github.com/bitoesposito/htmlemmurt) (HTML
 ```js
 import { compile, compileFratm, formatError } from 'htmlemmurt';
 
-const { html, dependencies, errors } = compile('<cascetta classe="a">Uè</cascetta>', {
+const { html, dependencies, errors } = compile('<cascett classe="a">Uè</cascett>', {
   filename: 'index.emmurt',
 });
 // html → '<div class="a">Uè</div>'
@@ -24,7 +24,7 @@ import htmlemmurt from 'htmlemmurt/vite';
 export default { plugins: [htmlemmurt()] };
 ```
 
-Ogni `x.emmurt` che comincia con `<paggena>` diventa `x.html`, in sviluppo e in build. Anche i moduli `.fratm` passano dal plugin.
+Ogni `x.emmurt` che comincia con `<cristian>` diventa `x.html`, in sviluppo e in build. Anche i moduli `.fratm` passano dal plugin.
 
 ## Nel browser
 

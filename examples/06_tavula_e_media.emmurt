@@ -1,13 +1,13 @@
-<paggena lengua="it">
+<cristian lengua="it">
   <capa>
     <titulo>Tavule e media</titulo>
-    <stile>
-      tavula, table { border-collapse: collapse; }
+    <cess>
+      table { border-collapse: collapse; }
       td, th { padding: .25rem .5rem; }
-    </stile>
+    </cess>
   </capa>
-  <cuorpo>
-    <tavula>
+  <panz>
+    <tavulat>
       <cartello>'O listino</cartello>
       <capotavula>
         <fila><capocasella>Pizza</capocasella><capocasella>Prezzo</capocasella></fila>
@@ -19,10 +19,10 @@
       <peretavula>
         <fila><casella allarga="2">Coperto escluso</casella></fila>
       </peretavula>
-    </tavula>
+    </tavulat>
 
     <quadro>
-      <fotografia da="margherita.jpg" spiegazione="Na margherita appena sfurnata" larghezza="320" altezza="240" carica="chianochiano">
+      <cartulin da="margherita.jpg" spiegazione="Na margherita appena sfurnata" larghezza="320" altezza="240" carica="chianochiano">
       <didascalia>Na margherita.</didascalia>
     </quadro>
 
@@ -37,11 +37,11 @@
       <circle cx="40" cy="38" r="5" fill="#b23a1e" />
     </disegno>
 
-    <dettaglie>
-      <riassunto>Comme se mangia?</riassunto>
-      <parlata>Cu 'e mmane, a libretto.</parlata>
-    </dettaglie>
+    <spoiler>
+      <anteprim>Comme se mangia?</anteprim>
+      <chiacchier>Cu 'e mmane, a libretto.</chiacchier>
+    </spoiler>
 
     <pizza-card gusto="diavola" data-piccante="overo"></pizza-card>
-  </cuorpo>
-</paggena>
+  </panz>
+</cristian>

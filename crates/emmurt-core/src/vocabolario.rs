@@ -8,40 +8,40 @@ use serde::Serialize;
 /// Element names: (Neapolitan, HTML).
 pub const TAGS: &[(&str, &str)] = &[
     // Document
-    ("paggena", "html"),
+    ("cristian", "html"),
     ("capa", "head"),
-    ("cuorpo", "body"),
+    ("panz", "body"),
     ("titulo", "title"),
-    ("nutizia", "meta"),
+    ("inciucc", "meta"),
     ("attacca", "link"),
     ("basa", "base"),
-    ("stile", "style"),
+    ("cess", "style"),
     ("fratm", "script"),
     ("copione", "script"),
     ("senzafratm", "noscript"),
     // Sections
-    ("ncapo", "header"),
+    ("cappiell", "header"),
     ("pere", "footer"),
-    ("strade", "nav"),
-    ("mmiezo", "main"),
-    ("pezzo", "section"),
-    ("articulo", "article"),
+    ("tomtom", "nav"),
+    ("core", "main"),
+    ("piezz", "section"),
+    ("fattariello", "article"),
     ("allato", "aside"),
     ("indirizzo", "address"),
-    ("strilla1", "h1"),
-    ("strilla2", "h2"),
-    ("strilla3", "h3"),
-    ("strilla4", "h4"),
-    ("strilla5", "h5"),
-    ("strilla6", "h6"),
+    ("luccolone", "h1"),
+    ("luccolo", "h2"),
+    ("luccoliello", "h3"),
+    ("luccolillo", "h4"),
+    ("luccolino", "h5"),
+    ("luccolicchio", "h6"),
     // Grouping
-    ("cascetta", "div"),
-    ("parlata", "p"),
-    ("riga", "hr"),
+    ("cascett", "div"),
+    ("chiacchier", "p"),
+    ("stacc", "hr"),
     ("accussì", "pre"),
     ("accussi", "pre"),
     ("citazione", "blockquote"),
-    ("lista", "ul"),
+    ("list", "ul"),
     ("elenco", "ol"),
     ("voce", "li"),
     ("vocabolario", "dl"),
@@ -51,15 +51,15 @@ pub const TAGS: &[(&str, &str)] = &[
     ("didascalia", "figcaption"),
     // Text
     ("vattenn", "a"),
-    ("pezzullo", "span"),
-    ("acapo", "br"),
-    ("forte", "strong"),
+    ("scatulell", "span"),
+    ("acap", "br"),
+    ("fort", "strong"),
     ("calcato", "em"),
-    ("grassetto", "b"),
+    ("guapp", "b"),
     ("stuorto", "i"),
     ("sottolineato", "u"),
     ("cancellato", "s"),
-    ("piccirillo", "small"),
+    ("piccirill", "small"),
     ("evidenziato", "mark"),
     ("codice", "code"),
     ("fonte", "cite"),
@@ -72,7 +72,7 @@ pub const TAGS: &[(&str, &str)] = &[
     ("levato", "del"),
     ("aggiunto", "ins"),
     // Media
-    ("fotografia", "img"),
+    ("cartulin", "img"),
     ("cornice", "picture"),
     ("funtana", "source"),
     ("filmato", "video"),
@@ -81,7 +81,7 @@ pub const TAGS: &[(&str, &str)] = &[
     ("tela", "canvas"),
     ("disegno", "svg"),
     // Tables
-    ("tavula", "table"),
+    ("tavulat", "table"),
     ("cartello", "caption"),
     ("capotavula", "thead"),
     ("cuorpotavula", "tbody"),
@@ -91,13 +91,13 @@ pub const TAGS: &[(&str, &str)] = &[
     ("capocasella", "th"),
     // Forms
     ("modulo", "form"),
-    ("campo", "input"),
-    ("scamazza", "button"),
-    ("etichetta", "label"),
+    ("miett", "input"),
+    ("citofono", "button"),
+    ("targhett", "label"),
     ("scegli", "select"),
     ("scelta", "option"),
     ("gruppo", "optgroup"),
-    ("quaderno", "textarea"),
+    ("ragionamento", "textarea"),
     ("recinto", "fieldset"),
     ("leggenda", "legend"),
     ("suggerimenti", "datalist"),
@@ -105,8 +105,8 @@ pub const TAGS: &[(&str, &str)] = &[
     ("avanzamento", "progress"),
     ("misura", "meter"),
     // Interactive and components
-    ("dettaglie", "details"),
-    ("riassunto", "summary"),
+    ("spoiler", "details"),
+    ("anteprim", "summary"),
     ("dialogo", "dialog"),
     ("stampo", "template"),
     ("fessura", "slot"),
@@ -430,8 +430,9 @@ mod tests {
     #[test]
     fn closest_finds_typos_only() {
         let names = || TAGS.iter().map(|(n, _)| *n);
-        assert_eq!(closest("cascett", names()), Some("cascetta"));
-        assert_eq!(closest("scamaza", names()), Some("scamazza"));
+        assert_eq!(closest("cascet", names()), Some("cascett"));
+        assert_eq!(closest("citofno", names()), Some("citofono"));
+        assert_eq!(closest("luccolon", names()), Some("luccolone"));
         assert_eq!(closest("pizza", names()), None);
     }
 }

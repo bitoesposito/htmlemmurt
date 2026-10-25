@@ -9,7 +9,7 @@ htmlemmurt è HTML in napoletano: un compilatore severo che traduce nomi napolet
 | Percorso | Cosa contiene |
 | --- | --- |
 | `crates/emmurt-core/src/vocabolario.rs` | Tutte le parole: elementi, attributi, valori, eventi |
-| `crates/emmurt-core/src/lexer.rs` | Testo, commenti, tag e contenuto grezzo (`<fratm>`, `<stile>`…) |
+| `crates/emmurt-core/src/lexer.rs` | Testo, commenti, tag e contenuto grezzo (`<fratm>`, `<cess>`…) |
 | `crates/emmurt-core/src/lib.rs` | Compilatore: controlli, traduzione, include, `<fratm>`, errori |
 | `crates/emmurt-cli` | Il comando `emmurt` (`build`, `check`, `watch`, `vocabolario`) |
 | `crates/emmurt-wasm` | Binding WebAssembly usati da npm ed estensione |
