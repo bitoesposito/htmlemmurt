@@ -1,0 +1,39 @@
+<paggena lengua="it">
+  <capa>
+    <titulo>FratmScript int'a paggena</titulo>
+  </capa>
+  <cuorpo>
+    <strilla1 chi="titolo">Sforna!</strilla1>
+    <scamazza tipo="buttone" quanno-tuocche="sforna(1)">Una</scamazza>
+    <scamazza tipo="buttone" quanno-tuocche="sforna(3)">Tre</scamazza>
+    <scamazza tipo="buttone" quanno-tuocche-doje-vote="azzera()">Azzera (doje vote)</scamazza>
+    <campo tipo="testo" esempio="Comme te chiamme?" quanno-scrive="saluta(stu cos.value)">
+    <parlata chi="saluto"></parlata>
+
+    <!-- Nu blocco <fratm> classico: 'e funzioni so' globali, 'e quanno-* 'e vedeno -->
+    <fratm>
+      tien pizze = 0
+
+      facc sforna(quante) {
+          pizze += quante
+          document.querySelector("#titolo").textContent = `Sfurnate: ${pizze}`
+      }
+
+      facc azzera() {
+          pizze = 0
+          document.querySelector("#titolo").textContent = "Sforna!"
+      }
+
+      facc saluta(nomme) {
+          chist è testo = nomme ? `Uè ${nomme}!` : ""
+          document.querySelector("#saluto").textContent = testo
+      }
+    </fratm>
+
+    <!-- 'A libreria fratm: 'o compilatore ce mette sulo 'e funzioni ca chiamme -->
+    <fratm>
+      chiamm { a_caso } da "fratm"
+      stamm a dì("Pizza 'e oggi n.", a_caso(1, 10))
+    </fratm>
+  </cuorpo>
+</paggena>

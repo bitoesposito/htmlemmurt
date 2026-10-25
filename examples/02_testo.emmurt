@@ -1,0 +1,52 @@
+<paggena lengua="it">
+  <capa>
+    <titulo>Testo, liste e link</titulo>
+  </capa>
+  <cuorpo>
+    <ncapo>
+      <strilla1>'O vocabolario d'a pizza</strilla1>
+    </ncapo>
+    <mmiezo>
+      <articulo>
+        <strilla2>Comme se fa</strilla2>
+        <parlata>
+          Na pizza vera vo' <calcato>pazienza</calcato>, <forte>farina bbona</forte>
+          e nu furno a legna. <piccirillo>'O resto so' chiacchiere.</piccirillo>
+        </parlata>
+        <elenco>
+          <voce>Impasta</voce>
+          <voce>Aspetta <ncoppa>(assaje)</ncoppa></voce>
+          <voce>Stienne e condisci</voce>
+          <voce>Inforna pe' 90 secondi</voce>
+        </elenco>
+        <citazione>
+          <parlata>'A pizza è comme a vita: si 'a faje 'e pressa, s'abbrucia.</parlata>
+        </citazione>
+        <vocabolario>
+          <parola>Cornicione</parola>
+          <significato>'O bordo auto e cu 'e bolle.</significato>
+          <parola>Panetto</parola>
+          <significato>'A pallottola 'e pasta primma 'e l'ammaccà.</significato>
+        </vocabolario>
+        <accussì>
+  ()()
+ (    )   ← na pizza vista 'a coppa
+  ()()
+        </accussì>
+      </articulo>
+      <allato>
+        <parlata>
+          Leggi 'o
+          <vattenn addo="https://it.wikipedia.org/wiki/Pizza_napoletana" arape="nuova">disciplinare</vattenn>.
+          <acapo>
+          <abbreviazione titulo="Specialità tradizionale garantita">STG</abbreviazione> dal
+          <tiempo quanno="2010-02-04">2010</tiempo>.
+        </parlata>
+      </allato>
+    </mmiezo>
+    <riga>
+    <pere>
+      <parlata>Prova <tastiera>Ctrl</tastiera>+<tastiera>S</tastiera> e <codice>emmurt build</codice>.</parlata>
+    </pere>
+  </cuorpo>
+</paggena>

@@ -1,0 +1,11 @@
+[package]
+name = "emmurt-core"
+description = "htmlemmurt compiler: HTML in Neapolitan to HTML"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+fratm-core.workspace = true
+serde.workspace = true

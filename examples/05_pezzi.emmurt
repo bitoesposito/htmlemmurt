@@ -1,0 +1,12 @@
+<paggena lengua="it">
+  <capa>
+    <titulo>Pezzi riusati</titulo>
+  </capa>
+  <cuorpo>
+    <chiamm da="pezzi/ncapo.emmurt" />
+    <mmiezo>
+      <parlata>'O ncapo e 'o pere stanno int'a cartella pezzi: ogni paggena 'e chiamma.</parlata>
+    </mmiezo>
+    <chiamm da="pezzi/pere.emmurt" />
+  </cuorpo>
+</paggena>

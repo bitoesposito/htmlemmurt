@@ -1,0 +1,6 @@
+tien tuccate = 0
+
+facc conta() {
+    tuccate++
+    document.querySelector("#tuccate").textContent = tuccate
+}

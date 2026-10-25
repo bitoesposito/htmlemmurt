@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <title>Tavule e media</title>
+    <style>
+      tavula, table { border-collapse: collapse; }
+      td, th { padding: .25rem .5rem; }
+    </style>
+  </head>
+  <body>
+    <table>
+      <caption>'O listino</caption>
+      <thead>
+        <tr><th>Pizza</th><th>Prezzo</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Margherita</td><td>5 €</td></tr>
+        <tr><td>Marinara</td><td>4 €</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td colspan="2">Coperto escluso</td></tr>
+      </tfoot>
+    </table>
+
+    <figure>
+      <img src="margherita.jpg" alt="Na margherita appena sfurnata" width="320" height="240" loading="lazy">
+      <figcaption>Na margherita.</figcaption>
+    </figure>
+
+    <video src="furno.mp4" controls muted loop poster="furno.jpg" width="320"></video>
+    <audio controls>
+      <source src="tarantella.ogg" type="audio/ogg">
+    </audio>
+
+    <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="30" fill="#e9c46a" />
+      <circle cx="22" cy="24" r="5" fill="#b23a1e" />
+      <circle cx="40" cy="38" r="5" fill="#b23a1e" />
+    </svg>
+
+    <details>
+      <summary>Comme se mangia?</summary>
+      <p>Cu 'e mmane, a libretto.</p>
+    </details>
+
+    <pizza-card gusto="diavola" data-piccante="overo"></pizza-card>
+  </body>
+</html>

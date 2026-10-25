@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <title>FratmScript int'a paggena</title>
+  </head>
+  <body>
+    <h1 id="titolo">Sforna!</h1>
+    <button type="button" onclick="sforna(1);">Una</button>
+    <button type="button" onclick="sforna(3);">Tre</button>
+    <button type="button" ondblclick="azzera();">Azzera (doje vote)</button>
+    <input type="text" placeholder="Comme te chiamme?" oninput="saluta(this.value);">
+    <p id="saluto"></p>
+
+    <!-- Nu blocco <fratm> classico: 'e funzioni so' globali, 'e quanno-* 'e vedeno -->
+    <script>
+let pizze = 0;
+function sforna(quante) {
+  pizze += quante;
+  document.querySelector("#titolo").textContent = `Sfurnate: ${pizze}`;
+}
+function azzera() {
+  pizze = 0;
+  document.querySelector("#titolo").textContent = "Sforna!";
+}
+function saluta(nomme) {
+  const testo = (nomme ? `Uè ${nomme}!` : "");
+  document.querySelector("#saluto").textContent = testo;
+}
+</script>
+
+    <!-- 'A libreria fratm: 'o compilatore ce mette sulo 'e funzioni ca chiamme -->
+    <script>
+const a_caso = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+console.log("Pizza 'e oggi n.", a_caso(1, 10));
+</script>
+  </body>
+</html>

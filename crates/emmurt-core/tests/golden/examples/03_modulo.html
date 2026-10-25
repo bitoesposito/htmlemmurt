@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <title>Nu modulo</title>
+  </head>
+  <body>
+    <form action="/ordina" method="post" autocomplete="off">
+      <fieldset>
+        <legend>Chi si'?</legend>
+        <label for="nomme">Nomme</label>
+        <input id="nomme" name="nomme" type="text" placeholder="Gennaro" required autofocus>
+        <label for="posta">Posta</label>
+        <input id="posta" name="posta" type="email" placeholder="gennaro@pizza.it">
+        <label for="parola">Parola segreta</label>
+        <input id="parola" name="parola" type="password" minlength="8">
+      </fieldset>
+      <fieldset>
+        <legend>Che pizza vuò?</legend>
+        <select name="pizza">
+          <optgroup label="Rosse">
+            <option value="margherita" selected>Margherita</option>
+            <option value="marinara">Marinara</option>
+          </optgroup>
+          <option value="bianca">Bianca</option>
+        </select>
+        <label><input type="checkbox" name="bufala" checked> Cu 'a bufala</label>
+        <label><input type="radio" name="cottura" value="normale" checked> Normale</label>
+        <label><input type="radio" name="cottura" value="ben-cotta"> Ben cotta</label>
+        <label for="quante">Quante?</label>
+        <input id="quante" name="quante" type="number" min="1" max="20" step="1" value="1">
+        <label for="quanno">Pe' quanno?</label>
+        <input id="quanno" name="quanno" type="datetime-local">
+        <input name="tavolo" type="hidden" value="7">
+      </fieldset>
+      <label for="note">Note</label>
+      <textarea id="note" name="note" rows="3" cols="40" placeholder="Senza aglio, pe' piacere"></textarea>
+      <progress value="2" max="3">2 'e 3</progress>
+      <button type="submit">Ordina</button>
+      <button type="reset">Accummencia 'a capo</button>
+      <button type="button" disabled>Nun se pò</button>
+    </form>
+  </body>
+</html>

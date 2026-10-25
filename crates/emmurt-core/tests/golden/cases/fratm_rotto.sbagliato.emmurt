@@ -1,0 +1,8 @@
+<cuorpo>
+  <fratm>
+    tien x = 1
+    si (x > 0 {
+      stamm a dì(x)
+    }
+  </fratm>
+</cuorpo>

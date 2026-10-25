@@ -1,0 +1,2 @@
+crates/emmurt-core/tests/golden/cases/include_mancante.sbagliato.emmurt:2:15: Nun trovo 'pezzi/nisciuno.emmurt'.
+  L'aggio cercato ccà: crates/emmurt-core/tests/golden/cases/pezzi/nisciuno.emmurt

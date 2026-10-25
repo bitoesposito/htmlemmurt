@@ -1,0 +1,47 @@
+<paggena lengua="it">
+  <capa>
+    <titulo>Tavule e media</titulo>
+    <stile>
+      tavula, table { border-collapse: collapse; }
+      td, th { padding: .25rem .5rem; }
+    </stile>
+  </capa>
+  <cuorpo>
+    <tavula>
+      <cartello>'O listino</cartello>
+      <capotavula>
+        <fila><capocasella>Pizza</capocasella><capocasella>Prezzo</capocasella></fila>
+      </capotavula>
+      <cuorpotavula>
+        <fila><casella>Margherita</casella><casella>5 €</casella></fila>
+        <fila><casella>Marinara</casella><casella>4 €</casella></fila>
+      </cuorpotavula>
+      <peretavula>
+        <fila><casella allarga="2">Coperto escluso</casella></fila>
+      </peretavula>
+    </tavula>
+
+    <quadro>
+      <fotografia da="margherita.jpg" spiegazione="Na margherita appena sfurnata" larghezza="320" altezza="240" carica="chianochiano">
+      <didascalia>Na margherita.</didascalia>
+    </quadro>
+
+    <filmato da="furno.mp4" comandi muto ripete copertina="furno.jpg" larghezza="320"></filmato>
+    <suono comandi>
+      <funtana da="tarantella.ogg" tipo="audio/ogg">
+    </suono>
+
+    <disegno larghezza="64" altezza="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="30" fill="#e9c46a" />
+      <circle cx="22" cy="24" r="5" fill="#b23a1e" />
+      <circle cx="40" cy="38" r="5" fill="#b23a1e" />
+    </disegno>
+
+    <dettaglie>
+      <riassunto>Comme se mangia?</riassunto>
+      <parlata>Cu 'e mmane, a libretto.</parlata>
+    </dettaglie>
+
+    <pizza-card gusto="diavola" data-piccante="overo"></pizza-card>
+  </cuorpo>
+</paggena>

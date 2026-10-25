@@ -1,0 +1,16 @@
+[package]
+name = "emmurt-cli"
+description = "The emmurt command: compiles htmlemmurt pages to HTML"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "emmurt"
+path = "src/main.rs"
+
+[dependencies]
+emmurt-core = { path = "../emmurt-core" }
+serde.workspace = true
+serde_json.workspace = true
