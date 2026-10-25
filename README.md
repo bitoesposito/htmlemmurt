@@ -132,10 +132,10 @@ Ogni `<script type="text/htmlemmurt">`, inline o con `src`, viene compilato e pr
 
 ## VS Code
 
-L'estensione sta sul [Marketplace di VS Code](https://marketplace.visualstudio.com/items?itemName=bitoesposito.htmlemmurt-vscode): cerca "htmlemmurt" tra le estensioni, oppure
+L'estensione sta sul [Marketplace di VS Code](https://marketplace.visualstudio.com/items?itemName=bitoesposito.htmlemmurt): cerca "htmlemmurt" tra le estensioni, oppure
 
 ```bash
-code --install-extension bitoesposito.htmlemmurt-vscode
+code --install-extension bitoesposito.htmlemmurt
 ```
 
 Colora i file `.emmurt` e mostra gli errori mentre scrivi. Completa tag, attributi, eventi e valori, e passando il mouse su un nome vedi il suo HTML. Dentro `<fratm>` usa i colori dell'estensione FratmScript, se l'hai installata.
