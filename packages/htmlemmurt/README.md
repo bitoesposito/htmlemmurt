@@ -2,6 +2,10 @@
 
 Il compilatore di [htmlemmurt](https://github.com/bitoesposito/htmlemmurt) (HTML in napoletano) in WebAssembly, con un plugin Vite e un runtime per il browser.
 
+```bash
+npm i -D htmlemmurt
+```
+
 ## Da Node
 
 ```js
@@ -29,7 +33,7 @@ Ogni `x.emmurt` che comincia con `<cristian>` diventa `x.html`, in sviluppo e in
 ## Nel browser
 
 ```html
-<script type="module" src="htmlemmurt/browser.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/htmlemmurt@0.1/browser.js"></script>
 <script type="text/htmlemmurt" src="index.emmurt"></script>
 ```
 

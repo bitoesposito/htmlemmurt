@@ -99,18 +99,8 @@ export default {
 
 Le pagine sono i file `.emmurt` che cominciano con `<cristian>`, e la build le include tutte. In sviluppo una pagina con un errore mostra il messaggio in napoletano e si ricarica quando salvi. Il plugin compila già i `.fratm`, quindi non serve aggiungere anche `fratmscript/vite`.
 
-htmlemmurt non è ancora su npm. Per ora si installa da un clone, dopo aver compilato il WebAssembly (serve [wasm-pack](https://github.com/rustwasm/wasm-pack)):
-
 ```bash
-git clone https://github.com/bitoesposito/htmlemmurt
-cd htmlemmurt/packages/htmlemmurt && npm run build
-```
-
-```json
-"devDependencies": {
-  "htmlemmurt": "file:../htmlemmurt/packages/htmlemmurt",
-  "vite": "^8.3.5"
-}
+npm i -D htmlemmurt vite
 ```
 
 [`examples/pizzeria`](examples/pizzeria) è un'app completa: due pagine, pezzi condivisi, un carrello in FratmScript diviso in moduli.
@@ -134,7 +124,7 @@ emmurt vocabolario                   # tutte le parole e il loro HTML
 ## Nel browser, senza build
 
 ```html
-<script type="module" src="htmlemmurt/browser.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/htmlemmurt@0.1/browser.js"></script>
 <script type="text/htmlemmurt" src="index.emmurt"></script>
 ```
 
