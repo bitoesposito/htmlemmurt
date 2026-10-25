@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "htmlemmurt compiler (WebAssembly), Vite plugin and browser runtime: HTML, ma comme si deve 🤌",
   "license": "MIT",
+  "author": "Vito Esposito",
   "type": "module",
   "repository": {
     "type": "git",
@@ -10,6 +11,9 @@
     "directory": "packages/htmlemmurt"
   },
   "homepage": "https://github.com/bitoesposito/htmlemmurt#readme",
+  "bugs": {
+    "url": "https://github.com/bitoesposito/htmlemmurt/issues"
+  },
   "keywords": [
     "htmlemmurt",
     "fratmscript",
