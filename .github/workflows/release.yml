@@ -1,8 +1,8 @@
 name: Release
 
 # A tag vX.Y.Z builds the emmurt binaries, the .vsix and the npm tarball,
-# publishes the npm package if that version is not on npm yet, and creates
-# the GitHub release. Run it by hand to release an existing tag again.
+# stages the npm package if that version is not on npm yet (it goes live
+# once approved on npmjs.com), and creates the GitHub release. Run it by hand to release an existing tag again.
 on:
   push:
     tags: ['v*']
@@ -105,7 +105,7 @@ jobs:
             *.vsix
 
   npm:
-    name: Publish to npm
+    name: Stage on npm
     needs: packages
     runs-on: ubuntu-24.04
     permissions:
@@ -119,16 +119,19 @@ jobs:
       - uses: actions/download-artifact@v8
         with:
           name: packages
-      - name: Publish with trusted publishing
+      - name: Stage with trusted publishing
         run: |
           version="${TAG#v}"
           if npm view "htmlemmurt@$version" version > /dev/null 2>&1; then
             echo "htmlemmurt@$version is on npm already"
             exit 0
           fi
-          # Trusted publishing (OIDC) needs npm 11.5.1 or later
+          # Trusted publishing and npm stage need a recent npm
           npm install -g npm@latest
-          npm publish "htmlemmurt-$version.tgz" --access public --provenance
+          tar -xzf "htmlemmurt-$version.tgz"
+          cd package
+          # The trusted publisher may only stage: approve the version on npmjs.com
+          npm stage publish --access public --provenance
 
   release:
     name: GitHub release
