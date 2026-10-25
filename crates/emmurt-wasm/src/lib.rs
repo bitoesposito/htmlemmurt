@@ -11,6 +11,8 @@ struct Response {
     ok: bool,
     /// HTML for `compile`, JavaScript for `compileFratm`.
     code: Option<String>,
+    /// Source map of `compileFratm`, as JSON.
+    map: Option<String>,
     dependencies: Vec<String>,
     errors: Vec<Error>,
 }
@@ -45,12 +47,14 @@ pub fn compile(source: &str, filename: &str, read: Option<Function>, inline: boo
         Ok(out) => Response {
             ok: true,
             code: Some(out.html),
+            map: None,
             dependencies: out.dependencies,
             errors: vec![],
         },
         Err(e) => Response {
             ok: false,
             code: None,
+            map: None,
             dependencies: vec![],
             errors: vec![e],
         },
@@ -61,15 +65,17 @@ pub fn compile(source: &str, filename: &str, read: Option<Function>, inline: boo
 #[wasm_bindgen(js_name = compileFratm)]
 pub fn compile_fratm(source: &str, filename: &str) -> JsValue {
     to_js(&match emmurt_core::compile_fratm(source, filename) {
-        Ok(code) => Response {
+        Ok((code, map)) => Response {
             ok: true,
             code: Some(code),
+            map,
             dependencies: vec![],
             errors: vec![],
         },
         Err(e) => Response {
             ok: false,
             code: None,
+            map: None,
             dependencies: vec![],
             errors: vec![e],
         },

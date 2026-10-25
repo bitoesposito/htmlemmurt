@@ -48,11 +48,14 @@ test('compile takes a custom read function', () => {
   assert.equal(errors[0].suggestion, "L'aggio cercato ccà: nada.emmurt");
 });
 
-test('compileFratm compiles modules', () => {
-  assert.equal(compileFratm('mann for facc f() { piglie 1 }').code, 'export function f() {\n  return 1;\n}\n');
-  const { code, errors } = compileFratm('chist x = 1', { filename: 'a.fratm' });
-  assert.equal(code, null);
-  assert.equal(errors[0].file, 'a.fratm');
+test('compileFratm compiles modules, with a source map', () => {
+  const { code, map } = compileFratm('mann for facc f() { piglie 1 }', { filename: 'src/f.fratm' });
+  assert.equal(code, 'export function f() {\n  return 1;\n}\n');
+  assert.deepEqual([map.version, map.sources, map.file], [3, ['src/f.fratm'], 'src/f.js']);
+  assert.ok(map.mappings.length > 0);
+  const broken = compileFratm('chist x = 1', { filename: 'a.fratm' });
+  assert.deepEqual([broken.code, broken.map], [null, null]);
+  assert.equal(broken.errors[0].file, 'a.fratm');
 });
 
 test('vocabulary, version and runtime errors', () => {

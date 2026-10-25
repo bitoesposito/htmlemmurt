@@ -62,9 +62,9 @@ export default function htmlemmurt() {
     transform(source, id) {
       const file = id.split('?', 1)[0];
       if (!FRATM.test(file)) return null;
-      const { code, errors } = compileFratm(source, { filename: file });
+      const { code, map, errors } = compileFratm(source, { filename: file });
       if (errors.length > 0) this.error(errorFor(errors[0]));
-      return { code, map: null };
+      return { code, map };
     },
 
     configureServer(server) {

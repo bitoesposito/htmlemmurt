@@ -139,9 +139,10 @@ pub fn compile(source: &str, options: &Options) -> Result<Output, Error> {
     })
 }
 
-/// Compiles FratmScript source, for the `.fratm` modules of a page.
-pub fn compile_fratm(source: &str, filename: &str) -> Result<String, Error> {
-    fratm(source, filename, Pos { line: 1, column: 1 })
+/// Compiles a `.fratm` module of a page: its JavaScript and a v3 source map (JSON).
+pub fn compile_fratm(source: &str, filename: &str) -> Result<(String, Option<String>), Error> {
+    let result = fratm(source, filename, Pos { line: 1, column: 1 }, true)?;
+    Ok((result.code, result.source_map.map(|m| m.to_json())))
 }
 
 struct Compiler<'a> {
@@ -327,7 +328,7 @@ impl Compiler<'_> {
                     return Err(self.fail(fail(format!("'{}' nun 'o cunosco.", a.name)).hint(hint)));
                 };
                 let code = decode(a.value.as_deref().unwrap_or_default());
-                let js = fratm(&code, self.file(), a.value_pos)?;
+                let js = fratm(&code, self.file(), a.value_pos, false)?.code;
                 (html.to_string(), Some(escape_attr(js.trim_end())))
             } else if let Some(attr) = vocabolario::attr_for(&lower, element) {
                 let value = match &a.value {
@@ -418,7 +419,7 @@ impl Compiler<'_> {
                     let path = join(self.file(), &src);
                     let source = self.read(&path, &src, tag.attrs[i].value_pos)?;
                     attrs.remove(i);
-                    fratm(&source, &path, Pos { line: 1, column: 1 })?
+                    fratm(&source, &path, Pos { line: 1, column: 1 }, false)?.code
                 } else {
                     // A bundler compiles the file: it has to load as a module
                     if !attrs.iter().any(|(n, _)| n == "type") {
@@ -428,7 +429,7 @@ impl Compiler<'_> {
                 }
             }
             None => match raw {
-                Some((text, pos)) if has_code => fratm(&text, self.file(), pos)?,
+                Some((text, pos)) if has_code => fratm(&text, self.file(), pos, false)?.code,
                 _ => String::new(),
             },
         };
@@ -491,40 +492,44 @@ impl Compiler<'_> {
 
 /// Compiles FratmScript that starts at `at` in `file`, moving error
 /// positions there.
-fn fratm(code: &str, file: &str, at: Pos) -> Result<String, Error> {
+fn fratm(
+    code: &str,
+    file: &str,
+    at: Pos,
+    source_map: bool,
+) -> Result<fratm_core::CompileResult, Error> {
     let options = fratm_core::CompileOptions {
         filename: Some(file.to_string()),
+        source_map,
         ..Default::default()
     };
-    fratm_core::compile(code, options)
-        .map(|r| r.code)
-        .map_err(|e| {
-            let (line, column) = (e.line().unwrap_or(1), e.column().unwrap_or(1));
-            let pos = if line == 1 {
-                Pos {
-                    line: at.line,
-                    column: at.column + column - 1,
-                }
-            } else {
-                Pos {
-                    line: at.line + line - 1,
-                    column,
-                }
-            };
-            let message = e.to_string();
-            // fratm puts its own "Riga X, colonna Y: " in front: ours is in the position
-            let message = match message.split_once(": ") {
-                Some((head, rest)) if head.starts_with("Riga ") => rest.to_string(),
-                _ => message,
-            };
-            Error {
-                message,
-                file: file.to_string(),
-                line: pos.line,
-                column: pos.column,
-                suggestion: fratm_core::errors::suggest(&e, code),
+    fratm_core::compile(code, options).map_err(|e| {
+        let (line, column) = (e.line().unwrap_or(1), e.column().unwrap_or(1));
+        let pos = if line == 1 {
+            Pos {
+                line: at.line,
+                column: at.column + column - 1,
             }
-        })
+        } else {
+            Pos {
+                line: at.line + line - 1,
+                column,
+            }
+        };
+        let message = e.to_string();
+        // fratm puts its own "Riga X, colonna Y: " in front: ours is in the position
+        let message = match message.split_once(": ") {
+            Some((head, rest)) if head.starts_with("Riga ") => rest.to_string(),
+            _ => message,
+        };
+        Error {
+            message,
+            file: file.to_string(),
+            line: pos.line,
+            column: pos.column,
+            suggestion: fratm_core::errors::suggest(&e, code),
+        }
+    })
 }
 
 fn event_list() -> String {

@@ -39,6 +39,8 @@ export interface CompileResult {
 export interface FratmResult {
   /** The JavaScript, or null when there are errors */
   code: string | null;
+  /** Source map (v3) back to the .fratm file */
+  map: { version: number; file: string; sources: string[]; sourcesContent: string[]; names: string[]; mappings: string } | null;
   errors: EmmurtError[];
 }
 

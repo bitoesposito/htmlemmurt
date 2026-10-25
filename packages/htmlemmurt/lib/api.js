@@ -10,8 +10,16 @@ export function createApi(wasm) {
   }
 
   function compileFratm(source, options = {}) {
-    const response = wasm.compileFratm(String(source), options.filename ?? 'input.fratm');
-    return { code: response.code, errors: response.errors };
+    const filename = options.filename ?? 'input.fratm';
+    const response = wasm.compileFratm(String(source), filename);
+    let map = null;
+    if (response.map) {
+      map = JSON.parse(response.map);
+      map.sources = [filename];
+      map.sourcesContent = [String(source)];
+      map.file = filename.replace(/\.fratm$/, '') + '.js';
+    }
+    return { code: response.code, map, errors: response.errors };
   }
 
   function vocabulary() {
