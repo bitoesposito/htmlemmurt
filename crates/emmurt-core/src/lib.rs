@@ -678,7 +678,7 @@ mod tests {
             "<button type=\"button\" class=\"a &quot;b&quot;\" disabled>Sforna</button>"
         );
         assert_eq!(
-            html("<modulo addo=\"/ordina\" metodo=\"manna\"><miett tipo=\"posta\" perforza></modulo>"),
+            html("<modulo addo=\"/ordina\" metodo=\"manna\"><miett tipo=\"posta\" poffozza></modulo>"),
             "<form action=\"/ordina\" method=\"post\"><input type=\"email\" required></form>"
         );
         assert_eq!(
@@ -828,7 +828,7 @@ mod tests {
         let e = error("<miett tipo=\"password\">");
         assert_eq!(
             (e.column, e.suggestion.as_deref()),
-            (14, Some("Vuoi dire tipo=\"segreto\"?"))
+            (14, Some("Vuoi dire tipo=\"fattimiei\"?"))
         );
         let e = error("<cascet>");
         assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire <cascett>?"));

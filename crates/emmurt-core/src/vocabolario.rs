@@ -157,6 +157,7 @@ const BOOLEANS: &[(&str, &str)] = &[("overo", "true"), ("sfòls", "false"), ("sf
 
 const INPUT_TYPES: &[(&str, &str)] = &[
     ("testo", "text"),
+    ("fattimiei", "password"),
     ("segreto", "password"),
     ("posta", "email"),
     ("numero", "number"),
@@ -177,7 +178,7 @@ const INPUT_TYPES: &[(&str, &str)] = &[
     ("telefono", "tel"),
     ("indirizzo", "url"),
     ("annascuso", "hidden"),
-    ("fotografia", "image"),
+    ("cartulin", "image"),
 ];
 
 const BUTTON_TYPES: &[(&str, &str)] = &[
@@ -211,7 +212,7 @@ pub const ATTRS: &[Attr] = &[
     // Global
     attr("classe", "class"),
     attr("chi", "id"),
-    attr("stile", "style"),
+    attr("cess", "style"),
     attr("titulo", "title"),
     attr("lengua", "lang"),
     attr("annascuso", "hidden"),
@@ -271,7 +272,7 @@ pub const ATTRS: &[Attr] = &[
     attr("stutato", "disabled"),
     attr("spuntato", "checked"),
     attr("scigliuto", "selected"),
-    attr("perforza", "required"),
+    attr("poffozza", "required"),
     attr("nunsetocca", "readonly"),
     attr("assaje", "multiple"),
     attr("subbeto", "autofocus"),

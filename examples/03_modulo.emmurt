@@ -7,11 +7,11 @@
       <recinto>
         <leggenda>Chi si'?</leggenda>
         <targhett pe="nomme">Nomme</targhett>
-        <miett chi="nomme" nomme="nomme" tipo="testo" esempio="Gennaro" perforza subbeto>
+        <miett chi="nomme" nomme="nomme" tipo="testo" esempio="Gennaro" poffozza subbeto>
         <targhett pe="posta">Posta</targhett>
         <miett chi="posta" nomme="posta" tipo="posta" esempio="gennaro@pizza.it">
         <targhett pe="parola">Parola segreta</targhett>
-        <miett chi="parola" nomme="parola" tipo="segreto" lunghezzaminima="8">
+        <miett chi="parola" nomme="parola" tipo="fattimiei" lunghezzaminima="8">
       </recinto>
       <recinto>
         <leggenda>Che pizza vuò?</leggenda>

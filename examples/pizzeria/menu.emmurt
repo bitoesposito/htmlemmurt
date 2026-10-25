@@ -32,9 +32,9 @@
       <luccolo>Ordina</luccolo>
       <modulo chi="ordine">
         <targhett pe="nomme">Comme te chiamme?</targhett>
-        <miett chi="nomme" nomme="nomme" tipo="testo" esempio="Gennaro" perforza>
+        <miett chi="nomme" nomme="nomme" tipo="testo" esempio="Gennaro" poffozza>
         <targhett pe="telefono">Telefono</targhett>
-        <miett chi="telefono" nomme="telefono" tipo="telefono" esempio="081 …" perforza>
+        <miett chi="telefono" nomme="telefono" tipo="telefono" esempio="081 …" poffozza>
         <recinto>
           <leggenda>Comme 'a vuò?</leggenda>
           <targhett><miett tipo="pallino" nomme="consegna" valore="casa" spuntato> A casa</targhett>

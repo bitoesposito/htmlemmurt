@@ -74,7 +74,7 @@ Il compilatore accetta solo napoletano. `<div>` è un errore, e l'errore ti dice
   Vuoi dire <cascett>?
 ```
 
-Lo stesso vale per attributi (`class` → `classe`), eventi (`onclick` → `quanno-tuocche`) e valori fissi (`tipo="password"` → `tipo="segreto"`). Passano così come sono gli attributi `data-*` e `aria-*` e gli elementi con un trattino nel nome, come `<pizza-card>`, perché sono tuoi.
+Lo stesso vale per attributi (`class` → `classe`), eventi (`onclick` → `quanno-tuocche`) e valori fissi (`tipo="password"` → `tipo="fattimiei"`). Passano così come sono gli attributi `data-*` e `aria-*` e gli elementi con un trattino nel nome, come `<pizza-card>`, perché sono tuoi.
 
 I tag si chiudono sempre e nell'ordine giusto, a parte quelli vuoti come `<acap>` e `<miett>`. `<cascett />` vale `<cascett></cascett>`.
 
@@ -265,12 +265,12 @@ Un attributo con `ncopp'a` vale solo su quegli elementi; gli altri valgono ovunq
 | htmlemmurt | HTML | Valori |
 |---|---|---|
 | `addo` (ncopp'a `<modulo>`) | `action` |  |
-| `tipo` (ncopp'a `<miett>`) | `type` | `testo` → `text`, `segreto` → `password`, `posta` → `email`, `numero` → `number`, `spunta` → `checkbox`, `pallino` → `radio`, `manna` → `submit`, `azzera` → `reset`, `buttone` → `button`, `carta` → `file`, `data` → `date`, `ora` → `time`, `dataeora` → `datetime-local`, `mese` → `month`, `settimana` → `week`, `colore` → `color`, `cursore` → `range`, `cerca` → `search`, `telefono` → `tel`, `indirizzo` → `url`, `annascuso` → `hidden`, `fotografia` → `image` |
+| `tipo` (ncopp'a `<miett>`) | `type` | `testo` → `text`, `fattimiei` → `password`, `segreto` → `password`, `posta` → `email`, `numero` → `number`, `spunta` → `checkbox`, `pallino` → `radio`, `manna` → `submit`, `azzera` → `reset`, `buttone` → `button`, `carta` → `file`, `data` → `date`, `ora` → `time`, `dataeora` → `datetime-local`, `mese` → `month`, `settimana` → `week`, `colore` → `color`, `cursore` → `range`, `cerca` → `search`, `telefono` → `tel`, `indirizzo` → `url`, `annascuso` → `hidden`, `cartulin` → `image` |
 | `tipo` (ncopp'a `<citofono>`) | `type` | `manna` → `submit`, `azzera` → `reset`, `buttone` → `button` |
 | `tipo` (ncopp'a `<fratm>`) | `type` | `modulo` → `module` |
 | `classe` | `class` |  |
 | `chi` | `id` |  |
-| `stile` | `style` |  |
+| `cess` | `style` |  |
 | `titulo` | `title` |  |
 | `lengua` | `lang` |  |
 | `annascuso` | `hidden` |  |
@@ -299,7 +299,7 @@ Un attributo con `ncopp'a` vale solo su quegli elementi; gli altri valgono ovunq
 | `stutato` | `disabled` |  |
 | `spuntato` | `checked` |  |
 | `scigliuto` | `selected` |  |
-| `perforza` | `required` |  |
+| `poffozza` | `required` |  |
 | `nunsetocca` | `readonly` |  |
 | `assaje` | `multiple` |  |
 | `subbeto` | `autofocus` |  |
