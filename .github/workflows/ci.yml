@@ -69,4 +69,5 @@ jobs:
       - name: End-to-end in Chromium
         run: |
           (cd examples/pizzeria && npm ci)
+          (cd packages/playground && npm ci && npm run build)
           cd e2e && npm ci && npx playwright install --with-deps chromium && npm test

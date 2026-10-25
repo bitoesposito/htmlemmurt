@@ -2,6 +2,8 @@
 
 HTML, ma comme si deve 🤌
 
+Provalo nel [playground](https://bitoesposito.github.io/htmlemmurt/): scrivi a sinistra, a destra vedi l'HTML e la pagina vera.
+
 htmlemmurt è HTML in napoletano. Scrivi `<cascett>` e il compilatore scrive `<div>`. È il fratello di [FratmScript](https://github.com/kkratterf/fratmscript): i blocchi `<fratm>` e gli attributi `quanno-*` sono FratmScript e diventano JavaScript. Il compilatore è in Rust e gira anche in Node, in Vite e nel browser grazie a WebAssembly.
 
 ```html
@@ -58,6 +60,7 @@ htmlemmurt/
 │   └── emmurt-wasm/       # binding WebAssembly
 ├── packages/
 │   ├── htmlemmurt/        # pacchetto npm: API, plugin Vite, runtime per il browser
+│   ├── playground/        # il playground web, scritto in htmlemmurt e FratmScript
 │   └── vscode-extension/  # estensione VS Code
 ├── examples/              # pagine d'esempio e l'app pizzeria (Vite + FratmScript)
 └── e2e/                   # test in Chromium
@@ -86,7 +89,7 @@ Per il JavaScript normale c'è `<copione>`, per il CSS `<cess>`. Cess sarà anch
 
 ## Con Vite
 
-È il modo per scrivere un'app vera. Il plugin serve e compila ogni `x.emmurt` come `x.html` e compila i moduli `.fratm`:
+È il modo per scrivere un'app vera. Per partire da un'app già pronta, con una pagina, un pezzo condiviso e un modulo FratmScript, c'è `emmurt nuovo pizzeria` (vedi la CLI più sotto). Il plugin serve e compila ogni `x.emmurt` come `x.html` e compila i moduli `.fratm`:
 
 ```js
 // vite.config.js
@@ -112,6 +115,7 @@ cargo install --git https://github.com/bitoesposito/htmlemmurt emmurt-cli
 ```
 
 ```bash
+emmurt nuovo pizzeria                # un'app Vite pronta, con htmlemmurt e FratmScript
 emmurt build index.emmurt            # scrive index.html accanto
 emmurt build sito/ --out dist/       # tutte le pagine di una cartella
 emmurt check sito/                   # solo controllo, anche dei pezzi

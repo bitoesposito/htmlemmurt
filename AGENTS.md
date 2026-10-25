@@ -15,6 +15,8 @@ htmlemmurt è HTML in napoletano: un compilatore severo che traduce nomi napolet
 | `crates/emmurt-wasm` | Binding WebAssembly usati da npm ed estensione |
 | `packages/htmlemmurt` | Pacchetto npm: API Node, plugin Vite, runtime browser (`wasm/` è generato) |
 | `packages/vscode-extension` | Grammatica, snippet, completamento, diagnostica (`compiler/` è generato) |
+| `packages/playground` | Playground web su GitHub Pages, scritto in htmlemmurt e FratmScript con il plugin Vite |
+| `crates/emmurt-cli/src/nuovo/` | Il modello dell'app di `emmurt nuovo` |
 | `examples/*.emmurt` | Pagine d'esempio con snapshot golden |
 | `examples/pizzeria` | App Vite con FratmScript, provata in Chromium da `e2e/` |
 
@@ -35,6 +37,7 @@ cargo test --workspace --locked
 cargo build -p emmurt-cli && ./target/debug/emmurt check examples/*.emmurt examples/pezzi && ./target/debug/emmurt check examples/pizzeria
 cd packages/htmlemmurt && npm run build && npm test           # serve wasm-pack
 cd packages/vscode-extension && npm run compiler && npm test
+cd packages/playground && npm install && npm run build      # dopo il WebAssembly
 cd examples/pizzeria && npm install && cd ../../e2e && npm install && npm test   # Chromium
 ```
 
@@ -48,6 +51,7 @@ Dopo una modifica al compilatore, `npm run build` in `packages/htmlemmurt` rigen
 - Una parola nuova va in `vocabolario.rs` e nella tabella del README (un test lo controlla). L'estensione legge il vocabolario dal WebAssembly e non va toccata.
 - Non cambiare il significato di una parola esistente senza una issue che lo chieda: i file `.emmurt` già scritti devono continuare a compilare.
 - Il compilatore resta severo: niente ripieghi silenziosi sull'HTML inglese.
+- Un limite di FratmScript non si aggira qui dentro: si segnala a kkratterf/fratmscript con issue e PR.
 - Niente dipendenze nuove senza un motivo scritto nella PR.
 
 ## Documentazione e backlog
