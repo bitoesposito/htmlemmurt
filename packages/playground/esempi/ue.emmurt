@@ -1,0 +1,24 @@
+<cristian lengua="it">
+  <capa>
+    <titulo>Uè!</titulo>
+    <cess>
+      body { font-family: system-ui, sans-serif; text-align: center; padding: 2rem; }
+      button { font: inherit; padding: .5rem 1.2rem; cursor: pointer; }
+    </cess>
+  </capa>
+  <panz>
+    <luccolone>Uè, frà!</luccolone>
+    <chiacchier>Chest è HTML, ma scritto <guapp>comme si deve</guapp>.</chiacchier>
+    <citofono tipo="buttone" quanno-tuocche="sona()">Citofona</citofono>
+    <chiacchier chi="risposta"></chiacchier>
+    <fratm>
+      tien vote = 0
+      facc sona() {
+          vote++
+          stamm a dì("Driiin!", vote)
+          document.querySelector("#risposta").textContent =
+              vote == 1 ? "Chi è?" : `N'ata vota? So' ${vote} vote!`
+      }
+    </fratm>
+  </panz>
+</cristian>

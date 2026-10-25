@@ -1,0 +1,376 @@
+:root {
+  --spuma: #f5f8fa;
+  --carta: #ffffff;
+  --mare: #0f2b40;
+  --mare-tenue: #4d6578;
+  --azzurro: #1a86c8;
+  --su-azzurro: #ffffff;
+  --tufo: #dfe6ec;
+  --arancio: #e1542c;
+  --sbaglio: #b42318;
+  --riga-attiva: #f0f5f9;
+  --selezione: #cfe6f6;
+
+  --c-tag: #1a6fa8;
+  --c-attributo: #8a5a00;
+  --c-valore: #1d7a4c;
+  --c-commento: #7b8d9b;
+  --c-punteggiatura: #6b7f8f;
+
+  --sans: "Instrument Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --targa: "Bodoni Moda", "Didot", serif;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --spuma: #0c1a24;
+    --carta: #0f2130;
+    --mare: #e3edf4;
+    --mare-tenue: #9fb3c3;
+    --azzurro: #5bb4ea;
+    --su-azzurro: #06131c;
+    --tufo: #1f3647;
+    --arancio: #f0703f;
+    --sbaglio: #ff8a7a;
+    --riga-attiva: #13293b;
+    --selezione: #1d4462;
+
+    --c-tag: #6cc0f0;
+    --c-attributo: #e6b45c;
+    --c-valore: #7fd3a4;
+    --c-commento: #6f8698;
+    --c-punteggiatura: #8aa0b2;
+
+    color-scheme: dark;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--spuma);
+  color: var(--mare);
+  font: 15px/1.5 var(--sans);
+}
+
+a {
+  color: var(--azzurro);
+}
+
+:focus-visible {
+  outline: 2px solid var(--azzurro);
+  outline-offset: 2px;
+}
+
+/* Testata: la targa di marmo dei vicoli, poi i comandi */
+
+.testata {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding: 0.85rem 1.25rem;
+}
+
+.targa {
+  display: inline-grid;
+  justify-items: center;
+  margin: 0;
+  padding: 0.35rem 1.4rem 0.5rem;
+  font-family: var(--targa);
+  font-weight: 600;
+  /* The small optical size has sturdier hairlines: the H stays an H */
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 11;
+  text-transform: uppercase;
+  color: #2b2925;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgb(255 255 255 / 0.6), transparent 60%),
+    linear-gradient(115deg, #eceae4 0%, #e2dfd8 45%, #eceae4 70%, #dedad2 100%);
+  border: 1px solid #b9b3a7;
+  box-shadow:
+    inset 0 0 0 4px #eceae4,
+    inset 0 0 0 5px #8f897d,
+    0 1px 2px rgb(15 43 64 / 0.18);
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.75);
+}
+
+.vico {
+  font-size: 1.4rem;
+  line-height: 1.15;
+  letter-spacing: 0.08em;
+}
+
+.comandi {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+.esempi {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--mare-tenue);
+}
+
+select,
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+select,
+input {
+  padding: 0.35rem 0.5rem;
+  background: var(--carta);
+  border: 1px solid var(--tufo);
+  border-radius: 6px;
+}
+
+#condividi {
+  padding: 0.4rem 0.9rem;
+  color: var(--su-azzurro);
+  background: var(--azzurro);
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#condividi:hover {
+  filter: brightness(1.08);
+}
+
+/* Banco: sorgente a sinistra, risultato a destra */
+
+.banco {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  /* minmax(0, …): long editor lines must not widen the columns */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1px;
+  background: var(--tufo);
+  border-block: 1px solid var(--tufo);
+}
+
+.pannello {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--carta);
+}
+
+.barra {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 2.4rem;
+  padding: 0 0.75rem;
+  color: var(--mare-tenue);
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--tufo);
+}
+
+.file {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--mono);
+  color: var(--mare);
+}
+
+.editor {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.stato {
+  margin: 0;
+  padding: 0.5rem 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--mare-tenue);
+  border-top: 1px solid var(--tufo);
+}
+
+.stato.sbagliato {
+  color: var(--sbaglio);
+}
+
+/* Schede */
+
+.schede {
+  gap: 0;
+  padding: 0;
+}
+
+.scheda {
+  padding: 0 0.9rem;
+  min-height: 2.4rem;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--mare-tenue);
+  cursor: pointer;
+}
+
+.scheda[aria-selected="true"] {
+  color: var(--mare);
+  border-bottom-color: var(--azzurro);
+}
+
+.vista {
+  flex: 1;
+  min-height: 0;
+}
+
+.vista[hidden] {
+  display: none;
+}
+
+#anteprima iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+
+/* Vocabolario */
+
+.vocabolario {
+  overflow: auto;
+  padding: 0.75rem 1rem 1.5rem;
+}
+
+.cerca {
+  display: grid;
+  gap: 0.3rem;
+  max-width: 24rem;
+  margin-bottom: 1rem;
+  color: var(--mare-tenue);
+  font-size: 0.85rem;
+}
+
+.vocabolario h2 {
+  margin: 1.25rem 0 0.4rem;
+  font-size: 1rem;
+}
+
+.vocabolario table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.vocabolario td {
+  padding: 0.3rem 0.5rem;
+  border-bottom: 1px solid var(--tufo);
+  vertical-align: top;
+}
+
+.vocabolario td:first-child {
+  font-family: var(--mono);
+  color: var(--c-tag);
+  white-space: nowrap;
+}
+
+.vocabolario td:nth-child(2) {
+  font-family: var(--mono);
+  color: var(--mare-tenue);
+  white-space: nowrap;
+}
+
+/* Console */
+
+.console {
+  height: 9rem;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--tufo);
+}
+
+#console {
+  flex: 1;
+  overflow: auto;
+  margin: 0;
+  padding: 0.35rem 0;
+  list-style: none;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+}
+
+#console:empty::before {
+  content: "Ccà escono 'e stamm a dì d'a paggena.";
+  display: block;
+  padding: 0 0.9rem;
+  color: var(--mare-tenue);
+}
+
+#console li {
+  padding: 0.1rem 0.9rem;
+  white-space: pre-wrap;
+}
+
+.voce-warn {
+  color: var(--c-attributo);
+}
+
+.voce-error {
+  color: var(--sbaglio);
+}
+
+/* Pere */
+
+.pere {
+  padding: 0.6rem 1.25rem;
+  font-size: 0.82rem;
+  color: var(--mare-tenue);
+}
+
+.pere p {
+  margin: 0;
+}
+
+@media (max-width: 860px) {
+  body {
+    height: auto;
+  }
+
+  .banco {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .editor {
+    height: 55vh;
+    flex: none;
+  }
+
+  #anteprima {
+    height: 60vh;
+    flex: none;
+  }
+
+  .vocabolario,
+  #html {
+    max-height: 70vh;
+  }
+}

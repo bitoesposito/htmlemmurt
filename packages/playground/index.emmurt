@@ -1,0 +1,72 @@
+<!-- 'O playground è scritto isso stesso in htmlemmurt e FratmScript -->
+<cristian lengua="it">
+  <capa>
+    <inciucc nomme="viewport" cuntenuto="width=device-width, initial-scale=1">
+    <titulo>htmlemmurt: 'o playground</titulo>
+    <inciucc nomme="description" cuntenuto="Scrive HTML in napoletano e vide subbeto 'a paggena. Fratello di FratmScript.">
+    <inciucc nomme="og:title" cuntenuto="htmlemmurt: HTML, ma comme si deve">
+    <inciucc nomme="og:description" cuntenuto="Scrive &lt;cascett&gt; e esce &lt;div&gt;. Provalo int'o browser.">
+    <inciucc nomme="og:image" cuntenuto="https://bitoesposito.github.io/htmlemmurt/og.png">
+    <inciucc nomme="twitter:card" cuntenuto="summary_large_image">
+    <attacca rapporto="icona" addo="favicon.svg" tipo="image/svg+xml">
+    <attacca rapporto="stile" addo="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400..600&display=swap">
+    <attacca rapporto="stile" addo="./src/stile.css">
+  </capa>
+  <panz>
+    <cappiell classe="testata">
+      <luccolone classe="targa">
+        <scatulell classe="vico">Htmlemmurt</scatulell>
+      </luccolone>
+      <tomtom classe="comandi" aria-label="Comandi">
+        <targhett classe="esempi">
+          <scatulell>Esempi</scatulell>
+          <scegli chi="esempi"></scegli>
+        </targhett>
+        <citofono chi="condividi" tipo="buttone">Copia link</citofono>
+        <vattenn addo="https://github.com/bitoesposito/htmlemmurt">GitHub</vattenn>
+        <vattenn addo="https://www.npmjs.com/package/htmlemmurt">npm</vattenn>
+        <vattenn addo="https://marketplace.visualstudio.com/items?itemName=bitoesposito.htmlemmurt">VS Code</vattenn>
+      </tomtom>
+    </cappiell>
+
+    <core classe="banco">
+      <piezz classe="pannello" aria-label="Sorgente">
+        <cascett classe="barra">
+          <scatulell classe="file"><cartulin da="favicon.svg" spiegazione="" larghezza="16" altezza="16"> index.emmurt</scatulell>
+        </cascett>
+        <cascett chi="editor" classe="editor"></cascett>
+        <chiacchier chi="stato" classe="stato" ruolo="status" aria-live="polite">Carico 'o compilatore…</chiacchier>
+      </piezz>
+
+      <piezz classe="pannello" aria-label="Risultato">
+        <cascett classe="barra schede" ruolo="tablist" aria-label="Risultato">
+          <citofono classe="scheda" ruolo="tab" chi="scheda-anteprima" aria-controls="anteprima" aria-selected="true">Anteprima</citofono>
+          <citofono classe="scheda" ruolo="tab" chi="scheda-html" aria-controls="html" aria-selected="false" turno="-1">HTML</citofono>
+          <citofono classe="scheda" ruolo="tab" chi="scheda-vocabolario" aria-controls="vocabolario" aria-selected="false" turno="-1">Vocabolario</citofono>
+        </cascett>
+        <cascett chi="anteprima" classe="vista" ruolo="tabpanel" aria-labelledby="scheda-anteprima"></cascett>
+        <cascett chi="html" classe="vista editor" ruolo="tabpanel" aria-labelledby="scheda-html" annascuso></cascett>
+        <cascett chi="vocabolario" classe="vista vocabolario" ruolo="tabpanel" aria-labelledby="scheda-vocabolario" annascuso>
+          <targhett classe="cerca">
+            <scatulell>Cerca na parola</scatulell>
+            <miett chi="cerca" tipo="cerca" esempio="cascett, div, quanno…">
+          </targhett>
+          <cascett chi="parole"></cascett>
+        </cascett>
+        <piezz classe="console" aria-label="Console">
+          <cascett classe="barra"><scatulell>Console</scatulell></cascett>
+          <elenco chi="console" ruolo="log"></elenco>
+        </piezz>
+      </piezz>
+    </core>
+
+    <pere classe="pere">
+      <chiacchier>
+        Stu playground è scritto isso stesso in htmlemmurt e FratmScript:
+        <vattenn addo="https://github.com/bitoesposito/htmlemmurt/tree/main/packages/playground">vide 'o codice</vattenn>.
+      </chiacchier>
+    </pere>
+
+    <fratm da="/src/main.fratm" />
+  </panz>
+</cristian>
