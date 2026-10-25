@@ -137,7 +137,7 @@ function errorPage(message) {
 <meta charset="utf-8">
 <title>Uh, mannaggia</title>
 <script type="module" src="/@vite/client"></script>
-<style>body{font:16px/1.5 system-ui;margin:2rem;color:#7a1f1f}pre{background:#fff4f4;padding:1rem;border-left:4px solid #c0392b;white-space:pre-wrap}</style>
+<style>body{font:16px/1.5 system-ui;margin:2rem;color:#7a1f1f}pre{background:#fff4f4;padding:1rem;border:1px solid #e3b4ae;border-radius:6px;white-space:pre-wrap}</style>
 <h1>Uh, mannaggia! 🤌</h1>
 <pre>${escaped}</pre>
 <p>Aggiusta 'o file e salva: 'a paggena se ricarica sola.</p>

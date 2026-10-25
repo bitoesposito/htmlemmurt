@@ -24,7 +24,7 @@ function domReady() {
 function report(script, message) {
   console.error(`🤌 htmlemmurt ${message}`);
   const box = document.createElement('pre');
-  box.style.cssText = 'color:#7a1f1f;background:#fff4f4;padding:1rem;border-left:4px solid #c0392b;white-space:pre-wrap';
+  box.style.cssText = 'color:#7a1f1f;background:#fff4f4;padding:1rem;border:1px solid #e3b4ae;border-radius:6px;white-space:pre-wrap';
   box.textContent = `Uh, mannaggia! ${message}`;
   script.replaceWith(box);
 }
