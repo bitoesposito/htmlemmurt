@@ -1,6 +1,7 @@
 // End-to-end checks in Chromium: the pizzeria example through the Vite dev
-// server and its production build, and the browser runtime without a build.
-// Needs packages/htmlemmurt built and examples/pizzeria installed.
+// server and its production build, the browser runtime without a build and
+// the playground. Needs packages/htmlemmurt built, examples/pizzeria
+// installed and packages/playground built.
 // CHROMIUM_PATH picks a Chromium other than Playwright's.
 import { spawn, execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
@@ -86,6 +87,45 @@ async function runtimeWorks(browser, base) {
   await page.close();
 }
 
+async function playgroundWorks(browser, base) {
+  const page = await open(browser, base + '/');
+  const stato = page.locator('#stato');
+  const anteprima = page.frameLocator('#anteprima iframe');
+  await page.waitForFunction(() => document.querySelector('#stato').textContent.includes('Tutto a posto'));
+  assert.equal(await anteprima.locator('h1').textContent(), 'Uè, frà!');
+  await anteprima.locator('button').click();
+  await page.locator('#console li', { hasText: 'Driiin! 1' }).waitFor();
+
+  await page.click('#scheda-html');
+  await page.locator('#html .cm-content', { hasText: '<!DOCTYPE html>' }).waitFor();
+  await page.click('#scheda-vocabolario');
+  await page.fill('#cerca', 'cascett');
+  assert.ok((await page.locator('#parole tr:visible').allTextContents()).some((r) => r.includes('<div>')));
+  await page.click('#scheda-anteprima');
+
+  // A mistake on purpose: the error in Neapolitan, also under the code
+  await page.selectOption('#esempi', { label: 'Nu sbaglio, apposta' });
+  await page.waitForFunction(() => document.querySelector('#stato').textContent.includes('nun è napoletano'));
+  assert.match(await stato.textContent(), /Vuoi dire <cascett>\?/);
+  await page.locator('.cm-lintRange-error').first().waitFor();
+
+  // The shared link opens the same code
+  await page.selectOption('#esempi', { label: 'Nu modulo' });
+  await page.waitForFunction(() => document.querySelector('#stato').textContent.includes('Tutto a posto'));
+  await page.click('#condividi');
+  await page.waitForFunction(() => location.hash.startsWith('#codice='));
+  const link = page.url();
+  // The sandboxed preview may not autofocus (subbeto in "Nu modulo"): Chrome says so
+  assert.deepEqual(page.problems.filter((p) => !p.startsWith('Blocked autofocusing')), []);
+  await page.close();
+
+  const shared = await open(browser, link);
+  await shared.waitForFunction(() => document.querySelector('#stato').textContent.includes('Tutto a posto'));
+  await shared.frameLocator('#anteprima iframe').locator('form').waitFor();
+  assert.deepEqual(shared.problems.filter((p) => !p.startsWith('Blocked autofocusing')), []);
+  await shared.close();
+}
+
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
 try {
   const dev = await serve(vite, ['--port', '5191', '--strictPort'], pizzeria, 'http://localhost:5191/');
@@ -100,6 +140,11 @@ try {
   const files = await serve('python3', ['-m', 'http.server', '5193'], repo, 'http://localhost:5193/');
   await runtimeWorks(browser, files.slice(0, -1));
   console.log('✓ browser runtime');
+
+  const playground = join(repo, 'packages', 'playground', 'dist');
+  const site = await serve('python3', ['-m', 'http.server', '5194'], playground, 'http://localhost:5194/');
+  await playgroundWorks(browser, site.slice(0, -1));
+  console.log('✓ playground');
 } finally {
   await browser.close();
   for (const server of servers) server.kill();
