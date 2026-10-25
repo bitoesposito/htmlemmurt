@@ -2,7 +2,7 @@
   "name": "htmlemmurt-vscode",
   "displayName": "htmlemmurt",
   "description": "HTML in napoletano: colori, snippet, completamento ed errori mentre scrivi",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "bitoesposito",
   "icon": "images/icon.png",
   "galleryBanner": {
