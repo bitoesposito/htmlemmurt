@@ -2,16 +2,22 @@ name: Release
 
 # A tag vX.Y.Z builds the emmurt binaries, the .vsix and the npm tarball,
 # publishes the npm package if that version is not on npm yet, and creates
-# the GitHub release.
+# the GitHub release. Run it by hand to release an existing tag again.
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag to release, e.g. v0.1.0
+        required: true
 
 permissions:
   contents: read
 
 env:
   CARGO_TERM_COLOR: always
+  TAG: ${{ inputs.tag || github.ref_name }}
 
 jobs:
   versions:
@@ -19,8 +25,10 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ env.TAG }}
       - run: |
-          tag="${GITHUB_REF_NAME#v}"
+          tag="${TAG#v}"
           cargo="$(grep -m1 '^version' Cargo.toml | cut -d'"' -f2)"
           npm="$(node -p "require('./packages/htmlemmurt/package.json').version")"
           echo "tag $tag, Cargo.toml $cargo, npm $npm"
@@ -40,6 +48,8 @@ jobs:
           - { os: windows-2025, target: x86_64-pc-windows-msvc }
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ env.TAG }}
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.target }}
@@ -47,7 +57,7 @@ jobs:
       - name: Archive
         shell: bash
         run: |
-          name="emmurt-$GITHUB_REF_NAME-${{ matrix.target }}"
+          name="emmurt-$TAG-${{ matrix.target }}"
           mkdir "$name"
           cp README.md LICENSE "$name/"
           if [ "$RUNNER_OS" = Windows ]; then
@@ -60,7 +70,9 @@ jobs:
       - uses: actions/upload-artifact@v7
         with:
           name: cli-${{ matrix.target }}
-          path: emmurt-*.*
+          path: |
+            emmurt-*.tar.gz
+            emmurt-*.zip
 
   packages:
     name: npm tarball and .vsix
@@ -68,6 +80,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ env.TAG }}
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-unknown-unknown
@@ -107,7 +121,7 @@ jobs:
           name: packages
       - name: Publish with trusted publishing
         run: |
-          version="${GITHUB_REF_NAME#v}"
+          version="${TAG#v}"
           if npm view "htmlemmurt@$version" version > /dev/null 2>&1; then
             echo "htmlemmurt@$version is on npm already"
             exit 0
@@ -130,7 +144,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          sha256sum emmurt-* htmlemmurt-* > SHA256SUMS.txt
+          files=(emmurt-*.tar.gz emmurt-*.zip htmlemmurt-*.tgz htmlemmurt-*.vsix)
+          sha256sum "${files[@]}" > SHA256SUMS.txt
           cat SHA256SUMS.txt
-          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --generate-notes \
-            emmurt-* htmlemmurt-* SHA256SUMS.txt
+          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --verify-tag --generate-notes \
+            "${files[@]}" SHA256SUMS.txt
