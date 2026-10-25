@@ -136,7 +136,7 @@ L'estensione colora i file `.emmurt` e mostra gli errori mentre scrivi. Completa
 
 ```bash
 cd packages/vscode-extension && npm run package
-code --install-extension htmlemmurt-vscode-0.1.0.vsix
+code --install-extension htmlemmurt-vscode-*.vsix
 ```
 
 ## Vocabolario

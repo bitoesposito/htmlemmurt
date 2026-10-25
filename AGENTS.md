@@ -64,4 +64,4 @@ Dopo una modifica al compilatore, `npm run build` in `packages/htmlemmurt` rigen
 
 ## Rilasci
 
-SemVer. La versione sta in `Cargo.toml` (`[workspace.package]`), `packages/htmlemmurt/package.json` e `packages/vscode-extension/package.json`: si cambiano insieme.
+SemVer. La versione sta in `Cargo.toml` (`[workspace.package]`), `packages/htmlemmurt/package.json` e `packages/vscode-extension/package.json`: si cambiano insieme. Fa eccezione l'estensione, che sale da sola quando cambia solo lei (icona, grammatica, snippet).
