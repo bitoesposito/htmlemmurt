@@ -63,8 +63,9 @@ jobs:
         run: |
           cargo run -q -p emmurt-cli -- nuovo "$RUNNER_TEMP/nova"
           cd "$RUNNER_TEMP/nova"
+          # The package of this commit, not the one on npm
+          npm pkg set devDependencies.htmlemmurt="file:$GITHUB_WORKSPACE/packages/htmlemmurt"
           npm install
-          npm install --no-save "$GITHUB_WORKSPACE/packages/htmlemmurt"
           npx vite build
       - name: End-to-end in Chromium
         run: |
