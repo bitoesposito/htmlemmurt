@@ -1,0 +1,16 @@
+// 'O carrello sta int'o localStorage, accussì passa 'a na paggena a n'ata
+chist è CHIAVE = "carrello"
+
+mann for facc leggi() {
+    piglie JSON.parse(localStorage.getItem(CHIAVE) ?? "[]")
+}
+
+mann for facc aggiungi(pizza) {
+    chist è carrello = [...leggi(), pizza]
+    localStorage.setItem(CHIAVE, JSON.stringify(carrello))
+    piglie carrello
+}
+
+mann for facc svuota() {
+    localStorage.removeItem(CHIAVE)
+}

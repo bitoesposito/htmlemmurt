@@ -1,0 +1,37 @@
+:root {
+  --forno: #b23a1e;
+  --pasta: #fbf6ee;
+  --inchiostro: #2b2118;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--inchiostro);
+  background: var(--pasta);
+}
+
+body { margin: 0; }
+main { max-width: 44rem; margin: 0 auto; padding: 2rem 1rem; }
+
+.ncapo {
+  display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;
+  padding: 1rem; border-bottom: 2px solid var(--forno);
+}
+.ncapo a { color: inherit; }
+.ncapo nav { display: flex; gap: 1rem; }
+.marchio { font-weight: bold; text-decoration: none; }
+
+.eroe { text-align: center; padding: 3rem 0; }
+.eroe h1 { font-size: 3rem; margin: 0 0 1rem; color: var(--forno); }
+
+button {
+  font: inherit; cursor: pointer; padding: .5rem 1rem; border: 0; border-radius: .4rem;
+  background: var(--forno); color: white;
+}
+button:active { transform: translateY(1px); }
+
+.menu { width: 100%; border-collapse: collapse; }
+.menu th, .menu td { padding: .5rem; border-bottom: 1px solid #e4d9c8; text-align: left; }
+
+form { display: grid; gap: .5rem; }
+input, textarea { font: inherit; padding: .4rem; }
+fieldset { border: 1px solid #e4d9c8; }
+
+.pere { text-align: center; padding: 2rem 1rem; color: #7a6a58; }

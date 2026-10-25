@@ -1,0 +1,32 @@
+chiamm { leggi, aggiungi, svuota } da "./carrello.fratm"
+
+facc aggiorna() {
+    document.querySelector("#quante").textContent = leggi().length
+}
+
+pe ogni (chist è bottone dint document.querySelectorAll("[data-pizza]")) {
+    bottone.addEventListener("click", () => {
+        aggiungi(bottone.dataset.pizza)
+        aggiorna()
+    })
+}
+
+chist è ordine = document.querySelector("#ordine")
+si (ordine) {
+    ordine.addEventListener("submit", (evento) => {
+        evento.preventDefault()
+        chist è risposta = document.querySelector("#risposta")
+        chist è pizze = leggi()
+        si (pizze.length == 0) {
+            risposta.textContent = "Uè, 'o carrello è vacante!"
+        } sinnò {
+            chist è nomme = nu bell FormData(ordine).get("nomme")
+            risposta.textContent = `Grazie ${nomme}! ${pizze.length} pizze stanno arrivanno.`
+            svuota()
+            aggiorna()
+        }
+        risposta.hidden = sfòls
+    })
+}
+
+aggiorna()
