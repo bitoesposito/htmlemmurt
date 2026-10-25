@@ -1,0 +1,80 @@
+{
+  "name": "htmlemmurt-vscode",
+  "displayName": "htmlemmurt",
+  "description": "HTML in napoletano: colori, snippet, completamento ed errori mentre scrivi",
+  "version": "0.1.0",
+  "publisher": "htmlemmurt",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bitoesposito/htmlemmurt"
+  },
+  "homepage": "https://github.com/bitoesposito/htmlemmurt/tree/main/packages/vscode-extension#readme",
+  "bugs": {
+    "url": "https://github.com/bitoesposito/htmlemmurt/issues"
+  },
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Linters"
+  ],
+  "keywords": [
+    "htmlemmurt",
+    "fratmscript",
+    "napoletano",
+    "html"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "htmlemmurt",
+        "aliases": [
+          "htmlemmurt",
+          "emmurt"
+        ],
+        "extensions": [
+          ".emmurt"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "htmlemmurt",
+        "scopeName": "text.html.emmurt",
+        "path": "./syntaxes/htmlemmurt.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.fratm": "fratmscript",
+          "meta.embedded.line.fratm": "fratmscript",
+          "meta.embedded.block.css": "css",
+          "meta.embedded.block.javascript": "javascript"
+        }
+      }
+    ],
+    "snippets": [
+      {
+        "language": "htmlemmurt",
+        "path": "./snippets/htmlemmurt.json"
+      }
+    ],
+    "configuration": {
+      "title": "htmlemmurt",
+      "properties": {
+        "htmlemmurt.diagnostics": {
+          "type": "boolean",
+          "default": true,
+          "description": "Mostra gli errori del compilatore mentre scrivi"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compiler": "node scripts/copy-compiler.mjs",
+    "test": "node --test test/*.test.js",
+    "package": "node scripts/copy-compiler.mjs && npx --yes @vscode/vsce package --no-dependencies"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "Paggena": {
+    "prefix": ["paggena", "!"],
+    "description": "Na paggena sana",
+    "body": [
+      "<paggena lengua=\"${1:it}\">",
+      "  <capa>",
+      "    <nutizia nomme=\"viewport\" cuntenuto=\"width=device-width, initial-scale=1\">",
+      "    <titulo>${2:Titolo}</titulo>",
+      "  </capa>",
+      "  <cuorpo>",
+      "    $0",
+      "  </cuorpo>",
+      "</paggena>"
+    ]
+  },
+  "FratmScript": {
+    "prefix": "fratm",
+    "description": "Nu blocco 'e FratmScript",
+    "body": ["<fratm>", "  $0", "</fratm>"]
+  },
+  "FratmScript da file": {
+    "prefix": "fratmda",
+    "description": "FratmScript pigliato 'a nu file",
+    "body": ["<fratm da=\"${1:/src/main.fratm}\" />"]
+  },
+  "Chiamm": {
+    "prefix": "chiamm",
+    "description": "Ncolla n'atu file .emmurt",
+    "body": ["<chiamm da=\"${1:pezzi/menu.emmurt}\" />"]
+  },
+  "Scamazza": {
+    "prefix": "scamazza",
+    "description": "Nu buttone cu nu quanno-tuocche",
+    "body": ["<scamazza tipo=\"buttone\" quanno-tuocche=\"${1:sforna()}\">${2:Sforna}</scamazza>"]
+  },
+  "Lista": {
+    "prefix": "lista",
+    "description": "Na lista cu na voce",
+    "body": ["<lista>", "  <voce>$0</voce>", "</lista>"]
+  },
+  "Modulo": {
+    "prefix": "modulo",
+    "description": "Nu modulo cu nu campo",
+    "body": [
+      "<modulo addo=\"${1:/manna}\" metodo=\"manna\">",
+      "  <etichetta pe=\"${2:nomme}\">${3:Nomme}</etichetta>",
+      "  <campo chi=\"$2\" nomme=\"$2\" tipo=\"testo\">",
+      "  <scamazza tipo=\"manna\">${4:Manna}</scamazza>",
+      "</modulo>"
+    ]
+  }
+}
