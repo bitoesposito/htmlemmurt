@@ -1,5 +1,7 @@
 //! The `emmurt` command: builds, checks and watches htmlemmurt pages.
 
+mod nuovo;
+
 use std::fs;
 use std::io::{self, Read};
 use std::path::{Path, PathBuf};
@@ -12,6 +14,7 @@ use serde_json::json;
 const AIUTO: &str = "\
 emmurt: HTML, ma comme si deve
 
+  emmurt nuovo <cartella>           N'app Vite pronta, cu htmlemmurt e FratmScript
   emmurt build <file|cartella...>   Compila 'e pagine .emmurt in .html
       --out <cartella>              Scrive llà invece che vicino ê sorgenti
       --stdout                      Stampa l'HTML (nu file sulo, o - pe' stdin)
@@ -69,6 +72,18 @@ fn main() -> ExitCode {
         "build" => build(&paths, &flags, true),
         "check" => build(&paths, &flags, false),
         "watch" => watch(&paths, &flags),
+        "nuovo" => match paths.as_slice() {
+            [dir] => match nuovo::create(Path::new(dir)) {
+                Ok(name) => {
+                    eprintln!(
+                        "✓ {name} è pronta. Mo:\n\n  cd {dir}\n  npm install\n  npm run dev\n"
+                    );
+                    ExitCode::SUCCESS
+                }
+                Err(e) => fail(&e),
+            },
+            _ => fail("Dimme addò: emmurt nuovo pizzeria"),
+        },
         "vocabolario" => vocabulary(flags.json),
         "--version" | "-V" => {
             println!("emmurt {}", env!("CARGO_PKG_VERSION"));

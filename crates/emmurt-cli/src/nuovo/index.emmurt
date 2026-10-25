@@ -1,0 +1,18 @@
+<cristian lengua="it">
+  <capa>
+    <inciucc nomme="viewport" cuntenuto="width=device-width, initial-scale=1">
+    <titulo>{{nomme}}</titulo>
+    <attacca rapporto="stile" addo="/stile.css">
+  </capa>
+  <panz>
+    <chiamm da="pezzi/cappiell.emmurt" />
+    <core>
+      <luccolone>Uè, trase!</luccolone>
+      <chiacchier>Sta paggena sta int'a <codice>index.emmurt</codice>. Cagnala e salva.</chiacchier>
+      <citofono chi="sforna" tipo="buttone">Sforna na pizza</citofono>
+      <chiacchier>Pizze sfurnate: <fort chi="pizze">0</fort></chiacchier>
+    </core>
+    <chiamm da="pezzi/pere.emmurt" />
+    <fratm da="/src/main.fratm" />
+  </panz>
+</cristian>

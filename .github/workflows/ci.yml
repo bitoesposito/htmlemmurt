@@ -59,6 +59,13 @@ jobs:
         with:
           name: htmlemmurt-vscode
           path: packages/vscode-extension/*.vsix
+      - name: An app made by emmurt nuovo builds
+        run: |
+          cargo run -q -p emmurt-cli -- nuovo "$RUNNER_TEMP/nova"
+          cd "$RUNNER_TEMP/nova"
+          npm install
+          npm install --no-save "$GITHUB_WORKSPACE/packages/htmlemmurt"
+          npx vite build
       - name: End-to-end in Chromium
         run: |
           (cd examples/pizzeria && npm ci)

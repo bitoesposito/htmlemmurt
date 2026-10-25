@@ -1,0 +1,10 @@
+chiamm { a_caso } da "fratm"
+
+tien pizze = 0
+chist è gusti = ["Margherita", "Marinara", "Diavola", "Capricciosa"]
+
+document.querySelector("#sforna").addEventListener("click", () => {
+    pizze++
+    document.querySelector("#pizze").textContent = pizze
+    stamm a dì(`Sfurnata na ${gusti[a_caso(0, gusti.length - 1)]}!`)
+})

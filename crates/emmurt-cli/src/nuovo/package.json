@@ -1,0 +1,14 @@
+{
+  "name": "{{nomme}}",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "htmlemmurt": "^{{versione}}",
+    "vite": "^8.3.5"
+  }
+}
