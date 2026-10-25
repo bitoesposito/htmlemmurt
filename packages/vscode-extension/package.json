@@ -4,6 +4,11 @@
   "description": "HTML in napoletano: colori, snippet, completamento ed errori mentre scrivi",
   "version": "0.1.0",
   "publisher": "bitoesposito",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#fbf6ee",
+    "theme": "light"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -39,7 +44,11 @@
         "extensions": [
           ".emmurt"
         ],
-        "configuration": "./language-configuration.json"
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./images/file.svg",
+          "dark": "./images/file.svg"
+        }
       }
     ],
     "grammars": [
