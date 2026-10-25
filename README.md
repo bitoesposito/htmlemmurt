@@ -110,6 +110,14 @@ npm i -D htmlemmurt vite
 
 ## La CLI
 
+Su Linux e macOS:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/bitoesposito/htmlemmurt/main/install.sh | sh
+```
+
+Lo script scarica il binario giusto dall'[ultima release](https://github.com/bitoesposito/htmlemmurt/releases/latest), controlla lo SHA-256 e lo mette in `~/.local/bin` (`EMMURT_INSTALL_DIR` cambia la cartella, `EMMURT_VERSION=v0.1.0` sceglie la versione). Su Windows c'è lo zip nella release. Con Rust installato va bene anche:
+
 ```bash
 cargo install --git https://github.com/bitoesposito/htmlemmurt emmurt-cli
 ```
