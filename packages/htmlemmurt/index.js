@@ -7,7 +7,7 @@ import { createApi } from './lib/api.js';
 const wasm = createRequire(import.meta.url)('./wasm/node/emmurt_wasm.js');
 const api = createApi(wasm);
 
-export const { compileFratm, vocabulary, version, runtimeError } = api;
+export const { vocabulary, version, runtimeError } = api;
 export { formatError } from './lib/api.js';
 
 /**

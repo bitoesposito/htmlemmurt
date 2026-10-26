@@ -234,19 +234,19 @@ fn vocabulary(as_json: bool) -> ExitCode {
     if as_json {
         let out = json!({
             "tags": vocabolario::TAGS,
-            "attributes": vocabolario::ATTRS,
+            "attributes": vocabolario::ATTRIBUTES,
             "events": vocabolario::EVENTS,
         });
         println!("{out}");
         return ExitCode::SUCCESS;
     }
     println!("Elementi");
-    for (nap, html) in vocabolario::TAGS {
+    for (nap, html, _) in vocabolario::TAGS {
         println!("  <{nap}>  →  <{html}>");
     }
     println!("  <chiamm da=\"…\" />  →  'o file, ncullato llà");
     println!("\nAttribute");
-    for a in vocabolario::ATTRS {
+    for a in vocabolario::ATTRIBUTES {
         let only = if a.only.is_empty() {
             String::new()
         } else {
@@ -258,7 +258,7 @@ fn vocabulary(as_json: bool) -> ExitCode {
         }
     }
     println!("\nEventi (dint'ê virgulette ce va FratmScript)");
-    for (nap, html) in vocabolario::EVENTS {
+    for (nap, html, _) in vocabolario::EVENTS {
         println!("  {nap}  →  {html}");
     }
     ExitCode::SUCCESS

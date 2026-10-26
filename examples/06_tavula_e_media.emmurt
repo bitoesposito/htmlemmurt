@@ -1,6 +1,6 @@
-<cristian lengua="it">
+<cristian lingua="it">
   <capa>
-    <titulo>Tavule e media</titulo>
+    <titolo>Tavule e media</titolo>
     <cess>
       table { border-collapse: collapse; }
       td, th { padding: .25rem .5rem; }

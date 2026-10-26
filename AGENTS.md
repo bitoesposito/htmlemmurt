@@ -4,11 +4,11 @@ Regole per agenti (Claude, Codex, Copilot, Cursor…) e persone che lavorano su 
 
 ## Cos'è il repo
 
-htmlemmurt è HTML in napoletano: un compilatore severo che traduce nomi napoletani di elementi, attributi e valori in HTML standard. I blocchi `<fratm>` e gli attributi `quanno-*` sono FratmScript, compilato con `fratm-core` (dipendenza git, tag fissato in `Cargo.toml`).
+htmlemmurt è HTML in napoletano: un compilatore severo che traduce nomi napoletani di elementi, attributi e valori in HTML standard. I blocchi `<fratm>` e gli attributi `quanno-*` sono FratmScript, compilato con `fratm-core` (dipendenza git, tag fissato in `Cargo.toml`); `<cess>` e `cess="…"` sono CSS in napoletano, tradotto dallo `stile` di `fratm-core`. Le parole sono quelle di `fratm_core::html`, le stesse del JSX di FratmScript.
 
 | Percorso | Cosa contiene |
 | --- | --- |
-| `crates/emmurt-core/src/vocabolario.rs` | Tutte le parole: elementi, attributi, valori, eventi |
+| `crates/emmurt-core/src/vocabolario.rs` | Le ricerche nel vocabolario di `fratm_core::html` e quello che serve solo alle pagine (`<chiamm>`, elementi vuoti e grezzi) |
 | `crates/emmurt-core/src/lexer.rs` | Testo, commenti, tag e contenuto grezzo (`<fratm>`, `<cess>`…) |
 | `crates/emmurt-core/src/lib.rs` | Compilatore: controlli, traduzione, include, `<fratm>`, errori |
 | `crates/emmurt-cli` | Il comando `emmurt` (`build`, `check`, `watch`, `vocabolario`) |
@@ -48,7 +48,7 @@ Dopo una modifica al compilatore, `npm run build` in `packages/htmlemmurt` rigen
 - La CI deve essere verde. Non saltare, cancellare o indebolire un test per farla passare, e non zittire clippy con un `allow` generico.
 - Ogni correzione del compilatore arriva con un test che fallisce prima e passa dopo, accanto al codice, e controlla l'HTML generato.
 - I golden test (`crates/emmurt-core/tests/golden.rs`) fotografano l'output di ogni `examples/*.emmurt` e di ogni `tests/golden/cases/*.emmurt`; i casi `*.sbagliato.emmurt` fotografano l'errore. Un nuovo messaggio d'errore porta un caso nuovo. Dopo una modifica voluta: `EMMURT_UPDATE_GOLDEN=1 cargo test -p emmurt-core --test golden`, poi rileggi il diff.
-- Una parola nuova va in `vocabolario.rs` e nella tabella del README (un test lo controlla). L'estensione legge il vocabolario dal WebAssembly e non va toccata.
+- Il vocabolario è condiviso con FratmScript: una parola nuova o cambiata si propone a kkratterf/fratmscript in `crates/fratm-core/src/html.rs`, poi si aggiorna il tag di `fratm-core` e la tabella del README (un test lo controlla). L'estensione legge il vocabolario dal WebAssembly e non va toccata.
 - Non cambiare il significato di una parola esistente senza una issue che lo chieda: i file `.emmurt` già scritti devono continuare a compilare.
 - Il compilatore resta severo: niente ripieghi silenziosi sull'HTML inglese.
 - Un limite di FratmScript non si aggira qui dentro: si segnala a kkratterf/fratmscript con issue e PR.

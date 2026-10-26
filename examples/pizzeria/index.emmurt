@@ -1,8 +1,8 @@
 <!-- 'A paggena 'e casa -->
-<cristian lengua="it">
+<cristian lingua="it">
   <capa>
     <inciucc nomme="viewport" cuntenuto="width=device-width, initial-scale=1">
-    <titulo>'A Pizzeria 'e Gennaro</titulo>
+    <titolo>'A Pizzeria 'e Gennaro</titolo>
     <attacca rapporto="icona" addo="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍕</text></svg>">
     <attacca rapporto="stile" addo="/stile.css">
   </capa>

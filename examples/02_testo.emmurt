@@ -1,6 +1,6 @@
-<cristian lengua="it">
+<cristian lingua="it">
   <capa>
-    <titulo>Testo, liste e link</titulo>
+    <titolo>Testo, liste e link</titolo>
   </capa>
   <panz>
     <cappiell>
@@ -10,7 +10,7 @@
       <fattariello>
         <luccolo>Comme se fa</luccolo>
         <chiacchier>
-          Na pizza vera vo' <calcato>pazienza</calcato>, <fort>farina bbona</fort>
+          Na pizza vera vo' <corsivo>pazienza</corsivo>, <fort>farina bbona</fort>
           e nu furno a legna. <piccirill>'O resto so' chiacchiere.</piccirill>
         </chiacchier>
         <elenco>
@@ -39,7 +39,7 @@
           Leggi 'o
           <vattenn addo="https://it.wikipedia.org/wiki/Pizza_napoletana" arape="nuova">disciplinare</vattenn>.
           <acap>
-          <abbreviazione titulo="Specialità tradizionale garantita">STG</abbreviazione> dal
+          <abbreviazione titolo="Specialità tradizionale garantita">STG</abbreviazione> dal
           <tiempo quanno="2010-02-04">2010</tiempo>.
         </chiacchier>
       </allato>

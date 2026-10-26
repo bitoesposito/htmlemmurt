@@ -6,20 +6,7 @@ export function createApi(wasm) {
     const { filename = 'input.emmurt', read, inline = false } = options;
     // The bindings take a missing file as anything that is not a string
     const response = wasm.compile(String(source), filename, read ? (path) => read(path) : undefined, inline);
-    return { html: response.code, dependencies: response.dependencies, errors: response.errors };
-  }
-
-  function compileFratm(source, options = {}) {
-    const filename = options.filename ?? 'input.fratm';
-    const response = wasm.compileFratm(String(source), filename);
-    let map = null;
-    if (response.map) {
-      map = JSON.parse(response.map);
-      map.sources = [filename];
-      map.sourcesContent = [String(source)];
-      map.file = filename.replace(/\.fratm$/, '') + '.js';
-    }
-    return { code: response.code, map, errors: response.errors };
+    return { html: response.html, dependencies: response.dependencies, errors: response.errors };
   }
 
   function vocabulary() {
@@ -32,7 +19,7 @@ export function createApi(wasm) {
     return wasm.runtimeError(name, message);
   }
 
-  return { compile, compileFratm, vocabulary, version: wasm.version, runtimeError };
+  return { compile, vocabulary, version: wasm.version, runtimeError };
 }
 
 /** `file:line:column: message`, then the hint on its own line. */

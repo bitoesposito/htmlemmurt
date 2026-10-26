@@ -1,7 +1,7 @@
-<cristian lengua="it">
+<cristian lingua="it">
   <capa>
     <inciucc nomme="viewport" cuntenuto="width=device-width, initial-scale=1">
-    <titulo>Menù · 'A Pizzeria 'e Gennaro</titulo>
+    <titolo>Menù · 'A Pizzeria 'e Gennaro</titolo>
     <attacca rapporto="icona" addo="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍕</text></svg>">
     <attacca rapporto="stile" addo="/stile.css">
   </capa>
@@ -31,16 +31,16 @@
 
       <luccolo>Ordina</luccolo>
       <modulo chi="ordine">
-        <targhett pe="nomme">Comme te chiamme?</targhett>
-        <miett chi="nomme" nomme="nomme" tipo="testo" esempio="Gennaro" poffozza>
-        <targhett pe="telefono">Telefono</targhett>
-        <miett chi="telefono" nomme="telefono" tipo="telefono" esempio="081 …" poffozza>
+        <etichetta pe="nomme">Comme te chiamme?</etichetta>
+        <miett chi="nomme" nomme="nomme" tipo="testo" esempio="Gennaro" obbligatorio>
+        <etichetta pe="telefono">Telefono</etichetta>
+        <miett chi="telefono" nomme="telefono" tipo="telefono" esempio="081 …" obbligatorio>
         <recinto>
           <leggenda>Comme 'a vuò?</leggenda>
-          <targhett><miett tipo="pallino" nomme="consegna" valore="casa" spuntato> A casa</targhett>
-          <targhett><miett tipo="pallino" nomme="consegna" valore="banco"> 'A vengo a piglià</targhett>
+          <etichetta><miett tipo="pallino" nomme="consegna" valore="casa" spuntato> A casa</etichetta>
+          <etichetta><miett tipo="pallino" nomme="consegna" valore="banco"> 'A vengo a piglià</etichetta>
         </recinto>
-        <targhett pe="note">Note pe' 'o pizzaiuolo</targhett>
+        <etichetta pe="note">Note pe' 'o pizzaiuolo</etichetta>
         <ragionamento chi="note" nomme="note" righe="3"></ragionamento>
         <citofono tipo="manna">Manna l'ordine</citofono>
       </modulo>

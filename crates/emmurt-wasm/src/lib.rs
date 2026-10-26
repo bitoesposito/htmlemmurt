@@ -8,28 +8,9 @@ use wasm_bindgen::prelude::*;
 
 #[derive(Serialize)]
 struct Response {
-    /// HTML for `compile`, JavaScript for `compileFratm`.
-    code: Option<String>,
-    /// Source map of `compileFratm`, as JSON.
-    map: Option<String>,
+    html: Option<String>,
     dependencies: Vec<String>,
     errors: Vec<Error>,
-}
-
-/// (code, source map, dependencies) or the error, as a JavaScript object.
-fn respond(result: Result<(String, Option<String>, Vec<String>), Error>) -> JsValue {
-    let (code, map, dependencies, errors) = match result {
-        Ok((code, map, dependencies)) => (Some(code), map, dependencies, vec![]),
-        Err(e) => (None, None, vec![], vec![e]),
-    };
-    let response = Response {
-        code,
-        map,
-        dependencies,
-        errors,
-    };
-    let serializer = serde_wasm_bindgen::Serializer::json_compatible();
-    response.serialize(&serializer).unwrap_or(JsValue::NULL)
 }
 
 /// Compiles a page. `read(path)` returns the text of an included file, or
@@ -53,13 +34,20 @@ pub fn compile(source: &str, filename: &str, read: Option<Function>, inline: boo
             FratmSrc::Keep
         },
     };
-    respond(emmurt_core::compile(source, &options).map(|out| (out.html, None, out.dependencies)))
-}
-
-/// Compiles a `.fratm` module to JavaScript.
-#[wasm_bindgen(js_name = compileFratm)]
-pub fn compile_fratm(source: &str, filename: &str) -> JsValue {
-    respond(emmurt_core::compile_fratm(source, filename).map(|(code, map)| (code, map, vec![])))
+    let response = match emmurt_core::compile(source, &options) {
+        Ok(out) => Response {
+            html: Some(out.html),
+            dependencies: out.dependencies,
+            errors: vec![],
+        },
+        Err(e) => Response {
+            html: None,
+            dependencies: vec![],
+            errors: vec![e],
+        },
+    };
+    let serializer = serde_wasm_bindgen::Serializer::json_compatible();
+    response.serialize(&serializer).unwrap_or(JsValue::NULL)
 }
 
 /// Tags, attributes and events, as JSON.
@@ -67,7 +55,7 @@ pub fn compile_fratm(source: &str, filename: &str) -> JsValue {
 pub fn vocabulary() -> String {
     serde_json::json!({
         "tags": vocabolario::TAGS,
-        "attributes": vocabolario::ATTRS,
+        "attributes": vocabolario::ATTRIBUTES,
         "events": vocabolario::EVENTS,
     })
     .to_string()

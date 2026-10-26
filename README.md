@@ -4,12 +4,12 @@ HTML, ma comme si deve 🤌
 
 Provalo nel [playground](https://bitoesposito.github.io/htmlemmurt/): scrivi a sinistra, a destra vedi l'HTML e la pagina vera.
 
-htmlemmurt è HTML in napoletano. Scrivi `<cascett>` e il compilatore scrive `<div>`. È il fratello di [FratmScript](https://github.com/kkratterf/fratmscript): i blocchi `<fratm>` e gli attributi `quanno-*` sono FratmScript e diventano JavaScript. Il compilatore è in Rust e gira anche in Node, in Vite e nel browser grazie a WebAssembly.
+htmlemmurt è HTML in napoletano. Scrivi `<cascett>` e il compilatore scrive `<div>`. È il fratello di [FratmScript](https://github.com/kkratterf/fratmscript) e ne usa le stesse parole: `<cascett>` è `div` anche nel JSX di FratmScript. I blocchi `<fratm>` e gli attributi `quanno-*` sono FratmScript e diventano JavaScript, `<cess>` è CSS in napoletano. Il compilatore è in Rust e gira anche in Node, in Vite e nel browser grazie a WebAssembly.
 
 ```html
-<cristian lengua="it">
+<cristian lingua="it">
   <capa>
-    <titulo>'A Pizzeria</titulo>
+    <titolo>'A Pizzeria</titolo>
   </capa>
   <panz>
     <chiamm da="pezzi/cappiell.emmurt" />
@@ -85,25 +85,28 @@ Un file che comincia con `<cristian>` è una pagina: il compilatore ci mette `<!
 
 `<fratm>` contiene FratmScript e diventa `<script>`. Se usa `chiamm` o `mann for` diventa `<script type="module">`. Un blocco classico rende globali le sue funzioni, così gli attributi `quanno-*` le possono chiamare. `<fratm da="main.fratm" />` dentro Vite resta un modulo, e Vite compila il file e quello che importa; con la CLI e nel browser il codice viene incollato nella pagina, quindi lì il file non può importare altri `.fratm`.
 
-Per il JavaScript normale c'è `<copione>`, per il CSS `<cess>`. Cess sarà anche il nome del CSS in napoletano, che arriverà come progetto a parte.
+Con un `tipo` diverso da `modulo` il contenuto di `<fratm>` non è FratmScript e resta com'è, come fa l'HTML: `tipo="text/javascript"` per il JavaScript normale, `tipo="application/ld+json"` per i dati strutturati, `tipo="importmap"`. Anche `<fratm da="lib.js" />` o un indirizzo esterno caricano lo script così com'è: si compilano solo i file `.fratm`.
+
+`<cess>` e l'attributo `cess` sono CSS in napoletano, tradotto con lo `stile` di FratmScript: `citofono:passanno { culore: russo }` diventa `button:hover { color: red }`. Il CSS normale passa com'è.
 
 ## Con Vite
 
-Un'app vera si scrive con Vite. Per partire da un'app già pronta, con una pagina, un pezzo condiviso e un modulo FratmScript, c'è `emmurt nuovo pizzeria` (vedi la CLI più sotto). Il plugin serve e compila ogni `x.emmurt` come `x.html` e compila i moduli `.fratm`:
+Un'app vera si scrive con Vite. Per partire da un'app già pronta, con una pagina, un pezzo condiviso e un modulo FratmScript, c'è `emmurt nuovo pizzeria` (vedi la CLI più sotto). Il plugin di htmlemmurt serve e compila ogni `x.emmurt` come `x.html`, quello di FratmScript compila i moduli `.fratm`:
 
 ```js
 // vite.config.js
 import htmlemmurt from 'htmlemmurt/vite';
+import fratmscript from 'fratmscript/vite';
 
 export default {
-  plugins: [htmlemmurt()],
+  plugins: [htmlemmurt(), fratmscript()],
 };
 ```
 
-Le pagine sono i file `.emmurt` che cominciano con `<cristian>`, e la build le include tutte. In sviluppo una pagina con un errore mostra il messaggio in napoletano e si ricarica quando salvi. Il plugin compila già i `.fratm`, quindi non serve aggiungere anche `fratmscript/vite`.
+Le pagine sono i file `.emmurt` che cominciano con `<cristian>`, e la build le include tutte. In sviluppo una pagina con un errore mostra il messaggio in napoletano e si ricarica quando salvi.
 
 ```bash
-npm i -D htmlemmurt vite
+npm i -D htmlemmurt fratmscript vite
 ```
 
 [`examples/pizzeria`](examples/pizzeria) è un'app completa: due pagine, pezzi condivisi, un carrello in FratmScript diviso in moduli.
@@ -164,13 +167,12 @@ Colora i file `.emmurt` e mostra gli errori mentre scrivi. Completa tag, attribu
 | `<cristian>` | `<html>` |
 | `<capa>` | `<head>` |
 | `<panz>` | `<body>` |
-| `<titulo>` | `<title>` |
+| `<titolo>` | `<title>` |
 | `<inciucc>` | `<meta>` |
 | `<attacca>` | `<link>` |
 | `<basa>` | `<base>` |
-| `<cess>` | `<style>` |
-| `<fratm>` | `<script>` con FratmScript compilato |
-| `<copione>` | `<script>` con JavaScript così com'è |
+| `<cess>` | `<style>` con CSS in napoletano |
+| `<fratm>` | `<script>` con FratmScript compilato, o col contenuto com'è se `tipo` dice altro |
 | `<senzafratm>` | `<noscript>` |
 | `<cappiell>` | `<header>` |
 | `<pere>` | `<footer>` |
@@ -203,7 +205,7 @@ Colora i file `.emmurt` e mostra gli errori mentre scrivi. Completa tag, attribu
 | `<scatulell>` | `<span>` |
 | `<acap>` | `<br>` |
 | `<fort>` | `<strong>` |
-| `<calcato>` | `<em>` |
+| `<corsivo>` | `<em>` |
 | `<guapp>` | `<b>` |
 | `<stuorto>` | `<i>` |
 | `<sottolineato>` | `<u>` |
@@ -239,9 +241,9 @@ Colora i file `.emmurt` e mostra gli errori mentre scrivi. Completa tag, attribu
 | `<modulo>` | `<form>` |
 | `<miett>` | `<input>` |
 | `<citofono>` | `<button>` |
-| `<targhett>` | `<label>` |
+| `<etichetta>` | `<label>` |
 | `<scegli>` | `<select>` |
-| `<scelta>` | `<option>` |
+| `<opzione>` | `<option>` |
 | `<gruppo>` | `<optgroup>` |
 | `<ragionamento>` | `<textarea>` |
 | `<recinto>` | `<fieldset>` |
@@ -274,8 +276,8 @@ Un attributo con `ncopp'a` vale solo su quegli elementi; gli altri valgono ovunq
 | `classe` | `class` |  |
 | `chi` | `id` |  |
 | `cess` | `style` |  |
-| `titulo` | `title` |  |
-| `lengua` | `lang` |  |
+| `titolo` | `title` |  |
+| `lingua` | `lang` |  |
 | `annascuso` | `hidden` |  |
 | `turno` | `tabindex` |  |
 | `ruolo` | `role` |  |
@@ -294,15 +296,18 @@ Un attributo con `ncopp'a` vale solo su quegli elementi; gli altri valgono ovunq
 | `codifica` | `charset` |  |
 | `nomme` | `name` |  |
 | `cuntenuto` | `content` |  |
+| `rrobba` | `property` |  |
 | `carica` | `loading` | `chianochiano` → `lazy`, `subbeto` → `eager` |
 | `aropp` | `defer` |  |
 | `ampressa` | `async` |  |
+| `furastiero` | `crossorigin` | `ncognito` → `anonymous`, `cunosciuto` → `use-credentials` |
+| `verace` | `integrity` |  |
 | `valore` | `value` |  |
 | `esempio` | `placeholder` |  |
 | `stutato` | `disabled` |  |
 | `spuntato` | `checked` |  |
 | `scigliuto` | `selected` |  |
-| `poffozza` | `required` |  |
+| `obbligatorio` | `required` |  |
 | `nunsetocca` | `readonly` |  |
 | `assaje` | `multiple` |  |
 | `subbeto` | `autofocus` |  |
@@ -351,6 +356,7 @@ Dentro le virgolette ci va FratmScript.
 | `quanno-esce` | `onmouseleave` |
 | `quanno-piglie` | `onfocus` |
 | `quanno-perde` | `onblur` |
+| `quanno-scorre` | `onscroll` |
 
 </details>
 

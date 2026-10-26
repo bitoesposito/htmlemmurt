@@ -16,7 +16,7 @@ checksum = "4e7648175b45a9a48536d676f68d918270699102aa8dab5496df06904c914600"
 
 [[package]]
 name = "emmurt-cli"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "emmurt-core",
  "serde_json",
@@ -24,7 +24,7 @@ dependencies = [
 
 [[package]]
 name = "emmurt-core"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "fratm-core",
  "serde",
@@ -32,7 +32,7 @@ dependencies = [
 
 [[package]]
 name = "emmurt-wasm"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "emmurt-core",
  "fratm-core",
@@ -45,8 +45,8 @@ dependencies = [
 
 [[package]]
 name = "fratm-core"
-version = "0.12.0"
-source = "git+https://github.com/kkratterf/fratmscript?tag=v0.12.0#692555b9745835f296670c804a15ebcb6aa86006"
+version = "0.13.0"
+source = "git+https://github.com/kkratterf/fratmscript?tag=v0.13.0#5d8d3d8033a9f9612d36420747762b67cc44592d"
 dependencies = [
  "serde",
  "serde_json",

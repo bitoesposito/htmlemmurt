@@ -64,7 +64,7 @@ fn app_name(dir: &Path) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use emmurt_core::{compile, Options};
+    use emmurt_core::{compile, FratmSrc, Options};
     use std::fs;
 
     fn temp(name: &str) -> std::path::PathBuf {
@@ -93,21 +93,17 @@ mod tests {
                 .or_else(|_| fs::read_to_string(root.join(p.trim_start_matches('/'))))
                 .ok()
         };
+        // Inlined, `<fratm da="/src/main.fratm" />` compiles the module too
         for page in ["index.emmurt", "pezzi/cappiell.emmurt", "pezzi/pere.emmurt"] {
             let source = fs::read_to_string(dir.join(page)).unwrap();
             let filename = dir.join(page).to_string_lossy().to_string();
             let options = Options {
                 filename: &filename,
                 read: &read,
-                ..Options::default()
+                fratm_src: FratmSrc::Inline,
             };
             compile(&source, &options).unwrap_or_else(|e| panic!("{e}"));
         }
-        emmurt_core::compile_fratm(
-            &fs::read_to_string(dir.join("src/main.fratm")).unwrap(),
-            "main.fratm",
-        )
-        .unwrap();
         assert!(dir.join(".gitignore").exists());
         fs::remove_dir_all(&dir).unwrap();
     }

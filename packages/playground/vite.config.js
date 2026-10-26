@@ -1,9 +1,10 @@
 import htmlemmurt from 'htmlemmurt/vite';
+import fratmscript from 'fratmscript/vite';
 
 export default {
   // Relative URLs, so the build works under github.io/htmlemmurt/
   base: './',
-  plugins: [htmlemmurt()],
+  plugins: [htmlemmurt(), fratmscript()],
   // The examples in esempi/ are pages too: only index is the app
   // CodeMirror with the HTML, CSS and JS languages is most of the bundle
   build: { rollupOptions: { input: 'index.html' }, chunkSizeWarningLimit: 700 },

@@ -3,7 +3,7 @@
 Supporto ai file `.emmurt` di [htmlemmurt](https://github.com/bitoesposito/htmlemmurt), l'HTML in napoletano.
 
 ```html
-<cristian lengua="it">
+<cristian lingua="it">
   <panz>
     <luccolone>Uè, trase!</luccolone>
     <citofono tipo="buttone" quanno-tuocche="sforna()">Sforna</citofono>
