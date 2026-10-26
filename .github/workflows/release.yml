@@ -2,7 +2,8 @@ name: Release
 
 # A tag vX.Y.Z builds the emmurt binaries, the .vsix and the npm tarball,
 # stages the npm package if that version is not on npm yet (it goes live
-# once approved on npmjs.com), and creates the GitHub release. Run it by hand to release an existing tag again.
+# once approved on npmjs.com) and creates the GitHub release. Run by hand,
+# it releases an existing tag again.
 on:
   push:
     tags: ['v*']

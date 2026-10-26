@@ -27,7 +27,7 @@ async function serve(command, args, cwd, url) {
   throw new Error(`${command} did not start on ${url}`);
 }
 
-/** A page that fails the run on console errors (but a missing favicon). */
+/** A page that fails the run on console errors (except a missing favicon). */
 async function open(browser, url) {
   const page = await browser.newPage();
   page.problems = [];

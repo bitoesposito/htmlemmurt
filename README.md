@@ -89,7 +89,7 @@ Per il JavaScript normale c'è `<copione>`, per il CSS `<cess>`. Cess sarà anch
 
 ## Con Vite
 
-È il modo per scrivere un'app vera. Per partire da un'app già pronta, con una pagina, un pezzo condiviso e un modulo FratmScript, c'è `emmurt nuovo pizzeria` (vedi la CLI più sotto). Il plugin serve e compila ogni `x.emmurt` come `x.html` e compila i moduli `.fratm`:
+Un'app vera si scrive con Vite. Per partire da un'app già pronta, con una pagina, un pezzo condiviso e un modulo FratmScript, c'è `emmurt nuovo pizzeria` (vedi la CLI più sotto). Il plugin serve e compila ogni `x.emmurt` come `x.html` e compila i moduli `.fratm`:
 
 ```js
 // vite.config.js
