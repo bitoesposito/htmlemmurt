@@ -1,8 +1,8 @@
 <!-- 'O playground è scritto isso stesso in htmlemmurt e FratmScript -->
-<cristian lengua="it">
+<cristian lingua="it">
   <capa>
     <inciucc nomme="viewport" cuntenuto="width=device-width, initial-scale=1">
-    <titulo>htmlemmurt: 'o playground</titulo>
+    <titolo>htmlemmurt: 'o playground</titolo>
     <inciucc nomme="description" cuntenuto="Scrive HTML in napoletano e vide subbeto 'a paggena. Fratello di FratmScript.">
     <inciucc nomme="og:title" cuntenuto="htmlemmurt: HTML, ma comme si deve">
     <inciucc nomme="og:description" cuntenuto="Scrive &lt;cascett&gt; e esce &lt;div&gt;. Provalo int'o browser.">
@@ -21,10 +21,10 @@
         <chiacchier classe="motto">Scrive <codice>&lt;cascett&gt;</codice> e esce <codice>&lt;div&gt;</codice>.</chiacchier>
       </cascett>
       <tomtom classe="comandi" aria-label="Comandi">
-        <targhett classe="esempi">
+        <etichetta classe="esempi">
           <scatulell>Esempi</scatulell>
-          <scegli chi="esempi"><scelta valore="" stutato scigliuto>Scegli…</scelta></scegli>
-        </targhett>
+          <scegli chi="esempi"><opzione valore="" stutato scigliuto>Scegli…</opzione></scegli>
+        </etichetta>
         <citofono chi="condividi" tipo="buttone" aria-live="polite">Copia link</citofono>
         <vattenn addo="https://github.com/bitoesposito/htmlemmurt">GitHub</vattenn>
         <vattenn addo="https://www.npmjs.com/package/htmlemmurt">npm</vattenn>
@@ -50,10 +50,10 @@
         <cascett chi="anteprima" classe="vista" ruolo="tabpanel" aria-labelledby="scheda-anteprima"></cascett>
         <cascett chi="html" classe="vista editor" ruolo="tabpanel" aria-labelledby="scheda-html" annascuso></cascett>
         <cascett chi="vocabolario" classe="vista vocabolario" ruolo="tabpanel" aria-labelledby="scheda-vocabolario" turno="0" annascuso>
-          <targhett classe="cerca">
+          <etichetta classe="cerca">
             <scatulell>Cerca na parola</scatulell>
             <miett chi="cerca" tipo="cerca" esempio="cascett, div, quanno…">
-          </targhett>
+          </etichetta>
           <cascett chi="parole"></cascett>
           <chiacchier chi="nisciuna" classe="nisciuna" annascuso></chiacchier>
         </cascett>

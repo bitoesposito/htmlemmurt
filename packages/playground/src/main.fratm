@@ -378,7 +378,7 @@ pesca("parole").append(
             (a.values ?? []).map(([n, h]) => `${n} → ${h}`).join(", "),
         ].filter(Boolean).join(" · "),
     ])),
-    tavula("Eventi, cu FratmScript dint'ê virgulette", ["htmlemmurt", "HTML"], v.events),
+    tavula("Eventi, cu FratmScript dint'ê virgulette", ["htmlemmurt", "HTML"], v.events.map(([nap, h]) => [nap, h])),
 )
 pesca("cerca").addEventListener("input", (evento) => {
     chist è cosa = evento.target.value.trim().toLowerCase()

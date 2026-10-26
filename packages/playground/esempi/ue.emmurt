@@ -1,6 +1,6 @@
-<cristian lengua="it">
+<cristian lingua="it">
   <capa>
-    <titulo>Uè!</titulo>
+    <titolo>Uè!</titolo>
     <cess>
       body { font-family: system-ui, sans-serif; text-align: center; padding: 2rem; }
       button { font: inherit; padding: .5rem 1.2rem; cursor: pointer; }
