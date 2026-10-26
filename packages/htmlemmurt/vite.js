@@ -1,12 +1,10 @@
-// Vite plugin: .emmurt pages are the app's HTML entries, .fratm files its
-// modules. `x.emmurt` is served and built as `x.html`.
+// Vite plugin: .emmurt pages are the app's HTML entries. `x.emmurt` is
+// served and built as `x.html`. The .fratm modules they load are compiled by
+// FratmScript's own plugin, `fratmscript/vite`.
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, relative, resolve, sep } from 'node:path';
-import { compile, compileFratm, formatError } from './index.js';
+import { compile, formatError } from './index.js';
 
-const FRATM = /\.fratm$/;
-// A request for a .fratm file that Vite would serve as it is
-const RAW_FRATM_REQUEST = /^[^?#]*\.fratm(?:$|[?#])/;
 // A page starts with <cristian>, maybe after comments
 const PAGE = /^\s*(?:<!--[\s\S]*?-->\s*)*<cristian[\s>/]/i;
 const SKIP_DIRS = new Set(['node_modules', 'dist', 'public']);
@@ -59,14 +57,6 @@ export default function htmlemmurt() {
       return html;
     },
 
-    transform(source, id) {
-      const file = id.split('?', 1)[0];
-      if (!FRATM.test(file)) return null;
-      const { code, map, errors } = compileFratm(source, { filename: file });
-      if (errors.length > 0) this.error(errorFor(errors[0]));
-      return { code, map };
-    },
-
     configureServer(server) {
       const reload = (file) => {
         if (file.endsWith('.emmurt')) server.ws.send({ type: 'full-reload' });
@@ -77,12 +67,6 @@ export default function htmlemmurt() {
 
       server.middlewares.use(async (req, res, next) => {
         if (!req.url) return next();
-        // The dev server only compiles requests it knows are modules. Imports
-        // between modules get `?import`, the <script src> of a page does not
-        if (RAW_FRATM_REQUEST.test(req.url) && !/[?&]import(?:[=&#]|$)/.test(req.url)) {
-          req.url += req.url.includes('?') ? '&import' : '?import';
-          return next();
-        }
         if (req.method !== 'GET' && req.method !== 'HEAD') return next();
         let path = decodeURIComponent(req.url.split(/[?#]/, 1)[0]);
         if (path.endsWith('/')) path += 'index.html';

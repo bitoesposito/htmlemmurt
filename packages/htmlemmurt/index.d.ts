@@ -36,24 +36,16 @@ export interface CompileResult {
   errors: EmmurtError[];
 }
 
-export interface FratmResult {
-  /** The JavaScript, or null when there are errors */
-  code: string | null;
-  /** Source map (v3) back to the .fratm file */
-  map: { version: number; file: string; sources: string[]; sourcesContent: string[]; names: string[]; mappings: string } | null;
-  errors: EmmurtError[];
-}
-
 export interface Vocabulary {
-  tags: [string, string][];
-  attributes: { nap: string; html: string; only?: string[]; values?: [string, string][] }[];
-  events: [string, string][];
+  /** [Neapolitan, HTML, description in Neapolitan] */
+  tags: [string, string, string][];
+  attributes: { nap: string; html: string; react: string; only?: string[]; values?: [string, string][] }[];
+  /** [Neapolitan, HTML, React prop] */
+  events: [string, string, string][];
 }
 
 /** Compiles htmlemmurt to HTML. Never throws on invalid source: check `errors`. */
 export function compile(source: string, options?: CompileOptions): CompileResult;
-/** Compiles a FratmScript module to JavaScript. */
-export function compileFratm(source: string, options?: { filename?: string }): FratmResult;
 /** Every Neapolitan name and its HTML. */
 export function vocabulary(): Vocabulary;
 /** Version of the compiler. */
