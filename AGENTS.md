@@ -56,7 +56,7 @@ Dopo una modifica al compilatore, `npm run build` in `packages/htmlemmurt` rigen
 
 ## Documentazione e backlog
 
-- Niente `PLAN.md`, `ROADMAP.md`, `docs/` o note di progetto nel repo. Documentazione ammessa: i README, i commenti nel codice, questo file e `CLAUDE.md`.
+- Niente `PLAN.md`, `ROADMAP.md` o note di progetto nel repo. Documentazione ammessa: i README, i commenti nel codice, questo file, `CLAUDE.md` e `docs/neapoletan-dictionary.md`, il dizionario concordato con FratmScript (cambia insieme a `fratm-core/src/html.rs`).
 - Il backlog sta nelle issue di GitHub.
 
 ## Commit e PR
