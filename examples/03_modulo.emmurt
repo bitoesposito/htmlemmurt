@@ -1,37 +1,37 @@
-<cristian lengua="it">
+<cristian lingua="it">
   <capa>
-    <titulo>Nu modulo</titulo>
+    <titolo>Nu modulo</titolo>
   </capa>
   <panz>
     <modulo addo="/ordina" metodo="manna" ricorda="no">
       <recinto>
         <leggenda>Chi si'?</leggenda>
-        <targhett pe="nomme">Nomme</targhett>
-        <miett chi="nomme" nomme="nomme" tipo="testo" esempio="Gennaro" poffozza subbeto>
-        <targhett pe="posta">Posta</targhett>
+        <etichetta pe="nomme">Nomme</etichetta>
+        <miett chi="nomme" nomme="nomme" tipo="testo" esempio="Gennaro" obbligatorio subbeto>
+        <etichetta pe="posta">Posta</etichetta>
         <miett chi="posta" nomme="posta" tipo="posta" esempio="gennaro@pizza.it">
-        <targhett pe="parola">Parola segreta</targhett>
+        <etichetta pe="parola">Parola segreta</etichetta>
         <miett chi="parola" nomme="parola" tipo="fattimiei" lunghezzaminima="8">
       </recinto>
       <recinto>
         <leggenda>Che pizza vuò?</leggenda>
         <scegli nomme="pizza">
           <gruppo etichetta="Rosse">
-            <scelta valore="margherita" scigliuto>Margherita</scelta>
-            <scelta valore="marinara">Marinara</scelta>
+            <opzione valore="margherita" scigliuto>Margherita</opzione>
+            <opzione valore="marinara">Marinara</opzione>
           </gruppo>
-          <scelta valore="bianca">Bianca</scelta>
+          <opzione valore="bianca">Bianca</opzione>
         </scegli>
-        <targhett><miett tipo="spunta" nomme="bufala" spuntato> Cu 'a bufala</targhett>
-        <targhett><miett tipo="pallino" nomme="cottura" valore="normale" spuntato> Normale</targhett>
-        <targhett><miett tipo="pallino" nomme="cottura" valore="ben-cotta"> Ben cotta</targhett>
-        <targhett pe="quante">Quante?</targhett>
+        <etichetta><miett tipo="spunta" nomme="bufala" spuntato> Cu 'a bufala</etichetta>
+        <etichetta><miett tipo="pallino" nomme="cottura" valore="normale" spuntato> Normale</etichetta>
+        <etichetta><miett tipo="pallino" nomme="cottura" valore="ben-cotta"> Ben cotta</etichetta>
+        <etichetta pe="quante">Quante?</etichetta>
         <miett chi="quante" nomme="quante" tipo="numero" minimo="1" massimo="20" passo="1" valore="1">
-        <targhett pe="quanno">Pe' quanno?</targhett>
+        <etichetta pe="quanno">Pe' quanno?</etichetta>
         <miett chi="quanno" nomme="quanno" tipo="dataeora">
         <miett nomme="tavolo" tipo="annascuso" valore="7">
       </recinto>
-      <targhett pe="note">Note</targhett>
+      <etichetta pe="note">Note</etichetta>
       <ragionamento chi="note" nomme="note" righe="3" colonne="40" esempio="Senza aglio, pe' piacere"></ragionamento>
       <avanzamento valore="2" massimo="3">2 'e 3</avanzamento>
       <citofono tipo="manna">Ordina</citofono>

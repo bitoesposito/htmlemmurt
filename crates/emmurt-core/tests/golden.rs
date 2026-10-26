@@ -80,13 +80,13 @@ fn golden() {
 
 #[test]
 fn readme_lists_the_whole_vocabulary() {
-    use emmurt_core::vocabolario::{ATTRS, EVENTS, TAGS};
+    use emmurt_core::vocabolario::{ATTRIBUTES, EVENTS, TAGS};
     let readme = fs::read_to_string(repo().join("README.md")).unwrap();
     let words = TAGS
         .iter()
-        .map(|(nap, _)| format!("`<{nap}>`"))
-        .chain(ATTRS.iter().map(|a| format!("`{}`", a.nap)))
-        .chain(EVENTS.iter().map(|(nap, _)| format!("`{nap}`")));
+        .map(|(nap, _, _)| format!("`<{nap}>`"))
+        .chain(ATTRIBUTES.iter().map(|a| format!("`{}`", a.nap)))
+        .chain(EVENTS.iter().map(|(nap, _, _)| format!("`{nap}`")));
     let missing: Vec<String> = words.filter(|w| !readme.contains(w.as_str())).collect();
     assert!(missing.is_empty(), "README.md misses {missing:?}");
 }

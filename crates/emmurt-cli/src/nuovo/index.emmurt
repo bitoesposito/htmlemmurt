@@ -1,7 +1,7 @@
-<cristian lengua="it">
+<cristian lingua="it">
   <capa>
     <inciucc nomme="viewport" cuntenuto="width=device-width, initial-scale=1">
-    <titulo>{{nomme}}</titulo>
+    <titolo>{{nomme}}</titolo>
     <attacca rapporto="stile" addo="/stile.css">
   </capa>
   <panz>

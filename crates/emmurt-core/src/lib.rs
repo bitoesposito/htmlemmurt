@@ -11,9 +11,11 @@
 //! ```
 //!
 //! It is strict: English names, tags closed in the wrong order and unclosed
-//! tags are errors, in Neapolitan, with line and column. `<fratm>` blocks and
-//! `quanno-*` handlers are FratmScript, compiled to JavaScript with
-//! `fratm-core`. `<chiamm da="pezzi/menu.emmurt" />` pastes another file in.
+//! tags are errors, in Neapolitan, with line and column. The words are the
+//! ones of `fratm_core::html`, shared with FratmScript's JSX. `<fratm>` blocks
+//! and `quanno-*` handlers are FratmScript, compiled to JavaScript with
+//! `fratm-core`; `<cess>` and `cess="…"` are CSS in Neapolitan, translated by
+//! its `stile`. `<chiamm da="pezzi/menu.emmurt" />` pastes another file in.
 
 mod lexer;
 pub mod vocabolario;
@@ -22,7 +24,7 @@ use std::fmt;
 
 use lexer::{Pos, Tag, Token};
 use serde::Serialize;
-use vocabolario::{Attr, INCLUDE, UNTRANSLATED, VOID};
+use vocabolario::{Attribute, INCLUDE, UNTRANSLATED, VOID};
 
 /// What to do with `<fratm da="file.fratm">`.
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
@@ -139,12 +141,6 @@ pub fn compile(source: &str, options: &Options) -> Result<Output, Error> {
     })
 }
 
-/// Compiles a `.fratm` module of a page: its JavaScript and a v3 source map (JSON).
-pub fn compile_fratm(source: &str, filename: &str) -> Result<(String, Option<String>), Error> {
-    let result = fratm(source, filename, Pos { line: 1, column: 1 }, true)?;
-    Ok((result.code, result.source_map.map(|m| m.to_json())))
-}
-
 struct Compiler<'a> {
     options: &'a Options<'a>,
     /// The page and the includes being compiled, innermost last.
@@ -181,18 +177,22 @@ impl Compiler<'_> {
                 Token::Start(tag) => {
                     let (html, custom) = self.element(&tag.name, tag.pos)?;
                     let mut attrs = self.attrs(&tag, &html, custom)?;
-                    let mut content = String::new();
-                    if tag.name.to_lowercase() == "fratm" {
-                        // The lexer puts the content right after a start tag that is not self-closing
-                        let raw = match tag.self_closing {
-                            true => None,
-                            false => match tokens.next() {
-                                Some(Token::Raw { text, pos }) => Some((text, pos)),
-                                _ => None,
-                            },
-                        };
-                        content = self.script(&tag, &mut attrs, raw)?;
-                    }
+                    // The lexer puts the content right after a start tag that is not self-closing
+                    let mut raw = || match tag.self_closing {
+                        true => None,
+                        false => match tokens.next() {
+                            Some(Token::Raw { text, pos }) => Some((text, pos)),
+                            _ => None,
+                        },
+                    };
+                    let content = match html.as_str() {
+                        "script" => self.script(&tag, &mut attrs, raw())?,
+                        "style" => match raw() {
+                            Some((text, pos)) => self.css(&text, pos)?,
+                            None => String::new(),
+                        },
+                        _ => String::new(),
+                    };
                     out.push('<');
                     out.push_str(&html);
                     for (name, value) in &attrs {
@@ -284,7 +284,8 @@ impl Compiler<'_> {
         let fail =
             if let Some(nap) = vocabolario::tag_for_html(&lower) {
                 let hint = if lower == "script" {
-                    "Vuoi dire <fratm>? Pe' JavaScript ce sta <copione>.".to_string()
+                    "Vuoi dire <fratm>? Pe' JavaScript normale miette tipo=\"text/javascript\"."
+                        .to_string()
                 } else {
                     format!("Vuoi dire <{nap}>?")
                 };
@@ -294,7 +295,7 @@ impl Compiler<'_> {
                 "Si te serve, arape na issue: https://github.com/bitoesposito/htmlemmurt/issues",
             )
             } else {
-                let names = vocabolario::TAGS.iter().map(|(n, _)| *n);
+                let names = vocabolario::TAGS.iter().map(|(n, _, _)| *n);
                 let hint = match vocabolario::closest(&lower, names) {
                     Some(n) => format!("Vuoi dire <{n}>?"),
                     None => "'E nomme stanno int'a tabella: emmurt vocabolario. \
@@ -320,7 +321,7 @@ impl Compiler<'_> {
                 (a.name.clone(), a.value.as_deref().map(quote))
             } else if lower.starts_with("quanno-") {
                 let Some(html) = vocabolario::event(&lower) else {
-                    let names = vocabolario::EVENTS.iter().map(|(n, _)| *n);
+                    let names = vocabolario::EVENTS.iter().map(|(n, _, _)| *n);
                     let hint = match vocabolario::closest(&lower, names) {
                         Some(n) => format!("Vuoi dire '{n}'?"),
                         None => format!("'E eventi so': {}.", event_list()),
@@ -328,10 +329,11 @@ impl Compiler<'_> {
                     return Err(self.fail(fail(format!("'{}' nun 'o cunosco.", a.name)).hint(hint)));
                 };
                 let code = decode(a.value.as_deref().unwrap_or_default());
-                let js = fratm(&code, self.file(), a.value_pos, false)?.code;
+                let js = fratm(&code, self.file(), a.value_pos)?.code;
                 (html.to_string(), Some(escape_attr(js.trim_end())))
             } else if let Some(attr) = vocabolario::attr_for(&lower, element) {
                 let value = match &a.value {
+                    Some(v) if attr.html == "style" => Some(quote(&self.css(v, a.value_pos)?)),
                     Some(v) => Some(self.value(attr, a, v)?),
                     None => None,
                 };
@@ -354,7 +356,7 @@ impl Compiler<'_> {
             } else if custom {
                 (a.name.clone(), a.value.as_deref().map(quote))
             } else {
-                let names = vocabolario::ATTRS
+                let names = vocabolario::ATTRIBUTES
                     .iter()
                     .filter(|x| vocabolario::applies(x, element))
                     .map(|x| x.nap);
@@ -378,7 +380,7 @@ impl Compiler<'_> {
         Ok(out)
     }
 
-    fn value(&self, attr: &Attr, a: &lexer::Attr, value: &str) -> Result<String, Error> {
+    fn value(&self, attr: &Attribute, a: &lexer::Attr, value: &str) -> Result<String, Error> {
         let lower = value.trim().to_lowercase();
         if let Some((_, html)) = attr.values.iter().find(|(n, _)| *n == lower) {
             return Ok(html.to_string());
@@ -395,13 +397,20 @@ impl Compiler<'_> {
         Ok(quote(value))
     }
 
-    /// The JavaScript of a `<fratm>` element; may rewrite its attributes.
+    /// The content of a `<fratm>` element; may rewrite its attributes. It is
+    /// FratmScript, unless `tipo` names something else (`application/ld+json`,
+    /// `importmap`, `text/javascript`): then it is copied as written, as HTML
+    /// does with `type`.
     fn script(
         &mut self,
         tag: &Tag,
         attrs: &mut Vec<(String, Option<String>)>,
         raw: Option<(String, Pos)>,
     ) -> Result<String, Error> {
+        let kind = attrs.iter().find(|(n, _)| n == "type");
+        if kind.is_some_and(|(_, v)| v.as_deref() != Some("module")) {
+            return Ok(raw.map(|(text, _)| text).unwrap_or_default());
+        }
         let has_code = raw.as_ref().is_some_and(|(t, _)| !t.trim().is_empty());
         let src = attrs.iter().position(|(n, _)| n == "src");
         let js = match src {
@@ -414,22 +423,27 @@ impl Compiler<'_> {
             }
             Some(i) => {
                 let src = attrs[i].1.clone().unwrap_or_default();
+                // Only .fratm files are FratmScript: any other script loads as it is
+                let path = src.split(['?', '#']).next().unwrap_or_default();
+                if !path.ends_with(".fratm") {
+                    return Ok(String::new());
+                }
                 let local = !src.contains("://") && !src.starts_with("//");
                 if self.options.fratm_src == FratmSrc::Inline && local {
                     let path = join(self.file(), &src);
                     let source = self.read(&path, &src, tag.attrs[i].value_pos)?;
                     attrs.remove(i);
-                    fratm(&source, &path, Pos { line: 1, column: 1 }, false)?.code
+                    fratm(&source, &path, Pos { line: 1, column: 1 })?.code
                 } else {
                     // A bundler compiles the file: it has to load as a module
-                    if !attrs.iter().any(|(n, _)| n == "type") {
+                    if kind.is_none() {
                         attrs.push(("type".into(), Some("module".into())));
                     }
                     return Ok(String::new());
                 }
             }
             None => match raw {
-                Some((text, pos)) if has_code => fratm(&text, self.file(), pos, false)?.code,
+                Some((text, pos)) if has_code => fratm(&text, self.file(), pos)?.code,
                 _ => String::new(),
             },
         };
@@ -437,6 +451,29 @@ impl Compiler<'_> {
             attrs.push(("type".into(), Some("module".into())));
         }
         Ok(format!("\n{}", escape_script(&js)))
+    }
+
+    /// CSS in Neapolitan that starts at `at`, translated by FratmScript's
+    /// `stile`; plain CSS passes through.
+    fn css(&self, text: &str, at: Pos) -> Result<String, Error> {
+        match fratm_core::stile::translate(&[text.to_string()]) {
+            Ok(mut chunks) => Ok(chunks.remove(0)),
+            Err(e) => {
+                let (line, column) = (e.position.line, e.position.column);
+                let pos = if line == 0 {
+                    Pos {
+                        line: at.line,
+                        column: at.column + column,
+                    }
+                } else {
+                    Pos {
+                        line: at.line + line,
+                        column: column + 1,
+                    }
+                };
+                Err(self.fail(Fail::new(pos, e.message)))
+            }
+        }
     }
 
     /// `<chiamm da="…" />`: the compiled content of another file.
@@ -492,15 +529,9 @@ impl Compiler<'_> {
 
 /// Compiles FratmScript that starts at `at` in `file`, moving error
 /// positions there.
-fn fratm(
-    code: &str,
-    file: &str,
-    at: Pos,
-    source_map: bool,
-) -> Result<fratm_core::CompileResult, Error> {
+fn fratm(code: &str, file: &str, at: Pos) -> Result<fratm_core::CompileResult, Error> {
     let options = fratm_core::CompileOptions {
         filename: Some(file.to_string()),
-        source_map,
         ..Default::default()
     };
     fratm_core::compile(code, options).map_err(|e| {
@@ -535,7 +566,7 @@ fn fratm(
 fn event_list() -> String {
     vocabolario::EVENTS
         .iter()
-        .map(|(n, _)| *n)
+        .map(|(n, _, _)| *n)
         .collect::<Vec<_>>()
         .join(", ")
 }
@@ -678,7 +709,7 @@ mod tests {
             "<button type=\"button\" class=\"a &quot;b&quot;\" disabled>Sforna</button>"
         );
         assert_eq!(
-            html("<modulo addo=\"/ordina\" metodo=\"manna\"><miett tipo=\"posta\" poffozza></modulo>"),
+            html("<modulo addo=\"/ordina\" metodo=\"manna\"><miett tipo=\"posta\" obbligatorio></modulo>"),
             "<form action=\"/ordina\" method=\"post\"><input type=\"email\" required></form>"
         );
         assert_eq!(
@@ -708,15 +739,29 @@ mod tests {
     #[test]
     fn raw_elements_keep_their_content() {
         assert_eq!(
-            html("<cess>div > p { color: red }</cess><titulo>a <b></titulo>"),
+            html("<cess>div > p { color: red }</cess><titolo>a <b></titolo>"),
             "<style>div > p { color: red }</style><title>a <b></title>"
         );
     }
 
     #[test]
+    fn cess_is_css_in_neapolitan() {
+        assert_eq!(
+            html("<cess>citofono:passanno { culore: russo; spazio: 8px }</cess>"),
+            "<style>button:hover { color: red; padding: 8px }</style>"
+        );
+        assert_eq!(
+            html("<cascett cess=\"culore: russo; sfunno-culore: janco\"></cascett>"),
+            "<div style=\"color: red; background-color: white\"></div>"
+        );
+        let e = error("<cess>\n  cascett { culore russo }\n</cess>");
+        assert_eq!(e.line, 2, "{e}");
+    }
+
+    #[test]
     fn pages_get_doctype_and_charset() {
         assert_eq!(
-            html("<cristian lengua=\"nap\">\n<capa>\n  <titulo>Uè</titulo>\n</capa>\n</cristian>\n"),
+            html("<cristian lingua=\"nap\">\n<capa>\n  <titolo>Uè</titolo>\n</capa>\n</cristian>\n"),
             "<!DOCTYPE html>\n<html lang=\"nap\">\n<head>\n  <meta charset=\"utf-8\">\n  <title>Uè</title>\n</head>\n</html>\n"
         );
         let own = html("<cristian><capa><inciucc codifica=\"latin1\"></capa></cristian>");
@@ -738,9 +783,18 @@ mod tests {
             html("<fratm>stamm a dì(\"</script>\")</fratm>"),
             "<script>\nconsole.log(\"<\\/script>\");\n</script>"
         );
+        // Another type is not FratmScript: the content stays as written
         assert_eq!(
-            html("<copione>console.log(1)</copione>"),
-            "<script>console.log(1)</script>"
+            html("<fratm tipo=\"text/javascript\">var a = 1 < 2</fratm>"),
+            "<script type=\"text/javascript\">var a = 1 < 2</script>"
+        );
+        assert_eq!(
+            html("<fratm tipo=\"application/ld+json\">{\"@type\": \"Pizzeria\"}</fratm>"),
+            "<script type=\"application/ld+json\">{\"@type\": \"Pizzeria\"}</script>"
+        );
+        assert_eq!(
+            html("<fratm tipo=\"modulo\">chiamm { a } da \"./a.js\"</fratm>"),
+            "<script type=\"module\">\nimport { a } from \"./a.js\";\n</script>"
         );
     }
 
@@ -753,6 +807,11 @@ mod tests {
         assert_eq!(
             html("<fratm da=\"main.fratm\" /><pere></pere>"),
             "<script src=\"main.fratm\" type=\"module\"></script><footer></footer>"
+        );
+        // Only .fratm files are compiled: other scripts load as they are
+        assert_eq!(
+            html("<fratm da=\"lib.js\" aropp /><fratm da=\"https://cdn.example/x.js\" />"),
+            "<script src=\"lib.js\" defer></script><script src=\"https://cdn.example/x.js\"></script>"
         );
         let out = with_files(
             &[("sito/main.fratm", "stamm a dì(1)")],
