@@ -6,10 +6,10 @@
     ],
     "description": "Na paggena sana",
     "body": [
-      "<cristian lengua=\"${1:it}\">",
+      "<cristian lingua=\"${1:it}\">",
       "  <capa>",
       "    <inciucc nomme=\"viewport\" cuntenuto=\"width=device-width, initial-scale=1\">",
-      "    <titulo>${2:Titolo}</titulo>",
+      "    <titolo>${2:Titolo}</titolo>",
       "  </capa>",
       "  <panz>",
       "    $0",
@@ -61,7 +61,7 @@
     "description": "Nu modulo cu nu miett",
     "body": [
       "<modulo addo=\"${1:/manna}\" metodo=\"manna\">",
-      "  <targhett pe=\"${2:nomme}\">${3:Nomme}</targhett>",
+      "  <etichetta pe=\"${2:nomme}\">${3:Nomme}</etichetta>",
       "  <miett chi=\"$2\" nomme=\"$2\" tipo=\"testo\">",
       "  <citofono tipo=\"manna\">${4:Manna}</citofono>",
       "</modulo>"

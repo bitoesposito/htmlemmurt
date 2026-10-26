@@ -6,7 +6,6 @@
   "patterns": [
     { "include": "#comment" },
     { "include": "#fratm" },
-    { "include": "#copione" },
     { "include": "#cess" },
     { "include": "#chiamm" },
     { "include": "#tag" },
@@ -43,28 +42,6 @@
           "end": "(?i)(?=</fratm\\s*>)",
           "contentName": "meta.embedded.block.fratm source.fratm",
           "patterns": [{ "include": "source.fratm" }, { "include": "source.js" }]
-        }
-      ]
-    },
-    "copione": {
-      "begin": "(?i)(<)(copione)\\b(?![^>]*/>)",
-      "beginCaptures": {
-        "1": { "name": "punctuation.definition.tag.begin.html" },
-        "2": { "name": "entity.name.tag.html" }
-      },
-      "end": "(?i)(</)(copione)\\s*(>)",
-      "endCaptures": {
-        "1": { "name": "punctuation.definition.tag.begin.html" },
-        "2": { "name": "entity.name.tag.html" },
-        "3": { "name": "punctuation.definition.tag.end.html" }
-      },
-      "patterns": [
-        { "include": "#start-tag-rest" },
-        {
-          "begin": "(?<=>)",
-          "end": "(?i)(?=</copione\\s*>)",
-          "contentName": "meta.embedded.block.javascript source.js",
-          "patterns": [{ "include": "source.js" }]
         }
       ]
     },
