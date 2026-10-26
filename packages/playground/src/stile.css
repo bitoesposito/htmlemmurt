@@ -3,19 +3,21 @@
   --carta: #ffffff;
   --mare: #0f2b40;
   --mare-tenue: #4d6578;
-  --azzurro: #1a86c8;
+  --azzurro: #1a6fa8;
   --su-azzurro: #ffffff;
   --tufo: #dfe6ec;
+  /* Borders of fields: 3:1 against paper and page */
+  --filo: #7f92a3;
   --arancio: #e1542c;
   --sbaglio: #b42318;
   --riga-attiva: #f0f5f9;
-  --selezione: #cfe6f6;
+  --selezione: #dcedf9;
 
   --c-tag: #1a6fa8;
   --c-attributo: #8a5a00;
   --c-valore: #1d7a4c;
-  --c-commento: #7b8d9b;
-  --c-punteggiatura: #6b7f8f;
+  --c-commento: #5c6f7f;
+  --c-punteggiatura: #56697a;
 
   --sans: "Instrument Sans", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, monospace;
@@ -33,15 +35,16 @@
     --azzurro: #5bb4ea;
     --su-azzurro: #06131c;
     --tufo: #1f3647;
+    --filo: #557089;
     --arancio: #f0703f;
     --sbaglio: #ff8a7a;
     --riga-attiva: #13293b;
-    --selezione: #1d4462;
+    --selezione: #173a55;
 
     --c-tag: #6cc0f0;
     --c-attributo: #e6b45c;
     --c-valore: #7fd3a4;
-    --c-commento: #6f8698;
+    --c-commento: #879cad;
     --c-punteggiatura: #8aa0b2;
 
     color-scheme: dark;
@@ -140,8 +143,13 @@ select,
 input {
   padding: 0.35rem 0.5rem;
   background: var(--carta);
-  border: 1px solid var(--tufo);
+  border: 1px solid var(--filo);
   border-radius: 6px;
+}
+
+::placeholder {
+  color: var(--mare-tenue);
+  opacity: 1;
 }
 
 #condividi {
@@ -154,7 +162,15 @@ input {
 }
 
 #condividi:hover {
-  filter: brightness(1.08);
+  filter: brightness(0.9);
+}
+
+/* Wide enough for "Copialo d'a barra", so the bar does not jump when the
+   label changes. On phones the row is too short for it */
+@media (pointer: fine) {
+  #condividi {
+    min-width: 10.5em;
+  }
 }
 
 /* Banco: sorgente a sinistra, risultato a destra */
@@ -214,6 +230,7 @@ input {
 
 .stato.sbagliato {
   color: var(--sbaglio);
+  background: color-mix(in srgb, var(--sbaglio) 8%, var(--carta));
 }
 
 /* Schede */
@@ -243,11 +260,34 @@ input {
   min-height: 0;
 }
 
+#anteprima {
+  position: relative;
+}
+
 #anteprima iframe {
   width: 100%;
   height: 100%;
   border: 0;
   background: #fff;
+}
+
+/* After a compile error the preview and the HTML are the last good build */
+.vista[data-vecchia] > * {
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+
+#anteprima[data-vecchia]::before {
+  content: "Chesta è 'a paggena d'apprimma. Aggiusta l'errore e se ricarica.";
+  position: absolute;
+  inset: 0.75rem 0.75rem auto;
+  z-index: 1;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--sbaglio);
+  background: var(--carta);
+  border: 1px solid currentColor;
+  border-radius: 6px;
 }
 
 /* Vocabolario */
@@ -277,10 +317,21 @@ input {
   font-size: 0.85rem;
 }
 
+.vocabolario th,
 .vocabolario td {
   padding: 0.3rem 0.5rem;
   border-bottom: 1px solid var(--tufo);
+  text-align: left;
   vertical-align: top;
+}
+
+.vocabolario th {
+  font-weight: 500;
+  color: var(--mare-tenue);
+}
+
+.nisciuna {
+  color: var(--mare-tenue);
 }
 
 .vocabolario td:first-child {
@@ -344,6 +395,29 @@ input {
 
 .pere p {
   margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cm-cursorLayer {
+    animation: none !important;
+  }
+}
+
+/* Touch: 44px targets, and 16px fields so iOS does not zoom in on focus */
+@media (pointer: coarse) {
+  .comandi a,
+  .pere a {
+    display: inline-block;
+    padding-block: 0.75rem;
+  }
+
+  .comandi select,
+  #condividi,
+  .scheda,
+  .cerca input {
+    min-height: 44px;
+    font-size: 16px;
+  }
 }
 
 @media (max-width: 860px) {

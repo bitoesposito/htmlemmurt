@@ -109,6 +109,16 @@ async function playgroundWorks(browser, base) {
   await page.waitForFunction(() => document.querySelector('#stato').textContent.includes('nun è napoletano'));
   assert.match(await stato.textContent(), /Vuoi dire <cascett>\?/);
   await page.locator('.cm-lintRange-error').first().waitFor();
+  await page.locator('#anteprima[data-vecchia]').waitFor({ state: 'attached' });
+
+  // The editor completes with Neapolitan names, never English HTML
+  await page.click('#editor .cm-content');
+  await page.keyboard.press('Control+End');
+  await page.keyboard.type('\n<cas');
+  await page.locator('.cm-tooltip-autocomplete li').first().waitFor();
+  const proposte = await page.locator('.cm-tooltip-autocomplete li').allTextContents();
+  assert.ok(proposte.some((p) => p.startsWith('cascett')) && !proposte.some((p) => p.startsWith('canvas')), proposte.join());
+  await page.keyboard.press('Escape');
 
   // The shared link opens the same code
   await page.selectOption('#esempi', { label: 'Nu modulo' });
@@ -123,6 +133,8 @@ async function playgroundWorks(browser, base) {
   const shared = await open(browser, link);
   await shared.waitForFunction(() => document.querySelector('#stato').textContent.includes('Tutto a posto'));
   await shared.frameLocator('#anteprima iframe').locator('form').waitFor();
+  // Once open, the code lives in localStorage: a reload after an edit keeps the edit
+  assert.equal(await shared.evaluate(() => location.hash), '');
   assert.deepEqual(shared.problems.filter((p) => !p.startsWith('Blocked autofocusing')), []);
   await shared.close();
 }

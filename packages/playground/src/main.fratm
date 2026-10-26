@@ -2,9 +2,9 @@
 
 chiamm { EditorView, basicSetup } da "codemirror"
 chiamm { EditorState } da "@codemirror/state"
-chiamm { html } da "@codemirror/lang-html"
+chiamm { html, htmlLanguage, autoCloseTags } da "@codemirror/lang-html"
 chiamm { setDiagnostics, lintGutter } da "@codemirror/lint"
-chiamm { HighlightStyle, syntaxHighlighting } da "@codemirror/language"
+chiamm { HighlightStyle, syntaxHighlighting, syntaxTree } da "@codemirror/language"
 chiamm { tags } da "@lezer/highlight"
 chiamm { init, compile, vocabulary, runtimeError } da "htmlemmurt/web"
 chiamm ue da "../esempi/ue.emmurt?raw"
@@ -37,12 +37,63 @@ chist è colori = HighlightStyle.define([
 
 chist è tema = EditorView.theme({
     "&": { height: "100%", fontSize: "14px", backgroundColor: "var(--carta)", color: "var(--mare)" },
+    // .editor taglia l'outline 'e CodeMirror: 'o focus se vede ccà dinto
+    "&.cm-focused": { outline: "2px solid var(--azzurro)", outlineOffset: "-2px" },
     ".cm-scroller": { fontFamily: "var(--mono)", lineHeight: "1.6" },
     ".cm-gutters": { backgroundColor: "var(--carta)", color: "var(--c-commento)", border: "none" },
     ".cm-activeLine, .cm-activeLineGutter": { backgroundColor: "var(--riga-attiva)" },
     "&.cm-focused .cm-cursor": { borderLeftColor: "var(--azzurro)" },
     "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, ::selection": { backgroundColor: "var(--selezione)" },
 })
+
+// ---------- Completamento: sulo 'e parole d'o vocabolario, maje l'HTML inglese
+
+tien parole = nisciun
+
+// Comme fa @codemirror/lang-html: elemento, attributo o valore a seconda 'e addò sta 'o cursore
+facc completa(ctx) {
+    si (!parole) {
+        piglie nisciun
+    }
+    chist è nodo = syntaxTree(ctx.state).resolveInner(ctx.pos, -1)
+    chist è testo = (n) => ctx.state.sliceDoc(n.from, n.to).toLowerCase()
+    chist è nomme = /^[\p{L}\p{N}-]*$/u
+    si (["StartTag", "IncompleteTag", "StartCloseTag", "IncompleteCloseTag", "TagName"].includes(nodo.name)) {
+        piglie { from: nodo.name === "TagName" ? nodo.from : ctx.pos, options: parole.elementi, validFor: nomme }
+    }
+    tien tag = nodo
+    mentre che (tag && tag.name !== "OpenTag" && tag.name !== "SelfClosingTag") {
+        tag = tag.parent
+    }
+    chist è nommeTag = tag?.getChild("TagName")
+    si (!nommeTag) {
+        piglie nisciun
+    }
+    chist è elemento = parole.html[testo(nommeTag)] ?? testo(nommeTag)
+    chist è vale = (a) => !a.only || a.only.includes(elemento)
+    si (["OpenTag", "SelfClosingTag", "AttributeName"].includes(nodo.name)) {
+        chist è visti = nu bell Set()
+        chist è opzioni = []
+        pe ogni (chist è a dint parole.attributi) {
+            si (vale(a) && !visti.has(a.nap)) {
+                visti.add(a.nap)
+                opzioni.push({ label: a.nap, detail: a.html, type: "property" })
+            }
+        }
+        piglie { from: nodo.name === "AttributeName" ? nodo.from : ctx.pos, options: [...opzioni, ...parole.eventi], validFor: nomme }
+    }
+    si (nodo.name === "AttributeValue" || nodo.name === "UnquotedAttributeValue") {
+        chist è attributo = nodo.parent.getChild("AttributeName")
+        chist è a = attributo && parole.attributi.find((x) => x.nap === testo(attributo) && vale(x))
+        si (!a?.values) {
+            piglie nisciun
+        }
+        chist è virgulette = /^["']/.test(testo(nodo)) ? 1 : 0
+        chist è opzioni = a.values.map(([label, detail]) => ({ label, detail, type: "enum" }))
+        piglie { from: nodo.from + virgulette, options: opzioni, validFor: /^[^"'\s]*$/ }
+    }
+    piglie nisciun
+}
 
 // ---------- Compilazione
 
@@ -59,6 +110,15 @@ facc segnala(e) {
         diagnosi = [{ from: inizio, to: Math.max(fine, inizio), severity: "error", message: testoErrore }]
     }
     sorgente.dispatch(setDiagnostics(sorgente.state, diagnosi))
+}
+
+// Riscrive 'o stato sulo quanno cagne, accussì 'o lettore 'e schermo nun 'o ripete a ogni tasto
+facc dici(classe, testo) {
+    chist è stato = pesca("stato")
+    stato.className = classe
+    si (stato.textContent !== testo) {
+        stato.textContent = testo
+    }
 }
 
 // Mette nella paggena nu script ca manna 'a console e l'errori a 'o playground
@@ -93,7 +153,15 @@ chist è uscita = nu bell EditorView({
     parent: pesca("html"),
     state: EditorState.create({
         doc: "",
-        extensions: [basicSetup, html(), syntaxHighlighting(colori), tema, EditorState.readOnly.of(overo), EditorView.editable.of(sfòls)],
+        extensions: [
+            basicSetup,
+            html(),
+            syntaxHighlighting(colori),
+            tema,
+            EditorView.lineWrapping,
+            EditorState.readOnly.of(overo),
+            EditorView.contentAttributes.of({ "aria-label": "HTML compilato" }),
+        ],
     }),
 })
 
@@ -121,14 +189,15 @@ facc compila(codice) {
     chist è { html: risultato, errors } = compile(codice, { filename: "index.emmurt", inline: overo })
     chist è e = errors[0]
     segnala(e)
-    chist è stato = pesca("stato")
+    // Cu n'errore anteprima e HTML restano chille d'apprimma: se vede ca so' vecchie
+    pe ogni (chist è vista dint [pesca("anteprima"), pesca("html")]) {
+        vista.toggleAttribute("data-vecchia", Boolean(e))
+    }
     si (e) {
-        stato.className = "stato sbagliato"
-        stato.textContent = `✗ Riga ${e.line}, colonna ${e.column}: ${e.message}${e.suggestion ? " " + e.suggestion : ""}`
+        dici("stato sbagliato", `✗ Riga ${e.line}, colonna ${e.column}: ${e.message}${e.suggestion ? " " + e.suggestion : ""}`)
         piglie
     }
-    stato.className = "stato"
-    stato.textContent = "✓ Tutto a posto"
+    dici("stato", "✓ Tutto a posto")
     pesca("console").replaceChildren()
     anteprima.srcdoc = conSpia(risultato)
     uscita.dispatch({ changes: { from: 0, to: uscita.state.doc.length, insert: risultato } })
@@ -144,13 +213,21 @@ chist è sorgente = nu bell EditorView({
         doc: "",
         extensions: [
             basicSetup,
-            html(),
+            htmlLanguage,
+            htmlLanguage.data.of({ autocomplete: completa }),
+            autoCloseTags,
             syntaxHighlighting(colori),
             tema,
+            EditorView.lineWrapping,
+            EditorView.contentAttributes.of({ "aria-label": "Codice htmlemmurt" }),
             lintGutter(),
             EditorView.updateListener.of((u) => {
                 si (!u.docChanged) {
                     piglie
+                }
+                // 'O codice cagnato nun è cchiù chillo d'o link: 'o salvataggio locale vale 'e cchiù
+                si (location.hash) {
+                    history.replaceState(nisciun, "", location.pathname)
                 }
                 clearTimeout(attesa)
                 attesa = setTimeout(() => {
@@ -212,7 +289,8 @@ pe ogni (chist è [i, esempio] dint ESEMPI.entries()) {
 }
 pesca("esempi").addEventListener("change", (evento) => {
     metti(ESEMPI[Number(evento.target.value)].codice)
-    history.replaceState(nisciun, "", location.pathname)
+    // Torna a "Scegli…": l'editor nun è cchiù l'esempio appena 'o tocchi, e se po' ripiglià
+    evento.target.value = ""
 })
 
 // ---------- Schede: Anteprima, HTML, Vocabolario
@@ -234,9 +312,10 @@ facc apri(scheda) {
 pe ogni (chist è [i, scheda] dint schede.entries()) {
     scheda.addEventListener("click", () => apri(scheda))
     scheda.addEventListener("keydown", (evento) => {
-        chist è passo = evento.key === "ArrowRight" ? 1 : evento.key === "ArrowLeft" ? -1 : 0
-        si (passo !== 0) {
-            chist è prossima = schede[(i + passo + schede.length) % schede.length]
+        chist è dove = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: schede.length - 1 }[evento.key]
+        si (dove !== undefined) {
+            evento.preventDefault()
+            chist è prossima = schede[(dove + schede.length) % schede.length]
             apri(prossima)
             prossima.focus()
         }
@@ -245,17 +324,25 @@ pe ogni (chist è [i, scheda] dint schede.entries()) {
 
 // ---------- Vocabolario
 
-facc tavula(titolo, righe) {
+facc tavula(titolo, colonne, righe) {
     chist è piezz = document.createElement("section")
     chist è h = document.createElement("h2")
     h.textContent = titolo
     piezz.append(h)
     chist è t = document.createElement("table")
-    pe ogni (chist è [nap, htmlNome, nota] dint righe) {
-        chist è r = t.insertRow()
-        r.insertCell().textContent = nap
-        r.insertCell().textContent = htmlNome
-        r.insertCell().textContent = nota ?? ""
+    chist è capo = t.createTHead().insertRow()
+    pe ogni (chist è colonna dint colonne) {
+        chist è th = document.createElement("th")
+        th.scope = "col"
+        th.textContent = colonna
+        capo.append(th)
+    }
+    chist è cuorpo = t.createTBody()
+    pe ogni (chist è riga dint righe) {
+        chist è r = cuorpo.insertRow()
+        pe ogni (chist è cella dint riga) {
+            r.insertCell().textContent = cella
+        }
     }
     piezz.append(t)
     piglie piezz
@@ -263,13 +350,27 @@ facc tavula(titolo, righe) {
 
 // ---------- Si parte
 
-aspett init()
+pruvamm {
+    aspett init()
+} e si schiatta (e) {
+    dici("stato sbagliato", `✗ Nun riesco a carricà 'o compilatore: ${e.message}`)
+    iett e
+}
 
 chist è v = vocabulary()
 chist è nommeTag = Object.fromEntries(v.tags.map(([nap, h]) => [h, nap]))
+parole = {
+    elementi: [
+        ...v.tags.map(([nap, h]) => ({ label: nap, detail: `<${h}>`, type: "type" })),
+        { label: "chiamm", detail: "ncolla n'atu file", type: "type" },
+    ],
+    html: Object.fromEntries(v.tags),
+    attributi: v.attributes,
+    eventi: v.events.map(([nap, h]) => ({ label: nap, detail: `${h} (FratmScript)`, type: "event" })),
+}
 pesca("parole").append(
-    tavula("Elementi", v.tags.map(([nap, h]) => [`<${nap}>`, `<${h}>`])),
-    tavula("Attributi", v.attributes.map((a) => [
+    tavula("Elementi", ["htmlemmurt", "HTML"], v.tags.map(([nap, h]) => [`<${nap}>`, `<${h}>`])),
+    tavula("Attributi", ["htmlemmurt", "HTML", "Addò e valori"], v.attributes.map((a) => [
         a.nap,
         a.html,
         [
@@ -277,13 +378,19 @@ pesca("parole").append(
             (a.values ?? []).map(([n, h]) => `${n} → ${h}`).join(", "),
         ].filter(Boolean).join(" · "),
     ])),
-    tavula("Eventi", v.events.map(([nap, h]) => [nap, h, "FratmScript"])),
+    tavula("Eventi, cu FratmScript dint'ê virgulette", ["htmlemmurt", "HTML"], v.events),
 )
 pesca("cerca").addEventListener("input", (evento) => {
     chist è cosa = evento.target.value.trim().toLowerCase()
-    pe ogni (chist è r dint document.querySelectorAll("#parole tr")) {
-        r.hidden = cosa !== "" && !r.textContent.toLowerCase().includes(cosa)
+    pe ogni (chist è piezz dint document.querySelectorAll("#parole section")) {
+        pe ogni (chist è r dint piezz.querySelectorAll("tbody tr")) {
+            r.hidden = cosa !== "" && !r.textContent.toLowerCase().includes(cosa)
+        }
+        piezz.hidden = !piezz.querySelector("tbody tr:not([hidden])")
     }
+    chist è nisciuna = pesca("nisciuna")
+    nisciuna.hidden = Boolean(document.querySelector("#parole section:not([hidden])"))
+    nisciuna.textContent = `Nun trovo "${evento.target.value.trim()}" int'o vocabolario.`
 })
 
 tien iniziale = ESEMPI[0].codice

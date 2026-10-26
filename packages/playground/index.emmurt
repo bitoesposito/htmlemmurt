@@ -20,9 +20,9 @@
       <tomtom classe="comandi" aria-label="Comandi">
         <targhett classe="esempi">
           <scatulell>Esempi</scatulell>
-          <scegli chi="esempi"></scegli>
+          <scegli chi="esempi"><scelta valore="" stutato scigliuto>Scegli…</scelta></scegli>
         </targhett>
-        <citofono chi="condividi" tipo="buttone">Copia link</citofono>
+        <citofono chi="condividi" tipo="buttone" aria-live="polite">Copia link</citofono>
         <vattenn addo="https://github.com/bitoesposito/htmlemmurt">GitHub</vattenn>
         <vattenn addo="https://www.npmjs.com/package/htmlemmurt">npm</vattenn>
         <vattenn addo="https://marketplace.visualstudio.com/items?itemName=bitoesposito.htmlemmurt">VS Code</vattenn>
@@ -46,12 +46,13 @@
         </cascett>
         <cascett chi="anteprima" classe="vista" ruolo="tabpanel" aria-labelledby="scheda-anteprima"></cascett>
         <cascett chi="html" classe="vista editor" ruolo="tabpanel" aria-labelledby="scheda-html" annascuso></cascett>
-        <cascett chi="vocabolario" classe="vista vocabolario" ruolo="tabpanel" aria-labelledby="scheda-vocabolario" annascuso>
+        <cascett chi="vocabolario" classe="vista vocabolario" ruolo="tabpanel" aria-labelledby="scheda-vocabolario" turno="0" annascuso>
           <targhett classe="cerca">
             <scatulell>Cerca na parola</scatulell>
             <miett chi="cerca" tipo="cerca" esempio="cascett, div, quanno…">
           </targhett>
           <cascett chi="parole"></cascett>
+          <chiacchier chi="nisciuna" classe="nisciuna" annascuso></chiacchier>
         </cascett>
         <piezz classe="console" aria-label="Console">
           <cascett classe="barra"><scatulell>Console</scatulell></cascett>
