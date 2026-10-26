@@ -33,3 +33,5 @@ Gli snippet sono `cristian` (una pagina intera), `fratm`, `fratmda`, `chiamm`, `
 ## Per compilare
 
 Il compilatore, il plugin Vite e il runtime per il browser stanno nel pacchetto npm [`htmlemmurt`](https://www.npmjs.com/package/htmlemmurt). Vocabolario completo e guida sono nel [README del progetto](https://github.com/bitoesposito/htmlemmurt#readme).
+
+L'icona è ricavata dal [logo HTML5](https://www.w3.org/html/logo/) del W3C, con licenza [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/).
