@@ -93,6 +93,4 @@ function activate(context) {
   vscode.workspace.textDocuments.forEach(check);
 }
 
-function deactivate() {}
-
-module.exports = { activate, deactivate };
+module.exports = { activate };

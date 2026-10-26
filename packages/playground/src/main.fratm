@@ -46,8 +46,6 @@ chist è tema = EditorView.theme({
 
 // ---------- Compilazione
 
-tien ultimoErrore = nisciun
-
 // L'errore sotto 'o codice, ncopp'a parola sbagliata
 facc segnala(e) {
     chist è doc = sorgente.state.doc
@@ -121,11 +119,10 @@ window.addEventListener("message", (evento) => {
 
 facc compila(codice) {
     chist è { html: risultato, errors } = compile(codice, { filename: "index.emmurt", inline: overo })
-    ultimoErrore = errors[0] ?? nisciun
-    segnala(ultimoErrore)
+    chist è e = errors[0]
+    segnala(e)
     chist è stato = pesca("stato")
-    si (ultimoErrore) {
-        chist è e = ultimoErrore
+    si (e) {
         stato.className = "stato sbagliato"
         stato.textContent = `✗ Riga ${e.line}, colonna ${e.column}: ${e.message}${e.suggestion ? " " + e.suggestion : ""}`
         piglie

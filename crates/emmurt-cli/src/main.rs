@@ -120,21 +120,11 @@ fn build(paths: &[String], flags: &Flags, write: bool) -> ExitCode {
         match &c.result {
             Err(e) => errors.push(e.clone()),
             Ok((html, _)) if flags.stdout => print!("{html}"),
-            Ok((html, _)) if write => {
-                // A folder builds pages only: fragments are pasted in by <chiamm>
-                if c.input.from_folder && !html.starts_with("<!DOCTYPE html>") {
-                    continue;
-                }
-                let out = output_path(&c.input, flags.out.as_deref());
-                if let Err(e) = out
-                    .parent()
-                    .map_or(Ok(()), fs::create_dir_all)
-                    .and_then(|_| fs::write(&out, html))
-                {
-                    return fail(&format!("Nun riesco a scrivere '{}': {e}", out.display()));
-                }
-                written.push(out.display().to_string());
-            }
+            Ok((html, _)) if write => match write_page(&c.input, html, flags.out.as_deref()) {
+                Ok(Some(out)) => written.push(out.display().to_string()),
+                Ok(None) => {}
+                Err(e) => return fail(&e),
+            },
             Ok(_) => {}
         }
     }
@@ -147,7 +137,11 @@ fn build(paths: &[String], flags: &Flags, write: bool) -> ExitCode {
             eprintln!("✓ Tutto a posto: {} file.", compiled.len());
         }
     }
-    exit(&errors)
+    if errors.is_empty() {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::FAILURE
+    }
 }
 
 fn build_stdin(flags: &Flags, write: bool) -> ExitCode {
@@ -200,17 +194,12 @@ fn watch(paths: &[String], flags: &Flags) -> ExitCode {
             match &c.result {
                 Ok((html, deps)) => {
                     watched.extend(deps.iter().map(|d| resolve(d, &c.input.root)));
-                    if c.input.from_folder && !html.starts_with("<!DOCTYPE html>") {
-                        continue;
-                    }
-                    let out = output_path(&c.input, flags.out.as_deref());
-                    let written = out
-                        .parent()
-                        .map_or(Ok(()), fs::create_dir_all)
-                        .and_then(|_| fs::write(&out, html));
-                    match written {
-                        Ok(()) => eprintln!("✓ {} → {}", c.input.path.display(), out.display()),
-                        Err(e) => eprintln!("✗ Nun riesco a scrivere '{}': {e}", out.display()),
+                    match write_page(&c.input, html, flags.out.as_deref()) {
+                        Ok(Some(out)) => {
+                            eprintln!("✓ {} → {}", c.input.path.display(), out.display())
+                        }
+                        Ok(None) => {}
+                        Err(e) => eprintln!("✗ {e}"),
                     }
                 }
                 Err(e) => print_error(e, None),
@@ -372,12 +361,27 @@ fn read_file(path: &str, root: &Path) -> Option<String> {
     fs::read_to_string(resolve(path, root)).ok()
 }
 
-fn output_path(input: &Input, out: Option<&Path>) -> PathBuf {
-    let relative = match out {
+/// Writes the HTML of a page next to its source, or under `out`, and says
+/// where. A folder builds pages only: its fragments are pasted in by <chiamm>.
+fn write_page(input: &Input, html: &str, out: Option<&Path>) -> Result<Option<PathBuf>, String> {
+    if input.from_folder && !html.starts_with("<!DOCTYPE html>") {
+        return Ok(None);
+    }
+    let path = match out {
         Some(dir) => dir.join(input.path.strip_prefix(&input.root).unwrap_or(&input.path)),
         None => input.path.clone(),
-    };
-    relative.with_extension("html")
+    }
+    .with_extension("html");
+    write_file(&path, html)?;
+    Ok(Some(path))
+}
+
+/// Writes a file, making its folder if needed.
+fn write_file(path: &Path, text: &str) -> Result<(), String> {
+    path.parent()
+        .map_or(Ok(()), fs::create_dir_all)
+        .and_then(|_| fs::write(path, text))
+        .map_err(|e| format!("Nun riesco a scrivere '{}': {e}", path.display()))
 }
 
 fn report(errors: &[Error], as_json: bool, extra: serde_json::Value, stdin: Option<&str>) {
@@ -391,14 +395,6 @@ fn report(errors: &[Error], as_json: bool, extra: serde_json::Value, stdin: Opti
         for e in errors {
             print_error(e, stdin);
         }
-    }
-}
-
-fn exit(errors: &[Error]) -> ExitCode {
-    if errors.is_empty() {
-        ExitCode::SUCCESS
-    } else {
-        ExitCode::FAILURE
     }
 }
 

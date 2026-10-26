@@ -8,7 +8,6 @@ use wasm_bindgen::prelude::*;
 
 #[derive(Serialize)]
 struct Response {
-    ok: bool,
     /// HTML for `compile`, JavaScript for `compileFratm`.
     code: Option<String>,
     /// Source map of `compileFratm`, as JSON.
@@ -17,7 +16,18 @@ struct Response {
     errors: Vec<Error>,
 }
 
-fn to_js(response: &Response) -> JsValue {
+/// (code, source map, dependencies) or the error, as a JavaScript object.
+fn respond(result: Result<(String, Option<String>, Vec<String>), Error>) -> JsValue {
+    let (code, map, dependencies, errors) = match result {
+        Ok((code, map, dependencies)) => (Some(code), map, dependencies, vec![]),
+        Err(e) => (None, None, vec![], vec![e]),
+    };
+    let response = Response {
+        code,
+        map,
+        dependencies,
+        errors,
+    };
     let serializer = serde_wasm_bindgen::Serializer::json_compatible();
     response.serialize(&serializer).unwrap_or(JsValue::NULL)
 }
@@ -43,43 +53,13 @@ pub fn compile(source: &str, filename: &str, read: Option<Function>, inline: boo
             FratmSrc::Keep
         },
     };
-    to_js(&match emmurt_core::compile(source, &options) {
-        Ok(out) => Response {
-            ok: true,
-            code: Some(out.html),
-            map: None,
-            dependencies: out.dependencies,
-            errors: vec![],
-        },
-        Err(e) => Response {
-            ok: false,
-            code: None,
-            map: None,
-            dependencies: vec![],
-            errors: vec![e],
-        },
-    })
+    respond(emmurt_core::compile(source, &options).map(|out| (out.html, None, out.dependencies)))
 }
 
 /// Compiles a `.fratm` module to JavaScript.
 #[wasm_bindgen(js_name = compileFratm)]
 pub fn compile_fratm(source: &str, filename: &str) -> JsValue {
-    to_js(&match emmurt_core::compile_fratm(source, filename) {
-        Ok((code, map)) => Response {
-            ok: true,
-            code: Some(code),
-            map,
-            dependencies: vec![],
-            errors: vec![],
-        },
-        Err(e) => Response {
-            ok: false,
-            code: None,
-            map: None,
-            dependencies: vec![],
-            errors: vec![e],
-        },
-    })
+    respond(emmurt_core::compile_fratm(source, filename).map(|(code, map)| (code, map, vec![])))
 }
 
 /// Tags, attributes and events, as JSON.

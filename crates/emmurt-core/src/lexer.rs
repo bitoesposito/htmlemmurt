@@ -197,6 +197,10 @@ impl Lexer {
         let mut attrs = Vec::new();
         loop {
             self.skip_space();
+            let self_closing = self.starts_with("/>");
+            if self_closing {
+                self.bump();
+            }
             match self.peek(0) {
                 None | Some('<') => return Err(unclosed_tag(self.pos())),
                 Some('>') => {
@@ -204,17 +208,7 @@ impl Lexer {
                     return Ok(Tag {
                         name,
                         attrs,
-                        self_closing: false,
-                        pos,
-                    });
-                }
-                Some('/') if self.peek(1) == Some('>') => {
-                    self.bump();
-                    self.bump();
-                    return Ok(Tag {
-                        name,
-                        attrs,
-                        self_closing: true,
+                        self_closing,
                         pos,
                     });
                 }
@@ -242,46 +236,36 @@ impl Lexer {
         }
         self.bump();
         self.skip_space();
+        let open = self.pos();
         let quote = self.peek(0).filter(|c| *c == '"' || *c == '\'');
+        if quote.is_some() {
+            self.bump();
+        }
+        let value_pos = self.pos();
         let mut value = String::new();
-        if let Some(q) = quote {
-            let open = self.pos();
-            self.bump();
-            let value_pos = self.pos();
-            loop {
-                match self.peek(0) {
-                    None => {
-                        return Err(Fail::new(
-                            open,
-                            "'E virgulette ca hê araputo ccà nun se chiudono maje.",
-                        ))
-                    }
-                    Some(c) if c == q => break,
-                    Some(_) => value.push(self.bump()),
+        loop {
+            match (self.peek(0), quote) {
+                (None, Some(_)) => {
+                    return Err(Fail::new(
+                        open,
+                        "'E virgulette ca hê araputo ccà nun se chiudono maje.",
+                    ))
                 }
-            }
-            self.bump();
-            Ok(Attr {
-                name,
-                value: Some(value),
-                pos,
-                value_pos,
-            })
-        } else {
-            let value_pos = self.pos();
-            while let Some(c) = self.peek(0) {
-                if c.is_whitespace() || c == '>' {
+                (Some(c), Some(q)) if c == q => {
+                    self.bump();
                     break;
                 }
-                value.push(self.bump());
+                (None, None) => break,
+                (Some(c), None) if c.is_whitespace() || c == '>' => break,
+                _ => value.push(self.bump()),
             }
-            Ok(Attr {
-                name,
-                value: Some(value),
-                pos,
-                value_pos,
-            })
         }
+        Ok(Attr {
+            name,
+            value: Some(value),
+            pos,
+            value_pos,
+        })
     }
 }
 

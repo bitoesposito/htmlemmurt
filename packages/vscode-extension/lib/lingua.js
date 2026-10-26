@@ -74,10 +74,8 @@ function meaning(vocab, word) {
   const html = htmlOf(vocab, lower);
   if (html) lines.push(`<${lower}> → <${html}>`);
   if (lower === 'chiamm') lines.push('<chiamm da="…" /> → ncolla n\'atu file .emmurt quanno compile');
-  const attrs = vocab.attributes.filter((a) => a.nap === lower);
-  for (const a of attrs) {
-    const only = a.only ? ` (ncopp'a <${a.only.join('>, <')}>)` : '';
-    if (!lines.some((l) => l === `${lower} → ${a.html}${only}`)) lines.push(`${lower} → ${a.html}${only}`);
+  for (const a of vocab.attributes.filter((a) => a.nap === lower)) {
+    lines.push(`${lower} → ${a.html}${a.only ? ` (ncopp'a <${a.only.join('>, <')}>)` : ''}`);
   }
   const event = vocab.events.find(([nap]) => nap === lower);
   if (event) lines.push(`${lower} → ${event[1]} (dint'ê virgulette ce va FratmScript)`);

@@ -19,7 +19,8 @@ async function serve(command, args, cwd, url) {
   servers.push(child);
   for (let i = 0; i < 100; i++) {
     try {
-      if ((await fetch(url)).status < 500) return url;
+      // The base, to append paths that start with /
+      if ((await fetch(url)).status < 500) return url.replace(/\/$/, '');
     } catch {}
     await new Promise((r) => setTimeout(r, 100));
   }
@@ -129,21 +130,21 @@ async function playgroundWorks(browser, base) {
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH });
 try {
   const dev = await serve(vite, ['--port', '5191', '--strictPort'], pizzeria, 'http://localhost:5191/');
-  await pizzeriaWorks(browser, dev.slice(0, -1));
+  await pizzeriaWorks(browser, dev);
   console.log('✓ pizzeria, dev server');
 
   execFileSync(vite, ['build', '--logLevel', 'warn'], { cwd: pizzeria, stdio: 'inherit' });
   const preview = await serve(vite, ['preview', '--port', '5192', '--strictPort'], pizzeria, 'http://localhost:5192/');
-  await pizzeriaWorks(browser, preview.slice(0, -1));
+  await pizzeriaWorks(browser, preview);
   console.log('✓ pizzeria, production build');
 
   const files = await serve('python3', ['-m', 'http.server', '5193'], repo, 'http://localhost:5193/');
-  await runtimeWorks(browser, files.slice(0, -1));
+  await runtimeWorks(browser, files);
   console.log('✓ browser runtime');
 
   const playground = join(repo, 'packages', 'playground', 'dist');
   const site = await serve('python3', ['-m', 'http.server', '5194'], playground, 'http://localhost:5194/');
-  await playgroundWorks(browser, site.slice(0, -1));
+  await playgroundWorks(browser, site);
   console.log('✓ playground');
 } finally {
   await browser.close();

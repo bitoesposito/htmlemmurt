@@ -356,7 +356,7 @@ impl Compiler<'_> {
             } else {
                 let names = vocabolario::ATTRS
                     .iter()
-                    .filter(|x| x.only.is_empty() || x.only.contains(&element))
+                    .filter(|x| vocabolario::applies(x, element))
                     .map(|x| x.nap);
                 let hint = match vocabolario::closest(&lower, names) {
                     Some(n) => format!("Vuoi dire '{n}'?"),

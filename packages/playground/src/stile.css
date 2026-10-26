@@ -243,10 +243,6 @@ input {
   min-height: 0;
 }
 
-.vista[hidden] {
-  display: none;
-}
-
 #anteprima iframe {
   width: 100%;
   height: 100%;

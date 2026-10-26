@@ -26,17 +26,13 @@ export function createApi(wasm) {
     return JSON.parse(wasm.vocabulary());
   }
 
-  function version() {
-    return wasm.version();
-  }
-
   function runtimeError(error) {
     const name = error && error.name ? String(error.name) : 'Error';
     const message = error && error.message !== undefined ? String(error.message) : String(error);
     return wasm.runtimeError(name, message);
   }
 
-  return { compile, compileFratm, vocabulary, version, runtimeError };
+  return { compile, compileFratm, vocabulary, version: wasm.version, runtimeError };
 }
 
 /** `file:line:column: message`, then the hint on its own line. */

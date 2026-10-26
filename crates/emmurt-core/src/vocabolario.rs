@@ -337,7 +337,8 @@ pub fn is_raw(nap: &str) -> bool {
     tag(nap).is_some_and(|html| RAW.contains(&html))
 }
 
-fn applies(a: &Attr, element: &str) -> bool {
+/// Whether an attribute applies to an HTML element.
+pub fn applies(a: &Attr, element: &str) -> bool {
     a.only.is_empty() || a.only.contains(&element)
 }
 

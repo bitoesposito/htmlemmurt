@@ -1,6 +1,5 @@
 //! `emmurt nuovo <folder>`: a ready Vite app with htmlemmurt and FratmScript.
 
-use std::fs;
 use std::path::Path;
 
 /// The template, as (path in the new app, content). `{{nomme}}` becomes the
@@ -28,15 +27,10 @@ pub fn create(dir: &Path) -> Result<String, String> {
     }
     let name = app_name(dir);
     for (path, content) in FILES {
-        let target = dir.join(path);
         let text = content
             .replace("{{nomme}}", &name)
             .replace("{{versione}}", env!("CARGO_PKG_VERSION"));
-        target
-            .parent()
-            .map_or(Ok(()), fs::create_dir_all)
-            .and_then(|_| fs::write(&target, text))
-            .map_err(|e| format!("Nun riesco a scrivere '{}': {e}", target.display()))?;
+        crate::write_file(&dir.join(path), &text)?;
     }
     Ok(name)
 }
@@ -45,9 +39,9 @@ pub fn create(dir: &Path) -> Result<String, String> {
 fn app_name(dir: &Path) -> String {
     let base = dir
         .canonicalize()
-        .ok()
-        .or_else(|| Some(dir.to_path_buf()))
-        .and_then(|p| p.file_name().map(|n| n.to_string_lossy().to_lowercase()))
+        .unwrap_or_else(|_| dir.to_path_buf())
+        .file_name()
+        .map(|n| n.to_string_lossy().to_lowercase())
         .unwrap_or_default();
     let name: String = base
         .chars()
@@ -71,6 +65,7 @@ fn app_name(dir: &Path) -> String {
 mod tests {
     use super::*;
     use emmurt_core::{compile, Options};
+    use std::fs;
 
     fn temp(name: &str) -> std::path::PathBuf {
         let dir = std::env::temp_dir().join(format!("emmurt-nuovo-{}-{name}", std::process::id()));
