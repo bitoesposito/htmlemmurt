@@ -7,13 +7,13 @@ members = [
 ]
 
 [workspace.package]
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 license = "MIT"
 repository = "https://github.com/bitoesposito/htmlemmurt"
 
 [workspace.dependencies]
 # The FratmScript compiler, for <fratm> blocks and quanno-* handlers
-fratm-core = { git = "https://github.com/kkratterf/fratmscript", tag = "v0.8.0" }
+fratm-core = { git = "https://github.com/kkratterf/fratmscript", tag = "v0.12.0" }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
