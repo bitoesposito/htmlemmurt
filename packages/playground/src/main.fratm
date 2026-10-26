@@ -38,11 +38,11 @@ chist è colori = HighlightStyle.define([
 chist è tema = EditorView.theme({
     "&": { height: "100%", fontSize: "14px", backgroundColor: "var(--carta)", color: "var(--mare)" },
     // .editor taglia l'outline 'e CodeMirror: 'o focus se vede ccà dinto
-    "&.cm-focused": { outline: "2px solid var(--azzurro)", outlineOffset: "-2px" },
+    "&.cm-focused": { outline: "2px solid var(--accento)", outlineOffset: "-2px" },
     ".cm-scroller": { fontFamily: "var(--mono)", lineHeight: "1.6" },
     ".cm-gutters": { backgroundColor: "var(--carta)", color: "var(--c-commento)", border: "none" },
     ".cm-activeLine, .cm-activeLineGutter": { backgroundColor: "var(--riga-attiva)" },
-    "&.cm-focused .cm-cursor": { borderLeftColor: "var(--azzurro)" },
+    "&.cm-focused .cm-cursor": { borderLeftColor: "var(--accento)" },
     "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, ::selection": { backgroundColor: "var(--selezione)" },
 })
 

@@ -3,13 +3,14 @@
   --carta: #ffffff;
   --mare: #0f2b40;
   --mare-tenue: #4d6578;
-  --azzurro: #1a6fa8;
-  --su-azzurro: #ffffff;
+  /* The orange of the shield (#e1542c), one step darker so text in it
+     reaches 4.5:1 */
+  --accento: #c4441f;
   --tufo: #dfe6ec;
   /* Borders of fields: 3:1 against paper and page */
   --filo: #7f92a3;
-  --arancio: #e1542c;
-  --sbaglio: #b42318;
+  /* Crimson, away from the orange accent */
+  --sbaglio: #b0103a;
   --riga-attiva: #f0f5f9;
   --selezione: #dcedf9;
 
@@ -32,12 +33,11 @@
     --carta: #0f2130;
     --mare: #e3edf4;
     --mare-tenue: #9fb3c3;
-    --azzurro: #5bb4ea;
-    --su-azzurro: #06131c;
+    /* The light orange of the shield */
+    --accento: #ef672e;
     --tufo: #1f3647;
     --filo: #557089;
-    --arancio: #f0703f;
-    --sbaglio: #ff8a7a;
+    --sbaglio: #ff8fa3;
     --riga-attiva: #13293b;
     --selezione: #173a55;
 
@@ -70,15 +70,15 @@ body {
 }
 
 a {
-  color: var(--azzurro);
+  color: var(--accento);
 }
 
 :focus-visible {
-  outline: 2px solid var(--azzurro);
+  outline: 2px solid var(--accento);
   outline-offset: 2px;
 }
 
-/* Testata: la targa di marmo dei vicoli, poi i comandi */
+/* Testata: la targa di marmo dei vicoli e cosa fa, poi i comandi */
 
 .testata {
   display: flex;
@@ -118,6 +118,24 @@ a {
   letter-spacing: 0.08em;
 }
 
+.insegna {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
+.motto {
+  margin: 0;
+  color: var(--mare-tenue);
+}
+
+.motto code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  color: var(--c-tag);
+}
+
 .comandi {
   display: flex;
   flex-wrap: wrap;
@@ -153,16 +171,17 @@ input {
 }
 
 #condividi {
+  /* Sharing comes second to writing: an outline, so the plaque leads */
   padding: 0.4rem 0.9rem;
-  color: var(--su-azzurro);
-  background: var(--azzurro);
-  border: 0;
+  color: var(--accento);
+  background: none;
+  border: 1px solid var(--accento);
   border-radius: 6px;
   cursor: pointer;
 }
 
 #condividi:hover {
-  filter: brightness(0.9);
+  background: color-mix(in srgb, var(--accento) 10%, transparent);
 }
 
 /* Wide enough for "Copialo d'a barra", so the bar does not jump when the
@@ -252,7 +271,7 @@ input {
 
 .scheda[aria-selected="true"] {
   color: var(--mare);
-  border-bottom-color: var(--azzurro);
+  border-bottom-color: var(--accento);
 }
 
 .vista {
@@ -429,8 +448,9 @@ input {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  /* Short enough that the tabs and the top of the preview show on the first screen */
   .editor {
-    height: 55vh;
+    height: 40vh;
     flex: none;
   }
 

@@ -14,9 +14,12 @@
   </capa>
   <panz>
     <cappiell classe="testata">
-      <luccolone classe="targa">
-        <scatulell classe="vico">Htmlemmurt</scatulell>
-      </luccolone>
+      <cascett classe="insegna">
+        <luccolone classe="targa">
+          <scatulell classe="vico">Htmlemmurt</scatulell>
+        </luccolone>
+        <chiacchier classe="motto">Scrive <codice>&lt;cascett&gt;</codice> e esce <codice>&lt;div&gt;</codice>.</chiacchier>
+      </cascett>
       <tomtom classe="comandi" aria-label="Comandi">
         <targhett classe="esempi">
           <scatulell>Esempi</scatulell>
