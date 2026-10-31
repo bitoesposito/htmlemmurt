@@ -24,12 +24,16 @@ emmurt: HTML, ma comme si deve
   emmurt fmt <file|cartella...>     Mette a posto rientri e righe vacante
       --check                       Dice sulo quali file nun so' a posto
   emmurt vocabolario                'E parole napoletane e l'HTML lloro
+  emmurt guida                      'E istruzioni pe' n'agente (llms.txt)
 
   --json   Na risposta JSON sola, pe' editor e agenti
 
 Na cartella compila sulo 'e pagine (file ca accummenciano cu <cristian>):
 'e pezzi pe' <chiamm> nun diventano .html.
 ";
+
+/// The instructions for AI agents, served by the playground as llms.txt.
+const GUIDA: &str = include_str!("../../../packages/playground/public/llms.txt");
 
 #[derive(Default)]
 struct Flags {
@@ -97,6 +101,10 @@ fn main() -> ExitCode {
             _ => fail("Dimme addò: emmurt nuovo pizzeria"),
         },
         "vocabolario" => vocabulary(flags.json),
+        "guida" => {
+            print!("{GUIDA}");
+            ExitCode::SUCCESS
+        }
         "--version" | "-V" => {
             println!("emmurt {}", env!("CARGO_PKG_VERSION"));
             ExitCode::SUCCESS

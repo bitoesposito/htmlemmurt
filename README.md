@@ -158,9 +158,12 @@ emmurt watch sito/ --out dist/       # ricompila quando cambia qualcosa
 emmurt fmt sito/                     # rimette a posto rientri e righe vuote
 emmurt fmt --check sito/             # dice solo quali file non sono a posto
 emmurt vocabolario                   # tutte le parole e il loro HTML
+emmurt guida                         # le istruzioni per gli agenti (llms.txt)
 ```
 
 `--json` stampa un solo oggetto JSON con gli errori (file, riga, colonna, suggerimento), utile per editor e agenti. `-` legge da stdin e `--stdout` stampa l'HTML.
+
+Per gli agenti AI c'è [`llms.txt`](https://bitoesposito.github.io/htmlemmurt/llms.txt): le regole su cui sbagliano più spesso, come lavorare con `emmurt check --json` e dove trovare il resto. `emmurt guida` stampa lo stesso testo senza rete.
 
 `emmurt fmt` cambia solo spazi e a capo: due spazi per ogni elemento aperto, un attributo per riga quando un tag occupa più righe, niente spazi in fondo, al massimo una riga vuota di fila. Il contenuto di `<accussì>` e `<ragionamento>` resta com'è, perché lì gli spazi contano; quello di `<fratm>` e `<cess>` si sposta tutto insieme e tiene i suoi rientri, tranne il FratmScript con stringhe tra backtick, che resta com'è.
 
