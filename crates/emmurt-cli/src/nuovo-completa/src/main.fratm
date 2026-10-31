@@ -1,0 +1,35 @@
+// 'O menù e 'o conto arrivano 'a l'API (server/api.fratm), ca 'e legge 'a SQLite
+chist è menu = document.querySelector("#menu")
+chist è stampo = document.querySelector("#pizza")
+chist è conto = document.querySelector("#conto")
+
+mo vir facc aggiornaConto() {
+    chist è { pizze, totale } = aspett fetch("/api/ordini").then((r) => r.json())
+    si (pizze > 0) {
+        conto.textContent = `Pizze ordinate: ${pizze} · Totale: ${totale} €`
+    }
+}
+
+mo vir facc ordina(pizza) {
+    aspett fetch("/api/ordini", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ pizza: pizza.id }),
+    })
+    aspett aggiornaConto()
+}
+
+pruvamm {
+    chist è pizze = aspett fetch("/api/pizze").then((r) => r.json())
+    pe ogni (chist è pizza dint pizze) {
+        chist è voce = stampo.content.cloneNode(overo)
+        voce.querySelector("[data-nomme]").textContent = pizza.nomme
+        voce.querySelector("[data-prezzo]").textContent = `${pizza.prezzo} €`
+        voce.querySelector("[data-ingredienti]").textContent = pizza.ingredienti
+        voce.querySelector("button").addEventListener("click", () => ordina(pizza))
+        menu.append(voce)
+    }
+    aspett aggiornaConto()
+} e si schiatta (e) {
+    conto.textContent = "Nun riesco a parlà cu 'o server: " + e.message
+}

@@ -1,0 +1,17 @@
+// Produzione: npm run build, po' npm start.
+// Nu server sulo serve 'e paggene 'a dist/ e l'API.
+chiamm { Hono } da "hono"
+chiamm { serve } da "@hono/node-server"
+chiamm { serveStatic } da "@hono/node-server/serve-static"
+chiamm api da "./api.fratm"
+
+chist è app = nu bell Hono()
+app.route("/", api)
+app.use("/*", serveStatic({ root: "./dist" }))
+// Na paggena senza .html: /menu è dist/menu.html
+app.use("/*", serveStatic({ root: "./dist", rewriteRequestPath: (via) => `${via}.html` }))
+
+chist è porta = Number(process.env.PORT ?? 3000)
+serve({ fetch: app.fetch, port: porta }, () => {
+    stamm a dì(`🍕 {{nomme}} sta ncopp' a http://localhost:${porta}`)
+})

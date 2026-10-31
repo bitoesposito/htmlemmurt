@@ -15,6 +15,7 @@ const AIUTO: &str = "\
 emmurt: HTML, ma comme si deve
 
   emmurt nuovo <cartella>           N'app Vite pronta, cu htmlemmurt e FratmScript
+      --completa                    Cu n'API Hono e nu database SQLite (Node 22.13+)
   emmurt build <file|cartella...>   Compila 'e pagine .emmurt in .html
       --out <cartella>              Scrive llà invece che vicino ê sorgenti
       --stdout                      Stampa l'HTML (nu file sulo, o - pe' stdin)
@@ -32,6 +33,7 @@ Na cartella compila sulo 'e pagine (file ca accummenciano cu <cristian>):
 struct Flags {
     json: bool,
     stdout: bool,
+    completa: bool,
     out: Option<PathBuf>,
 }
 
@@ -57,6 +59,7 @@ fn main() -> ExitCode {
         match arg.as_str() {
             "--json" => flags.json = true,
             "--stdout" => flags.stdout = true,
+            "--completa" => flags.completa = true,
             "--out" => match args.next() {
                 Some(dir) => flags.out = Some(dir.into()),
                 None => return fail("--out vo' na cartella."),
@@ -73,10 +76,14 @@ fn main() -> ExitCode {
         "check" => build(&paths, &flags, false),
         "watch" => watch(&paths, &flags),
         "nuovo" => match paths.as_slice() {
-            [dir] => match nuovo::create(Path::new(dir)) {
+            [dir] => match nuovo::create(Path::new(dir), flags.completa) {
                 Ok(name) => {
+                    let produzione = match flags.completa {
+                        true => "\n\n'A produzione: npm run build, po' npm start",
+                        false => "",
+                    };
                     eprintln!(
-                        "✓ {name} è pronta. Mo:\n\n  cd {dir}\n  npm install\n  npm run dev\n"
+                        "✓ {name} è pronta. Mo:\n\n  cd {dir}\n  npm install\n  npm run dev{produzione}\n"
                     );
                     ExitCode::SUCCESS
                 }

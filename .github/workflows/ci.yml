@@ -67,6 +67,20 @@ jobs:
           npm pkg set devDependencies.htmlemmurt="file:$GITHUB_WORKSPACE/packages/htmlemmurt"
           npm install
           npx vite build
+      - name: An app made by emmurt nuovo --completa builds and answers
+        run: |
+          cargo run -q -p emmurt-cli -- nuovo "$RUNNER_TEMP/completa" --completa
+          cd "$RUNNER_TEMP/completa"
+          npm pkg set devDependencies.htmlemmurt="file:$GITHUB_WORKSPACE/packages/htmlemmurt"
+          npm install
+          npx vite build
+          PORT=3311 npm start &
+          for i in $(seq 1 30); do curl -sf localhost:3311/api/pizze > /dev/null && break; sleep 1; done
+          curl -sf localhost:3311/api/pizze | grep -q Margherita
+          curl -sf -X POST -H 'content-type: application/json' -d '{"pizza":1}' localhost:3311/api/ordini
+          curl -sf localhost:3311/api/ordini | grep -q '"pizze":1'
+          curl -sf localhost:3311/ | grep -q '<template id="pizza">'
+          kill %1
       - name: End-to-end in Chromium
         run: |
           (cd examples/pizzeria && npm ci)

@@ -124,6 +124,8 @@ export default {
 
 Le pagine sono i file `.emmurt` che cominciano con `<cristian>`, e la build le include tutte. In sviluppo una pagina con un errore mostra il messaggio in napoletano e si ricarica quando salvi.
 
+Per un'app con i dati c'è `emmurt nuovo pizzeria --completa`. Aggiunge un'API [Hono](https://hono.dev) in `server/api.fratm`, che tiene il menù e gli ordini in SQLite con `apri_db` e le query `gomorra` di FratmScript. `fratmscript({ api: 'server/api.fratm' })` la monta sul server di Vite, quindi `npm run dev` serve pagine e API insieme. In produzione `npm run build` e `npm start` servono `dist/` e l'API con un solo processo Node (22.13 o più nuovo). La pagina riempie il menù copiando un `<stampo>` con i dati dell'API.
+
 ```bash
 npm i -D htmlemmurt fratmscript vite
 ```
@@ -146,6 +148,7 @@ cargo install --git https://github.com/bitoesposito/htmlemmurt emmurt-cli
 
 ```bash
 emmurt nuovo pizzeria                # un'app Vite pronta, con htmlemmurt e FratmScript
+emmurt nuovo pizzeria --completa     # in più un'API Hono e un database SQLite (Node 22.13+)
 emmurt build index.emmurt            # scrive index.html accanto
 emmurt build sito/ --out dist/       # tutte le pagine di una cartella
 emmurt check sito/                   # solo controllo, anche dei pezzi

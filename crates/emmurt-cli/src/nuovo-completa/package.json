@@ -1,0 +1,22 @@
+{
+  "name": "{{nomme}}",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "node --import fratmscript/node server/avvia.fratm"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.0",
+    "fratmscript": "{{fratmscript}}",
+    "hono": "^4.6.0"
+  },
+  "devDependencies": {
+    "htmlemmurt": "^{{versione}}",
+    "vite": "^8.3.5"
+  }
+}
