@@ -50,6 +50,13 @@ pub fn compile(source: &str, filename: &str, read: Option<Function>, inline: boo
     response.serialize(&serializer).unwrap_or(JsValue::NULL)
 }
 
+/// The formatted page, or undefined when it cannot be formatted: then
+/// `compile` says why.
+#[wasm_bindgen]
+pub fn format(source: &str) -> Option<String> {
+    emmurt_core::format(source, "").ok()
+}
+
 /// Tags, attributes and events, as JSON.
 #[wasm_bindgen]
 pub fn vocabulary() -> String {
