@@ -1,0 +1,33 @@
+# htmlemmurt
+
+> HTML in napoletano: `<cascett classe="menu">` diventa `<div class="menu">`. Un compilatore severo, in Rust e WebAssembly, traduce elementi, attributi, eventi e valori fissi in HTML standard. I file finiscono in `.emmurt`. I blocchi `<fratm>` e gli attributi `quanno-*` sono FratmScript (JavaScript con le parole napoletane), `<cess>` è CSS in napoletano. Le parole sono le stesse del JSX di FratmScript.
+
+Regole che fanno sbagliare gli agenti:
+
+1. Elementi, attributi, eventi e valori fissi si scrivono in napoletano: `<citofono tipo="buttone" quanno-tuocche="f()">`, non `<button type="button" onclick="f()">`. Un nome inglese che ha la sua parola è un errore, con la parola giusta nel suggerimento. Non inventare parole: stanno in `emmurt vocabolario --json`. I nomi HTML che non hanno ancora una parola (`untranslated` nel JSON) passano come sono.
+2. Non si traducono classi, id, testi, indirizzi, attributi `data-*` e `aria-*` e gli elementi con un trattino nel nome (`<pizza-card>`).
+3. I tag si chiudono sempre e nell'ordine giusto, tranne quelli vuoti (`<acap>`, `<stacc>`, `<miett>`, `<cartulin>`, `<inciucc>`, `<attacca>`, `<basa>`, `<funtana>`). `<cascett />` vale `<cascett></cascett>`.
+4. Un file che comincia con `<cristian>` è una pagina: niente `<!DOCTYPE>`, che è un errore; il compilatore lo aggiunge insieme a `<meta charset="utf-8">`. Gli altri file sono pezzi.
+5. `<chiamm da="pezzi/carta.emmurt" titolo="Margherita">contenuto</chiamm>` incolla un pezzo quando compila: ogni attributo tranne `da` riempie un `{{titolo}}` del pezzo, il contenuto va in `{{cuntenuto}}`. Il percorso è relativo al file che chiama, con `/` parte dalla cartella del progetto. Un parametro che manca o che il pezzo non usa è un errore.
+6. Dentro `<fratm>` e negli attributi `quanno-*` va FratmScript, non JavaScript: `tien`, `chist è`, `facc`, `piglie`, `stamm a dì`. Leggi https://fratmscript.kkratter.com/llms.txt prima di scriverlo. `<fratm da="/src/main.fratm" />` carica un modulo; con `tipo="text/javascript"` il contenuto resta JavaScript normale.
+7. `<cess>` e `cess="…"` accettano CSS normale e CSS con le parole napoletane (`citofono:passanno { culore: russo }`).
+
+Come lavorare: parti da `emmurt nuovo app` (Vite, una pagina, due pezzi, un modulo FratmScript) o `emmurt nuovo app --completa` (in più un'API Hono con SQLite). Dopo ogni modifica lancia `emmurt check --json <file|cartella>` e correggi dagli errori: `message` in napoletano, `line`, `column` e `suggestion`. Poi `emmurt fmt <file|cartella>`. In un'app Vite anche `npm run build` mostra gli stessi errori.
+
+## Documentazione
+
+- [Guida passo passo](https://github.com/bitoesposito/htmlemmurt/blob/main/docs/guida.md): dall'installazione a un sito su GitHub Pages
+- [README](https://github.com/bitoesposito/htmlemmurt#readme): regole complete, CLI, plugin Vite, runtime per il browser e la tabella di tutte le parole
+- [Dizionario](https://github.com/bitoesposito/htmlemmurt/blob/main/docs/neapoletan-dictionary.md): le parole concordate con FratmScript
+- [FratmScript per agenti](https://fratmscript.kkratter.com/llms.txt): il linguaggio di `<fratm>` e `quanno-*`
+
+## Strumenti
+
+- CLI: `curl -fsSL https://raw.githubusercontent.com/bitoesposito/htmlemmurt/main/install.sh | sh`, oppure `cargo install --git https://github.com/bitoesposito/htmlemmurt emmurt-cli`
+- `emmurt check --json`, `emmurt build`, `emmurt fmt`, `emmurt vocabolario --json`; `emmurt guida` stampa questo testo
+- [Pacchetto npm](https://www.npmjs.com/package/htmlemmurt): `compile(source)` in Node, il plugin Vite `htmlemmurt/vite` e `<script type="text/htmlemmurt">` nel browser
+
+## Optional
+
+- [Playground](https://bitoesposito.github.io/htmlemmurt/): scrivi una pagina e vedi l'HTML
+- [Esempi](https://github.com/bitoesposito/htmlemmurt/tree/main/examples): pagine, pezzi con parametri e un'app Vite completa
