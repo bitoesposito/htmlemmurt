@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "fratmscript": "^0.16.1",
+    "fratmscript": "{{fratmscript}}",
     "htmlemmurt": "^{{versione}}",
     "vite": "^8.3.5"
   }

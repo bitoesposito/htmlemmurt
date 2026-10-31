@@ -19,6 +19,7 @@ name = "emmurt-cli"
 version = "0.2.1"
 dependencies = [
  "emmurt-core",
+ "fratm-core",
  "serde_json",
 ]
 

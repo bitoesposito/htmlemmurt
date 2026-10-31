@@ -1,0 +1,58 @@
+// L'API: n'app Hono cu 'e dati int'a SQLite.
+// npm run dev 'a monta ncopp' 'o server 'e Vite (vite.config.js),
+// npm start 'a serve cu server/avvia.fratm.
+chiamm { Hono } da "hono"
+chiamm { apri_db, gomorra } da "fratm"
+
+chist è db = apri_db(process.env.DATABASE ?? "pizzeria.db")
+
+db.esegui(gomorra`
+    facimm 'a tavula pizze (
+        id INTEGER PRIMARY KEY,
+        nomme TEXT NOT NULL,
+        prezzo REAL NOT NULL,
+        ingredienti TEXT
+    )
+`)
+db.esegui(gomorra`facimm 'a tavula ordini (id INTEGER PRIMARY KEY, pizza INTEGER NOT NULL)`)
+
+// 'A primma vota 'o menù è vacante: mettimmoce tre pizze
+chist è { quante } = db.ripiglia_uno(gomorra`ripigliammo COUNT(*) comme quante mmiez 'a pizze`)
+si (quante === 0) {
+    pe ogni (chist è [nomme, prezzo, ingredienti] dint [
+        ["Margherita", 5, "pummarola, muzzarella, vasenicola"],
+        ["Marinara", 4, "pummarola, aglio, arecheta"],
+        ["Diavola", 7, "pummarola, muzzarella, salame piccante"],
+    ]) {
+        db.esegui(gomorra`nzipp 'ngoppa pizze nomme, prezzo, ingredienti chist ${nomme}, ${prezzo}, ${ingredienti}`)
+    }
+}
+
+chist è api = nu bell Hono().basePath("/api")
+
+api.get("/pizze", (c) => {
+    piglie c.json(db.ripiglia(gomorra`
+        ripigliammo id, nomme, prezzo, ingredienti mmiez 'a pizze
+        mettimmo in fila pe prezzo
+    `))
+})
+
+api.get("/ordini", (c) => {
+    piglie c.json(db.ripiglia_uno(gomorra`
+        ripigliammo COUNT(*) comme pizze, COALESCE(SUM(pizze.prezzo), 0) comme totale
+        mmiez 'a ordini pesc e pesc pizze
+        arò ordini.pizza = pizze.id
+    `))
+})
+
+api.post("/ordini", mo vir (c) => {
+    chist è { pizza } = aspett c.req.json()
+    chist è trovata = db.ripiglia_uno(gomorra`ripigliammo id mmiez 'a pizze arò id = ${pizza}`)
+    si (trovata === nisciun) {
+        piglie c.json({ errore: "Sta pizza nun sta int'o menù" }, 404)
+    }
+    chist è { ultimo_id } = db.esegui(gomorra`nzipp 'ngoppa ordini pizza chist ${pizza}`)
+    piglie c.json({ id: ultimo_id }, 201)
+})
+
+mann for predefinit api

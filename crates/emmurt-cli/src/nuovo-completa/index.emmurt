@@ -1,0 +1,26 @@
+<cristian lingua="it">
+  <capa>
+    <inciucc nomme="viewport" cuntenuto="width=device-width, initial-scale=1">
+    <titolo>{{nomme}}</titolo>
+    <attacca rapporto="stile" addo="/stile.css">
+  </capa>
+  <panz>
+    <chiamm da="pezzi/cappiell.emmurt" />
+    <core>
+      <luccolone>'O menù</luccolone>
+      <chiacchier>'E pizze e 'o conto stanno int'a SQLite: 'e serve l'API 'e <codice>server/api.fratm</codice>.</chiacchier>
+      <list chi="menu" classe="menu"></list>
+      <!-- Na voce d'o menù: src/main.fratm 'a copia pe ogni pizza -->
+      <stampo chi="pizza">
+        <voce>
+          <fort data-nomme></fort> <scatulell data-prezzo></scatulell>
+          <acap><piccirill data-ingredienti></piccirill>
+          <citofono tipo="buttone">Ordina</citofono>
+        </voce>
+      </stampo>
+      <chiacchier chi="conto" ruolo="status">Ancora nisciuna pizza. Che te magne?</chiacchier>
+    </core>
+    <chiamm da="pezzi/pere.emmurt" />
+    <fratm da="/src/main.fratm" />
+  </panz>
+</cristian>

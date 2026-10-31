@@ -13,3 +13,7 @@ path = "src/main.rs"
 [dependencies]
 emmurt-core = { path = "../emmurt-core" }
 serde_json.workspace = true
+
+[dev-dependencies]
+# Checks that the server files of `emmurt nuovo --completa` compile
+fratm-core.workspace = true

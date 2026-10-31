@@ -17,6 +17,7 @@ htmlemmurt è HTML in napoletano: un compilatore severo che traduce nomi napolet
 | `packages/vscode-extension` | Grammatica, snippet, completamento, diagnostica (`compiler/` è generato) |
 | `packages/playground` | Playground web su GitHub Pages, scritto in htmlemmurt e FratmScript con il plugin Vite |
 | `crates/emmurt-cli/src/nuovo/` | Il modello dell'app di `emmurt nuovo` |
+| `crates/emmurt-cli/src/nuovo-completa/` | Quello che `emmurt nuovo --completa` aggiunge o sostituisce: API Hono e SQLite in `server/` |
 | `examples/*.emmurt` | Pagine d'esempio con snapshot golden |
 | `examples/pizzeria` | App Vite con FratmScript, provata in Chromium da `e2e/` |
 
