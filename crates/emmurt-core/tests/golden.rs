@@ -90,3 +90,28 @@ fn readme_lists_the_whole_vocabulary() {
     let missing: Vec<String> = words.filter(|w| !readme.contains(w.as_str())).collect();
     assert!(missing.is_empty(), "README.md misses {missing:?}");
 }
+
+/// Every `html` block of the guide compiles and is formatted. A block with a
+/// `<chiamm>` reads the block before it as the piece it calls.
+#[test]
+fn guide_examples_compile() {
+    let guide = fs::read_to_string(repo().join("docs/guida.md")).unwrap();
+    let blocks: Vec<&str> = guide
+        .split("```html\n")
+        .skip(1)
+        .map(|b| b.split("```").next().unwrap())
+        .collect();
+    assert!(blocks.len() >= 5);
+    for (i, block) in blocks.iter().enumerate() {
+        let piece = i.checked_sub(1).map(|p| blocks[p].to_string());
+        let read = |_: &str| piece.clone();
+        let options = Options {
+            read: &read,
+            ..Options::default()
+        };
+        if let Err(e) = compile(block, &options) {
+            panic!("docs/guida.md block {}: {e}\n{block}", i + 1);
+        }
+        assert_eq!(emmurt_core::format(block, "guida").unwrap(), *block);
+    }
+}

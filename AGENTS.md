@@ -20,6 +20,7 @@ htmlemmurt è HTML in napoletano: un compilatore severo che traduce nomi napolet
 | `crates/emmurt-cli/src/nuovo-completa/` | Quello che `emmurt nuovo --completa` aggiunge o sostituisce: API Hono e SQLite in `server/` |
 | `examples/*.emmurt` | Pagine d'esempio con snapshot golden |
 | `examples/pizzeria` | App Vite con FratmScript, provata in Chromium da `e2e/` |
+| `docs/guida.md` | Guida passo passo, dall'installazione a GitHub Pages: un test compila i suoi blocchi `html` |
 
 ## Lingua
 
@@ -58,7 +59,7 @@ Dopo una modifica al compilatore, `npm run build` in `packages/htmlemmurt` rigen
 
 ## Documentazione e backlog
 
-- Niente `PLAN.md`, `ROADMAP.md` o note di progetto nel repo. Documentazione ammessa: i README, i commenti nel codice, questo file, `CLAUDE.md` e `docs/neapoletan-dictionary.md`, il dizionario concordato con FratmScript (cambia insieme a `fratm-core/src/html.rs`).
+- Niente `PLAN.md`, `ROADMAP.md` o note di progetto nel repo. Documentazione ammessa: i README, i commenti nel codice, questo file, `CLAUDE.md`, `docs/guida.md` e `docs/neapoletan-dictionary.md`, il dizionario concordato con FratmScript (cambia insieme a `fratm-core/src/html.rs`).
 - Il backlog sta nelle issue di GitHub.
 
 ## Commit e PR
