@@ -85,6 +85,23 @@ I tag si chiudono sempre e nell'ordine giusto, a parte quelli vuoti come `<acap>
 
 Un file che comincia con `<cristian>` è una pagina: il compilatore ci mette `<!DOCTYPE html>` e, se manca, `<meta charset="utf-8">`. Gli altri file sono pezzi da incollare con `<chiamm da="pezzi/menu.emmurt" />`. Il percorso è relativo al file che chiama; se comincia con `/` parte dalla cartella del progetto.
 
+Un pezzo può ricevere parametri. Ogni attributo di `<chiamm>` tranne `da` riempie un segnaposto `{{…}}` del pezzo, nel testo e nei valori degli attributi; quello che sta tra `<chiamm>` e `</chiamm>` va in `{{cuntenuto}}`:
+
+```html
+<!-- pezzi/carta.emmurt -->
+<fattariello classe="carta">
+  <luccolo>{{titolo}}</luccolo>
+  {{cuntenuto}}
+</fattariello>
+
+<!-- index.emmurt -->
+<chiamm da="pezzi/carta.emmurt" titolo="Margherita">
+  <chiacchier>Pummarola, mozzarella e vasenicola.</chiacchier>
+</chiamm>
+```
+
+Un parametro che manca, uno che il pezzo non usa e un contenuto che il pezzo non mette da nessuna parte sono errori, segnalati sul `<chiamm>` che li causa. Fuori da un pezzo chiamato, `{{…}}` resta testo.
+
 `<fratm>` contiene FratmScript e diventa `<script>`. Se usa `chiamm` o `mann for` diventa `<script type="module">`. Un blocco classico rende globali le sue funzioni, così gli attributi `quanno-*` le possono chiamare. `<fratm da="main.fratm" />` dentro Vite resta un modulo, e Vite compila il file e quello che importa; con la CLI e nel browser il codice viene incollato nella pagina, quindi lì il file non può importare altri `.fratm`.
 
 Con un `tipo` diverso da `modulo` il contenuto di `<fratm>` non è FratmScript e resta com'è, come fa l'HTML: `tipo="text/javascript"` per il JavaScript normale, `tipo="application/ld+json"` per i dati strutturati, `tipo="importmap"`. Anche `<fratm da="lib.js" />` o un indirizzo esterno caricano lo script così com'è: si compilano solo i file `.fratm`.
@@ -260,7 +277,7 @@ Colora i file `.emmurt` e mostra gli errori mentre scrivi. Completa tag, attribu
 | `<stampo>` | `<template>` |
 | `<fessura>` | `<slot>` |
 
-`<chiamm da="…" />` non diventa un tag: al suo posto il compilatore incolla il file.
+`<chiamm da="…" />` non diventa un tag: al suo posto il compilatore incolla il file, con i parametri al posto dei `{{…}}`.
 
 </details>
 

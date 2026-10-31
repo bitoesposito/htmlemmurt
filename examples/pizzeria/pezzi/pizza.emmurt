@@ -1,0 +1,5 @@
+<!-- Na fila d'o menù: <chiamm da="pezzi/pizza.emmurt" nomme="…" prezzo="…" /> -->
+<fila>
+  <casella>{{nomme}}</casella><casella>{{prezzo}} €</casella>
+  <casella><citofono tipo="buttone" data-pizza="{{nomme}}">Miettela int'o carrello</citofono></casella>
+</fila>

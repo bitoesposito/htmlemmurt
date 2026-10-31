@@ -134,6 +134,7 @@ pub fn compile(source: &str, options: &Options) -> Result<Output, Error> {
         options,
         chain: vec![options.filename.replace('\\', "/")],
         dependencies: Vec::new(),
+        pieces: Vec::new(),
     };
     let html = compiler.fragment(source)?;
     let html = if is_page(&html) { page(html) } else { html };
@@ -148,6 +149,37 @@ struct Compiler<'a> {
     /// The page and the includes being compiled, innermost last.
     chain: Vec<String>,
     dependencies: Vec<String>,
+    /// The parameters of the pieces being compiled, innermost last.
+    pieces: Vec<Piece>,
+}
+
+/// The placeholder that gets what stands between `<chiamm>` and `</chiamm>`.
+const CONTENT: &str = "cuntenuto";
+
+/// A piece called with parameters, while it is compiled.
+struct Piece {
+    /// The path as written in `da`.
+    path: String,
+    /// (name, value, position of the attribute in the caller).
+    values: Vec<(String, String, Pos)>,
+    /// The compiled HTML between the tags, when they are not self-closing.
+    content: Option<String>,
+    used: Vec<String>,
+    /// The file and position of the `<chiamm>`, where a missing value is fixed.
+    caller: String,
+    at: Pos,
+}
+
+impl Piece {
+    fn error(&self, message: String, hint: String) -> Error {
+        Error {
+            message,
+            file: self.caller.clone(),
+            line: self.at.line,
+            column: self.at.column,
+            suggestion: Some(hint),
+        }
+    }
 }
 
 /// An open element: the name as written and where it opened.
@@ -167,16 +199,27 @@ impl Compiler<'_> {
 
     fn fragment(&mut self, source: &str) -> Result<String, Error> {
         let tokens = lexer::tokenize(source).map_err(|f| self.fail(f))?;
+        self.tokens(tokens)
+    }
+
+    fn tokens(&mut self, tokens: Vec<Token>) -> Result<String, Error> {
         let mut tokens = tokens.into_iter();
         let mut out = String::new();
         let mut open: Vec<Open> = Vec::new();
         while let Some(token) = tokens.next() {
             match token {
-                Token::Text(text) | Token::Raw { text, .. } => out.push_str(&text),
+                Token::Text(text) => out.push_str(&self.fill(&text, true)?),
+                Token::Raw { text, .. } => out.push_str(&text),
                 Token::Start(tag) if tag.name.to_lowercase() == INCLUDE => {
-                    out.push_str(&self.include(&tag)?);
+                    let tag = self.fill_tag(tag)?;
+                    let content = match tag.self_closing {
+                        true => None,
+                        false => Some(self.content(&tag, &mut tokens)?),
+                    };
+                    out.push_str(&self.include(&tag, content)?);
                 }
                 Token::Start(tag) => {
+                    let tag = self.fill_tag(tag)?;
                     let (html, custom) = self.element(&tag.name, tag.pos)?;
                     let mut attrs = self.attrs(&tag, &html, custom)?;
                     // The lexer puts the content right after a start tag that is not self-closing
@@ -482,24 +525,14 @@ impl Compiler<'_> {
         }
     }
 
-    /// `<chiamm da="…" />`: the compiled content of another file.
-    fn include(&mut self, tag: &Tag) -> Result<String, Error> {
-        if !tag.self_closing {
-            return Err(self.fail(
-                Fail::new(tag.pos, "<chiamm> se chiude subbeto.")
-                    .hint("Scrive <chiamm da=\"…\" />."),
-            ));
-        }
-        if let Some(a) = tag
-            .attrs
-            .iter()
-            .find(|a| !a.name.eq_ignore_ascii_case("da"))
-        {
-            return Err(self.fail(Fail::new(a.pos, "<chiamm> tene sulo 'da'.")));
-        }
+    /// `<chiamm da="…" />`: the compiled content of another file. Its other
+    /// attributes are parameters for the `{{…}}` placeholders of the file,
+    /// and what stands between `<chiamm>` and `</chiamm>` goes in `{{cuntenuto}}`.
+    fn include(&mut self, tag: &Tag, content: Option<String>) -> Result<String, Error> {
         let Some((da, pos)) = tag
             .attrs
-            .first()
+            .iter()
+            .find(|a| a.name.eq_ignore_ascii_case("da"))
             .and_then(|a| Some((a.value.clone()?, a.value_pos)))
         else {
             return Err(self.fail(
@@ -507,6 +540,30 @@ impl Compiler<'_> {
                     .hint("Scrive <chiamm da=\"pezzi/menu.emmurt\" />."),
             ));
         };
+        let mut values: Vec<(String, String, Pos)> = Vec::new();
+        for a in tag
+            .attrs
+            .iter()
+            .filter(|a| !a.name.eq_ignore_ascii_case("da"))
+        {
+            let name = a.name.to_lowercase();
+            if name == CONTENT {
+                return Err(self.fail(
+                    Fail::new(
+                        a.pos,
+                        "'cuntenuto' è chello ca sta tra <chiamm> e </chiamm>.",
+                    )
+                    .hint("Chiamma stu parametro n'ata manera."),
+                ));
+            }
+            if values.iter().any(|(n, _, _)| *n == name) {
+                return Err(self.fail(Fail::new(
+                    a.pos,
+                    format!("'{}' l'hê scritto doje vote.", a.name),
+                )));
+            }
+            values.push((name, a.value.clone().unwrap_or_default(), a.pos));
+        }
         let path = join(self.file(), &da);
         if self.chain.contains(&path) {
             let cycle = [self.chain.as_slice(), std::slice::from_ref(&path)].concat();
@@ -515,10 +572,155 @@ impl Compiler<'_> {
             ));
         }
         let source = self.read(&path, &da, pos)?;
+        self.pieces.push(Piece {
+            path: da.clone(),
+            values,
+            content,
+            used: Vec::new(),
+            caller: self.file().to_string(),
+            at: tag.pos,
+        });
         self.chain.push(path);
         let html = self.fragment(&source)?;
         self.chain.pop();
+        let piece = self.pieces.pop().expect("pushed above");
+        // A value nobody uses is a typo or a leftover: say so where it is written
+        if let Some((name, _, at)) = piece
+            .values
+            .iter()
+            .find(|(n, _, _)| !piece.used.contains(n))
+        {
+            return Err(self.fail(
+                Fail::new(*at, format!("'{name}' nun 'o usa nisciuno int'a '{da}'."))
+                    .hint(format!("Int'o pezzo scrive {{{{{name}}}}} addò 'o vuò.")),
+            ));
+        }
+        let content_lost = piece.content.as_ref().is_some_and(|c| !c.trim().is_empty())
+            && !piece.used.iter().any(|n| n == CONTENT);
+        if content_lost {
+            return Err(self.fail(
+                Fail::new(
+                    tag.pos,
+                    format!("'{da}' nun tene {{{{cuntenuto}}}}: chello ca ce miette se perde."),
+                )
+                .hint("Miette {{cuntenuto}} int'o pezzo, o chiude subbeto: <chiamm … />."),
+            ));
+        }
         Ok(html.strip_suffix('\n').unwrap_or(&html).to_string())
+    }
+
+    /// The tokens up to the `</chiamm>` that closes `tag`, compiled here: they
+    /// belong to this file, with its own placeholders.
+    fn content(
+        &mut self,
+        tag: &Tag,
+        tokens: &mut impl Iterator<Item = Token>,
+    ) -> Result<String, Error> {
+        let is_include = |name: &str| name.eq_ignore_ascii_case(INCLUDE);
+        let mut inner = Vec::new();
+        let mut depth = 0;
+        loop {
+            match tokens.next() {
+                None => {
+                    return Err(self.fail(
+                        Fail::new(tag.pos, format!("<{}> nun l'hê maje chiuso.", tag.name))
+                            .hint(format!("Scrive </{}> quanno fernesce.", tag.name)),
+                    ))
+                }
+                Some(Token::End { name, .. }) if is_include(&name) && depth == 0 => break,
+                Some(token) => {
+                    match &token {
+                        Token::Start(t) if is_include(&t.name) && !t.self_closing => depth += 1,
+                        Token::End { name, .. } if is_include(name) => depth -= 1,
+                        _ => {}
+                    }
+                    inner.push(token);
+                }
+            }
+        }
+        self.tokens(inner)
+    }
+
+    /// `{{nomme}}` in a piece called with parameters becomes the value given
+    /// to `<chiamm>`, and `{{cuntenuto}}`, in text, what stood between its
+    /// tags. Outside a piece the text stays as it is.
+    fn fill(&mut self, text: &str, in_text: bool) -> Result<String, Error> {
+        if self.pieces.is_empty() || !text.contains("{{") {
+            return Ok(text.to_string());
+        }
+        let mut out = String::with_capacity(text.len());
+        let mut rest = text;
+        while let Some(start) = rest.find("{{") {
+            let after = &rest[start + 2..];
+            let Some(len) = after.find("}}") else {
+                break;
+            };
+            out.push_str(&rest[..start]);
+            let name = after[..len].trim().to_lowercase();
+            let is_name = !name.is_empty()
+                && name
+                    .chars()
+                    .all(|c| c.is_alphanumeric() || "-_".contains(c));
+            if is_name {
+                out.push_str(&self.placeholder(&name, in_text)?);
+            } else {
+                out.push_str(&rest[start..start + 2 + len + 2]);
+            }
+            rest = &after[len + 2..];
+        }
+        out.push_str(rest);
+        Ok(out)
+    }
+
+    fn placeholder(&mut self, name: &str, in_text: bool) -> Result<String, Error> {
+        let piece = self.pieces.last_mut().expect("fill checks it");
+        let value = if name == CONTENT {
+            match (&piece.content, in_text) {
+                (_, false) => {
+                    return Err(piece.error(
+                        format!(
+                            "'{}' tene {{{{cuntenuto}}}} dint'a n'attributo.",
+                            piece.path
+                        ),
+                        "{{cuntenuto}} va sulo int'o testo d'o pezzo.".to_string(),
+                    ))
+                }
+                (Some(html), true) => html.clone(),
+                (None, true) => {
+                    return Err(piece.error(
+                        format!("'{}' vo' nu cuntenuto.", piece.path),
+                        format!("Scrive <chiamm da=\"{}\">…</chiamm>.", piece.path),
+                    ))
+                }
+            }
+        } else {
+            match piece.values.iter().find(|(n, _, _)| n == name) {
+                // The value is attribute text: in the page text a `<` would open a tag
+                Some((_, v, _)) if in_text => v.replace('<', "&lt;"),
+                Some((_, v, _)) => v.clone(),
+                None => {
+                    return Err(piece.error(
+                        format!("'{}' vo' '{name}'.", piece.path),
+                        format!(
+                            "Passalo accussì: <chiamm da=\"{}\" {name}=\"…\" />",
+                            piece.path
+                        ),
+                    ))
+                }
+            }
+        };
+        piece.used.push(name.to_string());
+        Ok(value)
+    }
+
+    /// The tag with its attribute values filled in (see `fill`).
+    fn fill_tag(&mut self, mut tag: Tag) -> Result<Tag, Error> {
+        for a in &mut tag.attrs {
+            if let Some(v) = &a.value {
+                a.value = Some(self.fill(v, false)?);
+            }
+        }
+        Ok(tag)
     }
 
     fn read(&mut self, path: &str, written: &str, pos: Pos) -> Result<String, Error> {
@@ -861,6 +1063,101 @@ mod tests {
         assert_eq!(
             out.dependencies,
             ["sito/pezzi/menu.emmurt", "sito/pezzi/voce.emmurt"]
+        );
+    }
+
+    #[test]
+    fn pieces_take_parameters_and_content() {
+        let files = [
+            (
+                "sito/pezzi/pizza.emmurt",
+                "<fattariello classe=\"{{classe}}\">\n  <luccolo>{{ nomme }}</luccolo>\n  {{cuntenuto}}\n  <miett tipo=\"{{tipo}}\">\n</fattariello>\n",
+            ),
+            ("sito/pezzi/menu.emmurt", "<list><chiamm da=\"voce.emmurt\" testo=\"{{prima}}\" /></list>"),
+            ("sito/pezzi/voce.emmurt", "<voce>{{testo}}</voce>"),
+        ];
+        let source = "<chiamm da=\"pezzi/pizza.emmurt\" nomme=\"Pizza &amp; <birra>\" classe=\"carta\" tipo=\"fattimiei\">\n<chiacchier>Cu 'a bufala</chiacchier>\n</chiamm>";
+        let out = with_files(&files, source, FratmSrc::Keep).unwrap();
+        // Values go through the usual translation; a `<` in text is escaped
+        assert_eq!(
+            out.html,
+            "<article class=\"carta\">\n  <h2>Pizza &amp; &lt;birra></h2>\n  \n<p>Cu 'a bufala</p>\n\n  <input type=\"password\">\n</article>"
+        );
+        // A piece passes its own values on to the pieces it calls
+        let out = with_files(
+            &files,
+            "<chiamm da=\"pezzi/menu.emmurt\" prima=\"Margherita\" />",
+            FratmSrc::Keep,
+        )
+        .unwrap();
+        assert_eq!(out.html, "<ul><li>Margherita</li></ul>");
+        // Outside a piece the braces are text
+        assert_eq!(
+            html("<chiacchier>{{nomme}}</chiacchier>"),
+            "<p>{{nomme}}</p>"
+        );
+    }
+
+    #[test]
+    fn piece_errors_point_at_the_call() {
+        let files = [
+            ("sito/pezzi/voce.emmurt", "<voce>{{testo}}</voce>"),
+            (
+                "sito/pezzi/carta.emmurt",
+                "<cascett>{{cuntenuto}}</cascett>",
+            ),
+        ];
+        let e = with_files(
+            &files,
+            "\n<chiamm da=\"pezzi/voce.emmurt\" />",
+            FratmSrc::Keep,
+        )
+        .unwrap_err();
+        assert_eq!(
+            (e.file.as_str(), e.line, e.column, e.message.as_str()),
+            (
+                "sito/index.emmurt",
+                2,
+                2,
+                "'pezzi/voce.emmurt' vo' 'testo'."
+            )
+        );
+        let e = with_files(
+            &files,
+            "<chiamm da=\"pezzi/voce.emmurt\" testo=\"a\" piccante=\"sì\" />",
+            FratmSrc::Keep,
+        )
+        .unwrap_err();
+        assert_eq!(
+            (e.column, e.message.as_str()),
+            (
+                42,
+                "'piccante' nun 'o usa nisciuno int'a 'pezzi/voce.emmurt'."
+            )
+        );
+        let e = with_files(
+            &files,
+            "<chiamm da=\"pezzi/voce.emmurt\" testo=\"a\">Uè</chiamm>",
+            FratmSrc::Keep,
+        )
+        .unwrap_err();
+        assert!(e.message.contains("nun tene {{cuntenuto}}"), "{e}");
+        let e = with_files(
+            &files,
+            "<chiamm da=\"pezzi/carta.emmurt\" />",
+            FratmSrc::Keep,
+        )
+        .unwrap_err();
+        assert_eq!(e.message, "'pezzi/carta.emmurt' vo' nu cuntenuto.");
+        let e = with_files(
+            &files,
+            "<chiamm da=\"pezzi/carta.emmurt\">\n<cascett>\n</chiamm>",
+            FratmSrc::Keep,
+        )
+        .unwrap_err();
+        assert_eq!(
+            (e.line, e.message.as_str()),
+            (2, "<cascett> nun l'hê maje chiuso.")
         );
     }
 
