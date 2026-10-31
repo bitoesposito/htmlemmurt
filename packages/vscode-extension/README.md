@@ -22,6 +22,10 @@ Gli errori del compilatore compaiono mentre scrivi, in napoletano e con il sugge
 
 Il completamento propone tag, attributi, eventi e valori (`tipo="` → `fattimiei`, `spunta`…), e passando il mouse su un nome vedi l'HTML che diventa.
 
+"Formatta documento" (Maiusc+Alt+F) rimette a posto i rientri come `emmurt fmt`: due spazi per livello, niente spazi in fondo alle righe, al massimo una riga vuota di fila. Su un file che non compila non fa niente, finché non sistemi l'errore.
+
+Ctrl+clic (Cmd+clic su macOS) sul percorso di `<chiamm da="…">` o `<fratm da="…">` apre il file. Un percorso che comincia con `/` parte dalla cartella del progetto.
+
 I colori seguono la struttura della pagina. Dentro `<fratm>` e negli attributi `quanno-*` usa quelli dell'estensione FratmScript se l'hai installata, altrimenti quelli di JavaScript; dentro `<cess>` quelli del CSS.
 
 Gli snippet sono `cristian` (una pagina intera), `fratm`, `fratmda`, `chiamm`, `citofono`, `list` e `modulo`.

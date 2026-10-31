@@ -179,7 +179,7 @@ L'estensione sta sul [Marketplace di VS Code](https://marketplace.visualstudio.c
 code --install-extension bitoesposito.htmlemmurt
 ```
 
-Colora i file `.emmurt` e mostra gli errori mentre scrivi. Completa tag, attributi, eventi e valori, e passando il mouse su un nome vedi il suo HTML. Dentro `<fratm>` usa i colori dell'estensione FratmScript, se l'hai installata.
+Colora i file `.emmurt` e mostra gli errori mentre scrivi. Completa tag, attributi, eventi e valori, e passando il mouse su un nome vedi il suo HTML. "Formatta documento" fa quello che fa `emmurt fmt`, e Ctrl+clic sul percorso di `<chiamm da>` o `<fratm da>` apre il file. Dentro `<fratm>` usa i colori dell'estensione FratmScript, se l'hai installata.
 
 ## Vocabolario
 
