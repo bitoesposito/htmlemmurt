@@ -2,7 +2,7 @@
 
 HTML, ma comme si deve 🤌
 
-Provalo nel [playground](https://bitoesposito.github.io/htmlemmurt/): scrivi a sinistra, a destra vedi l'HTML e la pagina vera.
+Provalo nel [playground](https://bitoesposito.github.io/htmlemmurt/): scrivi a sinistra, a destra vedi l'HTML e la pagina vera. Per partire da zero c'è la [guida passo passo](docs/guida.md), che arriva fino a un sito su GitHub Pages.
 
 htmlemmurt è HTML in napoletano. Scrivi `<cascett>` e il compilatore scrive `<div>`. È il fratello di [FratmScript](https://github.com/kkratterf/fratmscript) e ne usa le stesse parole: `<cascett>` è `div` anche nel JSX di FratmScript. I blocchi `<fratm>` e gli attributi `quanno-*` sono FratmScript e diventano JavaScript, `<cess>` è CSS in napoletano. Il compilatore è in Rust e gira anche in Node, in Vite e nel browser grazie a WebAssembly.
 
@@ -123,6 +123,8 @@ export default {
 ```
 
 Le pagine sono i file `.emmurt` che cominciano con `<cristian>`, e la build le include tutte. In sviluppo una pagina con un errore mostra il messaggio in napoletano e si ricarica quando salvi.
+
+L'app di `emmurt nuovo` ha `base: './'` in `vite.config.js`: gli indirizzi della build sono relativi e il sito funziona anche in una sottocartella, come su GitHub Pages. Il workflow per pubblicarla sta nella [guida](docs/guida.md#10-pubblica-su-github-pages).
 
 Per un'app con i dati c'è `emmurt nuovo pizzeria --completa`. Aggiunge un'API [Hono](https://hono.dev) in `server/api.fratm`, che tiene il menù e gli ordini in SQLite con `apri_db` e le query `gomorra` di FratmScript. `fratmscript({ api: 'server/api.fratm' })` la monta sul server di Vite, quindi `npm run dev` serve pagine e API insieme. In produzione `npm run build` e `npm start` servono `dist/` e l'API con un solo processo Node (22.13 o più nuovo). La pagina riempie il menù copiando un `<stampo>` con i dati dell'API.
 
