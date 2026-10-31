@@ -1,0 +1,5 @@
+<!-- Na carta cu titolo e contenuto: <chiamm da="pezzi/carta.emmurt" titolo="…">…</chiamm> -->
+<fattariello classe="carta">
+  <luccolo>{{titolo}}</luccolo>
+  {{cuntenuto}}
+</fattariello>

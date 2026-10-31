@@ -6,6 +6,13 @@
     <chiamm da="pezzi/cappiell.emmurt" />
     <core>
       <chiacchier>'O cappiell e 'o pere stanno int'a cartella pezzi: ogni paggena 'e chiamma.</chiacchier>
+      <!-- Nu pezzo cu parametri: titolo va int'a {{titolo}}, 'o contenuto int'a {{cuntenuto}} -->
+      <chiamm da="pezzi/carta.emmurt" titolo="Margherita">
+        <chiacchier>Pummarola, <fort>mozzarella</fort> e vasenicola.</chiacchier>
+      </chiamm>
+      <chiamm da="pezzi/carta.emmurt" titolo="Marinara">
+        <chiacchier>Pummarola, aglio e arecheta.</chiacchier>
+      </chiamm>
     </core>
     <chiamm da="pezzi/pere.emmurt" />
   </panz>

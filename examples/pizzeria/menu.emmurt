@@ -14,18 +14,9 @@
           <fila><capocasella>Pizza</capocasella><capocasella>Prezzo</capocasella><capocasella></capocasella></fila>
         </capotavula>
         <cuorpotavula>
-          <fila>
-            <casella>Margherita</casella><casella>5 €</casella>
-            <casella><citofono tipo="buttone" data-pizza="Margherita">Miettela int'o carrello</citofono></casella>
-          </fila>
-          <fila>
-            <casella>Marinara</casella><casella>4 €</casella>
-            <casella><citofono tipo="buttone" data-pizza="Marinara">Miettela int'o carrello</citofono></casella>
-          </fila>
-          <fila>
-            <casella>Diavola</casella><casella>6,50 €</casella>
-            <casella><citofono tipo="buttone" data-pizza="Diavola">Miettela int'o carrello</citofono></casella>
-          </fila>
+          <chiamm da="pezzi/pizza.emmurt" nomme="Margherita" prezzo="5" />
+          <chiamm da="pezzi/pizza.emmurt" nomme="Marinara" prezzo="4" />
+          <chiamm da="pezzi/pizza.emmurt" nomme="Diavola" prezzo="6,50" />
         </cuorpotavula>
       </tavulat>
 
