@@ -45,8 +45,8 @@ dependencies = [
 
 [[package]]
 name = "fratm-core"
-version = "0.13.0"
-source = "git+https://github.com/kkratterf/fratmscript?tag=v0.13.0#5d8d3d8033a9f9612d36420747762b67cc44592d"
+version = "0.16.1"
+source = "git+https://github.com/kkratterf/fratmscript?tag=v0.16.1#d3fabafad54e740bb1c44d29581aa29ae91e6d33"
 dependencies = [
  "serde",
  "serde_json",

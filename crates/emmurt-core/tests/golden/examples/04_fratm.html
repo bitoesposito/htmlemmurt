@@ -15,16 +15,19 @@
     <!-- Nu blocco <fratm> classico: 'e funzioni so' globali, 'e quanno-* 'e vedeno -->
     <script>
 let pizze = 0;
+
 function sforna(quante) {
   pizze += quante;
   document.querySelector("#titolo").textContent = `Sfurnate: ${pizze}`;
 }
+
 function azzera() {
   pizze = 0;
   document.querySelector("#titolo").textContent = "Sforna!";
 }
+
 function saluta(nomme) {
-  const testo = (nomme ? `Uè ${nomme}!` : "");
+  const testo = nomme ? `Uè ${nomme}!` : "";
   document.querySelector("#saluto").textContent = testo;
 }
 </script>
@@ -32,6 +35,7 @@ function saluta(nomme) {
     <!-- 'A libreria fratm: 'o compilatore ce mette sulo 'e funzioni ca chiamme -->
     <script>
 const a_caso = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
 console.log("Pizza 'e oggi n.", a_caso(1, 10));
 </script>
   </body>

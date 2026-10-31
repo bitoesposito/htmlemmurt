@@ -754,6 +754,11 @@ mod tests {
             html("<cascett cess=\"culore: russo; sfunno-culore: janco\"></cascett>"),
             "<div style=\"color: red; background-color: white\"></div>"
         );
+        // Attribute names and states in selectors use the words of the attributes
+        assert_eq!(
+            html("<cess>miett[tipo]:stutato, miett::esempio { culore: grigio }</cess>"),
+            "<style>input[type]:disabled, input::placeholder { color: gray }</style>"
+        );
         let e = error("<cess>\n  cascett { culore russo }\n</cess>");
         assert_eq!(e.line, 2, "{e}");
     }
@@ -827,7 +832,7 @@ mod tests {
     fn handlers_are_fratmscript() {
         assert_eq!(
             html("<citofono quanno-tuocche=\"si (a e b) { sforna(&quot;x&quot;) }\"></citofono>"),
-            "<button onclick=\"if ((a &amp;&amp; b)) {\n  sforna(&quot;x&quot;);\n}\"></button>"
+            "<button onclick=\"if (a &amp;&amp; b) {\n  sforna(&quot;x&quot;);\n}\"></button>"
         );
     }
 
