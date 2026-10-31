@@ -50,6 +50,17 @@ test('meaning for the hover', () => {
   assert.deepEqual(lingua.meaning(vocab, 'pizza'), []);
 });
 
+test('links: the files da names on chiamm and fratm', () => {
+  const text = '<chiamm da="pezzi/a.emmurt" />\n<fratm\n  da=\'/src/main.fratm\'></fratm>\n<cartulin da="b.png">';
+  assert.deepEqual(lingua.links(text), [
+    { start: 12, end: 26, path: 'pezzi/a.emmurt' },
+    { start: 44, end: 59, path: '/src/main.fratm' },
+  ]);
+  assert.equal(text.slice(44, 59), '/src/main.fratm');
+  assert.deepEqual(lingua.links('<CHIAMM titolo="x" da=pezzi/b.emmurt>'), [{ start: 22, end: 36, path: 'pezzi/b.emmurt' }]);
+  assert.deepEqual(lingua.links('<fratm da="https://x.it/a.js"></fratm><chiamm da="{{pezzo}}" /><chiamm-x da="a">'), []);
+});
+
 test('errors in included files show at the top', () => {
   const error = { file: '/a/pezzi/b.emmurt', line: 3, column: 4, message: 'Uh', suggestion: 'Fa accussì' };
   assert.deepEqual(lingua.errorPlace(error, '/a/pezzi/b.emmurt'), { line: 2, column: 3, message: 'Uh\nFa accussì' });
@@ -62,4 +73,6 @@ test('the shipped compiler works', { skip: !existsSync(join(__dirname, '..', 'co
   assert.ok(vocabulary.tags.length > 50);
   const { errors } = wasm.compile('<div>', 'a.emmurt', () => null, true);
   assert.equal(errors[0].suggestion, 'Vuoi dire <cascett>?');
+  assert.equal(wasm.format('<core>\n<acap>\n</core>'), '<core>\n  <acap>\n</core>\n');
+  assert.equal(wasm.format('<core>'), undefined);
 });

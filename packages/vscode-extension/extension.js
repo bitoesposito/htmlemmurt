@@ -1,4 +1,4 @@
-// VS Code glue: errors while you type, completion and hover for .emmurt files.
+// VS Code glue: errors while you type, completion, hover, formatting and links for .emmurt files.
 'use strict';
 
 const fs = require('node:fs');
@@ -8,6 +8,16 @@ const wasm = require('./compiler/emmurt_wasm.js');
 const lingua = require('./lib/lingua.js');
 
 const vocab = JSON.parse(wasm.vocabulary());
+
+// A path that starts with / is from the project folder: the nearest folder
+// above the page that has the file, or else the workspace folder
+function fromProject(doc, p) {
+  const top = vscode.workspace.getWorkspaceFolder(doc.uri)?.uri.fsPath;
+  for (let dir = path.dirname(doc.uri.fsPath); ; dir = path.dirname(dir)) {
+    const target = path.join(dir, p);
+    if (fs.existsSync(target) || dir === top || dir === path.dirname(dir)) return target;
+  }
+}
 
 function activate(context) {
   const diagnostics = vscode.languages.createDiagnosticCollection('htmlemmurt');
@@ -20,9 +30,8 @@ function activate(context) {
       return;
     }
     const file = doc.uri.fsPath.split(path.sep).join('/');
-    const root = vscode.workspace.getWorkspaceFolder(doc.uri)?.uri.fsPath ?? path.dirname(doc.uri.fsPath);
     const read = (p) => {
-      const target = p.startsWith('/') && !fs.existsSync(p) ? path.join(root, p) : p;
+      const target = p.startsWith('/') && !fs.existsSync(p) ? fromProject(doc, p) : p;
       try {
         return fs.readFileSync(target, 'utf8');
       } catch {
@@ -78,8 +87,32 @@ function activate(context) {
     },
   };
 
+  // The whole document, or nothing when it does not compile: the errors say why
+  const formatter = {
+    provideDocumentFormattingEdits(doc) {
+      const text = wasm.format(doc.getText());
+      if (text === undefined || text === doc.getText()) return [];
+      return [vscode.TextEdit.replace(new vscode.Range(doc.positionAt(0), doc.positionAt(doc.getText().length)), text)];
+    },
+  };
+
+  // Ctrl+click on da="…" of <chiamm> and <fratm> opens the file
+  const linker = {
+    provideDocumentLinks(doc) {
+      return lingua.links(doc.getText()).map((link) => {
+        const target = link.path.startsWith('/')
+          ? fromProject(doc, link.path)
+          : path.join(path.dirname(doc.uri.fsPath), link.path);
+        const range = new vscode.Range(doc.positionAt(link.start), doc.positionAt(link.end));
+        return new vscode.DocumentLink(range, vscode.Uri.file(target));
+      });
+    },
+  };
+
   context.subscriptions.push(
     diagnostics,
+    vscode.languages.registerDocumentLinkProvider('htmlemmurt', linker),
+    vscode.languages.registerDocumentFormattingEditProvider('htmlemmurt', formatter),
     vscode.languages.registerCompletionItemProvider('htmlemmurt', completion, '<', ' ', '"', '/'),
     vscode.languages.registerHoverProvider('htmlemmurt', hover),
     vscode.workspace.onDidOpenTextDocument(check),

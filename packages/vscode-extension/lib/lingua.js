@@ -88,6 +88,22 @@ function meaning(vocab, word) {
   return lines;
 }
 
+/**
+ * The files that `da` names on <chiamm> and <fratm>, with the offsets of the
+ * path in `text`. Addresses and paths with a {{…}} parameter are left out.
+ */
+function links(text) {
+  const found = [];
+  for (const tag of text.matchAll(/<(?:chiamm|fratm)(?=[\s/>])[^>]*/giu)) {
+    const da = /\sda\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))/iu.exec(tag[0]);
+    const path = da && (da[1] ?? da[2] ?? da[3]);
+    if (!path || /^([a-z][a-z\d+.-]*:|\/\/)/i.test(path) || path.includes('{{')) continue;
+    const end = tag.index + da.index + da[0].length - (da[3] === undefined ? 1 : 0);
+    found.push({ start: end - path.length, end, path });
+  }
+  return found;
+}
+
 /** Where to show a compiler error in the document `file`: 0-based. */
 function errorPlace(error, file) {
   const same = error.file.replace(/\\/g, '/') === file.replace(/\\/g, '/');
@@ -100,4 +116,4 @@ function errorText(error) {
   return error.suggestion ? `${error.message}\n${error.suggestion}` : error.message;
 }
 
-module.exports = { context, tagItems, attrItems, valueItems, meaning, errorPlace };
+module.exports = { context, tagItems, attrItems, valueItems, meaning, links, errorPlace };
