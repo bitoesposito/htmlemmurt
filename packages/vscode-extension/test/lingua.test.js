@@ -18,6 +18,7 @@ const vocab = {
     { nap: 'tipo', html: 'type' },
   ],
   events: [['quanno-tuocche', 'onclick']],
+  untranslated: { tags: ['track'], attributes: ['srcset'], events: ['onwheel'] },
 };
 
 test('context: where the cursor is', () => {
@@ -35,9 +36,9 @@ test('context: where the cursor is', () => {
 });
 
 test('items follow the element, like the compiler', () => {
-  assert.deepEqual(lingua.tagItems(vocab).map((i) => i.label), ['cascett', 'miett', 'citofono', 'chiamm']);
+  assert.deepEqual(lingua.tagItems(vocab).map((i) => i.label), ['cascett', 'miett', 'citofono', 'chiamm', 'track']);
   const attrs = lingua.attrItems(vocab, 'miett');
-  assert.deepEqual(attrs.map((i) => i.label), ['tipo', 'classe', 'quanno-tuocche']);
+  assert.deepEqual(attrs.map((i) => i.label), ['tipo', 'classe', 'quanno-tuocche', 'srcset', 'onwheel']);
   assert.deepEqual(lingua.valueItems(vocab, 'miett', 'tipo'), [{ label: 'segreto', detail: 'password' }]);
   assert.deepEqual(lingua.valueItems(vocab, 'citofono', 'tipo'), [{ label: 'buttone', detail: 'button' }]);
   assert.deepEqual(lingua.valueItems(vocab, 'cascett', 'tipo'), []);

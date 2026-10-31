@@ -42,10 +42,14 @@ function attrFor(vocab, nap, element) {
   return vocab.attributes.find((a) => a.nap === nap && (!a.only || a.only.includes(element)));
 }
 
+// HTML names with no Neapolitan word yet: the compiler lets them through
+const AS_IT_IS = 'HTML, ancora senza parola napoletana';
+
 function tagItems(vocab) {
   return [
     ...vocab.tags.map(([nap, html]) => ({ label: nap, detail: `<${html}>` })),
     { label: 'chiamm', detail: 'ncolla n\'atu file .emmurt' },
+    ...(vocab.untranslated?.tags ?? []).map((name) => ({ label: name, detail: AS_IT_IS })),
   ];
 }
 
@@ -59,6 +63,8 @@ function attrItems(vocab, tag) {
     items.push({ label: a.nap, detail: a.html });
   }
   for (const [nap, html] of vocab.events) items.push({ label: nap, detail: `${html} (FratmScript)` });
+  const untranslated = vocab.untranslated ?? { attributes: [], events: [] };
+  for (const name of [...untranslated.attributes, ...untranslated.events]) items.push({ label: name, detail: AS_IT_IS });
   return items;
 }
 

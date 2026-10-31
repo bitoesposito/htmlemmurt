@@ -236,6 +236,11 @@ fn vocabulary(as_json: bool) -> ExitCode {
             "tags": vocabolario::TAGS,
             "attributes": vocabolario::ATTRIBUTES,
             "events": vocabolario::EVENTS,
+            "untranslated": {
+                "tags": vocabolario::UNTRANSLATED_TAGS,
+                "attributes": vocabolario::UNTRANSLATED_ATTRIBUTES,
+                "events": vocabolario::UNTRANSLATED_EVENTS,
+            },
         });
         println!("{out}");
         return ExitCode::SUCCESS;
@@ -260,6 +265,14 @@ fn vocabulary(as_json: bool) -> ExitCode {
     println!("\nEventi (dint'ê virgulette ce va FratmScript)");
     for (nap, html, _) in vocabolario::EVENTS {
         println!("  {nap}  →  {html}");
+    }
+    println!("\nNun teneno ancora na parola napoletana: passano comme so'");
+    for (title, names) in [
+        ("Elementi", vocabolario::UNTRANSLATED_TAGS),
+        ("Attribute", vocabolario::UNTRANSLATED_ATTRIBUTES),
+        ("Eventi", vocabolario::UNTRANSLATED_EVENTS),
+    ] {
+        println!("  {title}: {}", names.join(", "));
     }
     ExitCode::SUCCESS
 }

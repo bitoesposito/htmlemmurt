@@ -5,11 +5,199 @@
 
 pub use fratm_core::html::{applies, Attribute, ATTRIBUTES, EVENTS, TAGS};
 
-/// HTML elements with no Neapolitan name yet: strict mode rejects them with
-/// a message of their own instead of "unknown tag".
-pub const UNTRANSLATED: &[&str] = &[
+/// HTML elements with no Neapolitan word yet. They pass as written, like
+/// the attributes and events below; English names that have a word are
+/// still errors. When a word enters `fratm_core::html`, its name leaves
+/// these lists (a test checks).
+pub const UNTRANSLATED_TAGS: &[&str] = &[
     "area", "bdi", "bdo", "col", "colgroup", "data", "dfn", "embed", "hgroup", "map", "math",
-    "menu", "object", "ruby", "rp", "rt", "samp", "search", "track", "var", "wbr",
+    "menu", "object", "rp", "rt", "ruby", "samp", "search", "track", "var", "wbr",
+];
+
+/// HTML attributes with no Neapolitan word yet: they pass as written.
+pub const UNTRANSLATED_ATTRIBUTES: &[&str] = &[
+    "abbr",
+    "accept-charset",
+    "accesskey",
+    "allow",
+    "allowfullscreen",
+    "as",
+    "autocapitalize",
+    "autocorrect",
+    "blocking",
+    "cite",
+    "closedby",
+    "color",
+    "command",
+    "commandfor",
+    "coords",
+    "data",
+    "decoding",
+    "default",
+    "dir",
+    "dirname",
+    "enctype",
+    "enterkeyhint",
+    "fetchpriority",
+    "form",
+    "formaction",
+    "formenctype",
+    "formmethod",
+    "formnovalidate",
+    "formtarget",
+    "headers",
+    "high",
+    "hreflang",
+    "http-equiv",
+    "imagesizes",
+    "imagesrcset",
+    "inert",
+    "inputmode",
+    "is",
+    "ismap",
+    "itemid",
+    "itemprop",
+    "itemref",
+    "itemscope",
+    "itemtype",
+    "kind",
+    "low",
+    "media",
+    "nomodule",
+    "nonce",
+    "novalidate",
+    "optimum",
+    "ping",
+    "playsinline",
+    "popover",
+    "popovertarget",
+    "popovertargetaction",
+    "preload",
+    "referrerpolicy",
+    "reversed",
+    "sandbox",
+    "scope",
+    "shadowrootclonable",
+    "shadowrootdelegatesfocus",
+    "shadowrootmode",
+    "shadowrootserializable",
+    "shape",
+    "size",
+    "sizes",
+    "slot",
+    "span",
+    "srcdoc",
+    "srclang",
+    "srcset",
+    "start",
+    "translate",
+    "usemap",
+    "wrap",
+    "writingsuggestions",
+];
+
+/// HTML event handlers with no Neapolitan word yet: they pass as written,
+/// with their JavaScript.
+pub const UNTRANSLATED_EVENTS: &[&str] = &[
+    "onabort",
+    "onafterprint",
+    "onanimationcancel",
+    "onanimationend",
+    "onanimationiteration",
+    "onanimationstart",
+    "onauxclick",
+    "onbeforeinput",
+    "onbeforematch",
+    "onbeforeprint",
+    "onbeforetoggle",
+    "onbeforeunload",
+    "oncancel",
+    "oncanplay",
+    "oncanplaythrough",
+    "onclose",
+    "oncontextlost",
+    "oncontextmenu",
+    "oncontextrestored",
+    "oncopy",
+    "oncuechange",
+    "oncut",
+    "ondrag",
+    "ondragend",
+    "ondragenter",
+    "ondragleave",
+    "ondragover",
+    "ondragstart",
+    "ondrop",
+    "ondurationchange",
+    "onemptied",
+    "onended",
+    "onerror",
+    "onfocusin",
+    "onfocusout",
+    "onformdata",
+    "onhashchange",
+    "oninvalid",
+    "onkeypress",
+    "onlanguagechange",
+    "onloadeddata",
+    "onloadedmetadata",
+    "onloadstart",
+    "onmessage",
+    "onmessageerror",
+    "onmousedown",
+    "onmousemove",
+    "onmouseout",
+    "onmouseover",
+    "onmouseup",
+    "onoffline",
+    "ononline",
+    "onpagehide",
+    "onpagereveal",
+    "onpageshow",
+    "onpageswap",
+    "onpaste",
+    "onpause",
+    "onplay",
+    "onplaying",
+    "onpointercancel",
+    "onpointerdown",
+    "onpointerenter",
+    "onpointerleave",
+    "onpointermove",
+    "onpointerout",
+    "onpointerover",
+    "onpointerup",
+    "onpopstate",
+    "onprogress",
+    "onratechange",
+    "onreset",
+    "onresize",
+    "onscrollend",
+    "onsecuritypolicyviolation",
+    "onseeked",
+    "onseeking",
+    "onselect",
+    "onselectionchange",
+    "onselectstart",
+    "onslotchange",
+    "onstalled",
+    "onstorage",
+    "onsuspend",
+    "ontimeupdate",
+    "ontoggle",
+    "ontouchcancel",
+    "ontouchend",
+    "ontouchmove",
+    "ontouchstart",
+    "ontransitioncancel",
+    "ontransitionend",
+    "ontransitionrun",
+    "ontransitionstart",
+    "onunhandledrejection",
+    "onunload",
+    "onvolumechange",
+    "onwaiting",
+    "onwheel",
 ];
 
 /// The include tag, resolved at compile time: `<chiamm da="pezzi/menu.emmurt" />`.
@@ -103,8 +291,29 @@ mod tests {
     #[test]
     fn pages_and_html_names_do_not_clash() {
         for (nap, html, _) in TAGS {
-            assert!(!UNTRANSLATED.contains(html), "<{html}> is in UNTRANSLATED");
+            assert!(
+                !UNTRANSLATED_TAGS.contains(html),
+                "<{html}> has a word now: take it out of UNTRANSLATED_TAGS"
+            );
             assert_ne!(*nap, INCLUDE, "<{nap}> is the include tag");
+        }
+        for a in ATTRIBUTES {
+            assert!(
+                !UNTRANSLATED_ATTRIBUTES.contains(&a.html),
+                "'{}' has a word now: take it out of UNTRANSLATED_ATTRIBUTES",
+                a.html
+            );
+            assert!(
+                !UNTRANSLATED_ATTRIBUTES.contains(&a.nap),
+                "'{}' is a word",
+                a.nap
+            );
+        }
+        for (_, html, _) in EVENTS {
+            assert!(
+                !UNTRANSLATED_EVENTS.contains(html),
+                "'{html}' has a word now: take it out of UNTRANSLATED_EVENTS"
+            );
         }
         // A Neapolitan attribute equal to an HTML one would make strict mode ambiguous
         for a in ATTRIBUTES {

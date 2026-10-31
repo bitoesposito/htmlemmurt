@@ -1,0 +1,6 @@
+<!-- Nomi HTML ca nun teneno ancora na parola napoletana: passano comme so -->
+<cascett>
+  <embed da="pizza.svg" tipo="image/svg+xml">
+  <cartulin da="pizza.png" srcset="pizza@2x.png 2x" sizes="50vw" spiegazione="Na pizza">
+  <miett tipo="numero" inputmode="numeric" enterkeyhint="done">
+</cascett>

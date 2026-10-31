@@ -50,7 +50,7 @@ Dopo una modifica al compilatore, `npm run build` in `packages/htmlemmurt` rigen
 - I golden test (`crates/emmurt-core/tests/golden.rs`) fotografano l'output di ogni `examples/*.emmurt` e di ogni `tests/golden/cases/*.emmurt`; i casi `*.sbagliato.emmurt` fotografano l'errore. Un nuovo messaggio d'errore porta un caso nuovo. Dopo una modifica voluta: `EMMURT_UPDATE_GOLDEN=1 cargo test -p emmurt-core --test golden`, poi rileggi il diff.
 - Il vocabolario è condiviso con FratmScript: una parola nuova o cambiata si propone a kkratterf/fratmscript in `crates/fratm-core/src/html.rs`, poi si aggiorna il tag di `fratm-core` e la tabella del README (un test lo controlla). L'estensione legge il vocabolario dal WebAssembly e non va toccata.
 - Non cambiare il significato di una parola esistente senza una issue che lo chieda: i file `.emmurt` già scritti devono continuare a compilare.
-- Il compilatore resta severo: niente ripieghi silenziosi sull'HTML inglese.
+- Il compilatore resta severo: un nome inglese che ha la sua parola napoletana è un errore, e anche un nome che non è HTML. I nomi HTML ancora senza parola passano come sono e stanno nelle liste `UNTRANSLATED_*` di `vocabolario.rs`; quando una parola entra nel vocabolario condiviso, il nome esce dalla lista (un test lo controlla).
 - Un limite di FratmScript non si aggira qui dentro: si segnala a kkratterf/fratmscript con issue e PR.
 - Niente dipendenze nuove senza un motivo scritto nella PR.
 

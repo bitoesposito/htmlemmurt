@@ -24,7 +24,9 @@ use std::fmt;
 
 use lexer::{Pos, Tag, Token};
 use serde::Serialize;
-use vocabolario::{Attribute, INCLUDE, UNTRANSLATED, VOID};
+use vocabolario::{
+    Attribute, INCLUDE, UNTRANSLATED_ATTRIBUTES, UNTRANSLATED_EVENTS, UNTRANSLATED_TAGS, VOID,
+};
 
 /// What to do with `<fratm da="file.fratm">`.
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
@@ -281,29 +283,28 @@ impl Compiler<'_> {
         if let Some(html) = vocabolario::tag(&lower) {
             return Ok((html.to_string(), html == "svg"));
         }
-        let fail =
-            if let Some(nap) = vocabolario::tag_for_html(&lower) {
-                let hint = if lower == "script" {
-                    "Vuoi dire <fratm>? Pe' JavaScript normale miette tipo=\"text/javascript\"."
-                        .to_string()
-                } else {
-                    format!("Vuoi dire <{nap}>?")
-                };
-                Fail::new(pos, format!("<{name}> nun è napoletano.")).hint(hint)
-            } else if UNTRANSLATED.contains(&lower.as_str()) {
-                Fail::new(pos, format!("<{name}> nun tene ancora nu nomme napoletano.")).hint(
-                "Si te serve, arape na issue: https://github.com/bitoesposito/htmlemmurt/issues",
-            )
+        // No Neapolitan word yet: the HTML name as it is
+        if UNTRANSLATED_TAGS.contains(&lower.as_str()) {
+            return Ok((lower, false));
+        }
+        let fail = if let Some(nap) = vocabolario::tag_for_html(&lower) {
+            let hint = if lower == "script" {
+                "Vuoi dire <fratm>? Pe' JavaScript normale miette tipo=\"text/javascript\"."
+                    .to_string()
             } else {
-                let names = vocabolario::TAGS.iter().map(|(n, _, _)| *n);
-                let hint = match vocabolario::closest(&lower, names) {
-                    Some(n) => format!("Vuoi dire <{n}>?"),
-                    None => "'E nomme stanno int'a tabella: emmurt vocabolario. \
-                         N'elemento tuojo vo' nu trattino: <pizza-margherita>."
-                        .to_string(),
-                };
-                Fail::new(pos, format!("<{name}> nun 'o cunosco.")).hint(hint)
+                format!("Vuoi dire <{nap}>?")
             };
+            Fail::new(pos, format!("<{name}> nun è napoletano.")).hint(hint)
+        } else {
+            let names = vocabolario::TAGS.iter().map(|(n, _, _)| *n);
+            let hint = match vocabolario::closest(&lower, names) {
+                Some(n) => format!("Vuoi dire <{n}>?"),
+                None => "'E nomme stanno int'a tabella: emmurt vocabolario. \
+                         N'elemento tuojo vo' nu trattino: <pizza-margherita>."
+                    .to_string(),
+            };
+            Fail::new(pos, format!("<{name}> nun 'o cunosco.")).hint(hint)
+        };
         Err(self.fail(fail))
     }
 
@@ -348,6 +349,11 @@ impl Compiler<'_> {
                     fail(format!("'{}' nun è napoletano.", a.name))
                         .hint(format!("Vuoi dire '{}'?", attr.nap)),
                 ));
+            } else if UNTRANSLATED_EVENTS.contains(&lower.as_str())
+                || UNTRANSLATED_ATTRIBUTES.contains(&lower.as_str())
+            {
+                // No Neapolitan word yet: the HTML name and value as written
+                (lower.clone(), a.value.as_deref().map(quote))
             } else if lower.starts_with("on") && lower.len() > 2 {
                 return Err(self.fail(
                     fail(format!("'{}' nun è napoletano.", a.name))
@@ -898,10 +904,32 @@ mod tests {
         assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire <cascett>?"));
         let e = error("<cascett clase=\"a\">");
         assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire 'classe'?"));
+        // An English name that has a word stays an error on an untranslated tag too
+        let e = error("<track src=\"it.vtt\">");
+        assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire 'da'?"));
+    }
+
+    #[test]
+    fn html_names_without_a_word_pass_as_written() {
         assert_eq!(
-            error("<embed>").message,
-            "<embed> nun tene ancora nu nomme napoletano."
+            html("<modulo addo=\"/carica\" metodo=\"manna\" enctype=\"multipart/form-data\" novalidate></modulo>"),
+            "<form action=\"/carica\" method=\"post\" enctype=\"multipart/form-data\" novalidate></form>"
         );
+        assert_eq!(
+            html("<filmato><track kind=\"subtitles\" srclang=\"it\" da=\"it.vtt\"></filmato>"),
+            "<video><track kind=\"subtitles\" srclang=\"it\" src=\"it.vtt\"></video>"
+        );
+        // Event handlers without a word keep their JavaScript
+        assert_eq!(
+            html("<cascett onwheel=\"zoom(event)\"></cascett>"),
+            "<div onwheel=\"zoom(event)\"></div>"
+        );
+        // Names that are not HTML are still errors
+        assert_eq!(
+            error("<cascett pizza=\"x\">").message,
+            "<cascett> nun cunosce l'attributo 'pizza'."
+        );
+        assert_eq!(error("<pizza>").message, "<pizza> nun 'o cunosco.");
     }
 
     #[test]
