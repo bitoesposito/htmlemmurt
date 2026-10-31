@@ -57,6 +57,11 @@ pub fn vocabulary() -> String {
         "tags": vocabolario::TAGS,
         "attributes": vocabolario::ATTRIBUTES,
         "events": vocabolario::EVENTS,
+        "untranslated": {
+            "tags": vocabolario::UNTRANSLATED_TAGS,
+            "attributes": vocabolario::UNTRANSLATED_ATTRIBUTES,
+            "events": vocabolario::UNTRANSLATED_EVENTS,
+        },
     })
     .to_string()
 }

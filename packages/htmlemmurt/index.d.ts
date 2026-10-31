@@ -42,6 +42,8 @@ export interface Vocabulary {
   attributes: { nap: string; html: string; react: string; only?: string[]; values?: [string, string][] }[];
   /** [Neapolitan, HTML, React prop] */
   events: [string, string, string][];
+  /** HTML names with no Neapolitan word yet: they pass as written */
+  untranslated: { tags: string[]; attributes: string[]; events: string[] };
 }
 
 /** Compiles htmlemmurt to HTML. Never throws on invalid source: check `errors`. */

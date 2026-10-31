@@ -80,7 +80,7 @@ facc completa(ctx) {
                 opzioni.push({ label: a.nap, detail: a.html, type: "property" })
             }
         }
-        piglie { from: nodo.name === "AttributeName" ? nodo.from : ctx.pos, options: [...opzioni, ...parole.eventi], validFor: nomme }
+        piglie { from: nodo.name === "AttributeName" ? nodo.from : ctx.pos, options: [...opzioni, ...parole.eventi, ...parole.comeSo], validFor: nomme }
     }
     si (nodo.name === "AttributeValue" || nodo.name === "UnquotedAttributeValue") {
         chist è attributo = nodo.parent.getChild("AttributeName")
@@ -363,10 +363,13 @@ parole = {
     elementi: [
         ...v.tags.map(([nap, h]) => ({ label: nap, detail: `<${h}>`, type: "type" })),
         { label: "chiamm", detail: "ncolla n'atu file", type: "type" },
+        ...v.untranslated.tags.map((label) => ({ label, detail: "HTML", type: "type" })),
     ],
     html: Object.fromEntries(v.tags),
     attributi: v.attributes,
     eventi: v.events.map(([nap, h]) => ({ label: nap, detail: `${h} (FratmScript)`, type: "event" })),
+    // Nomi HTML ca nun teneno ancora na parola: 'o compilatore 'e fa passà comme so'
+    comeSo: [...v.untranslated.attributes, ...v.untranslated.events].map((label) => ({ label, detail: "HTML", type: "property" })),
 }
 pesca("parole").append(
     tavula("Elementi", ["htmlemmurt", "HTML"], v.tags.map(([nap, h]) => [`<${nap}>`, `<${h}>`])),

@@ -68,7 +68,7 @@ htmlemmurt/
 
 ## Le regole
 
-Il compilatore accetta solo napoletano. `<div>` è un errore, e l'errore ti dice cosa scrivere al posto suo:
+Dove esiste la parola napoletana, il compilatore accetta solo quella. `<div>` è un errore, e l'errore ti dice cosa scrivere al posto suo:
 
 ```
 ✗ index.emmurt:3:6: <div> nun è napoletano.
@@ -78,6 +78,8 @@ Il compilatore accetta solo napoletano. `<div>` è un errore, e l'errore ti dice
 ```
 
 Lo stesso vale per attributi (`class` → `classe`), eventi (`onclick` → `quanno-tuocche`) e valori fissi (`tipo="password"` → `tipo="fattimiei"`). Passano così come sono gli attributi `data-*` e `aria-*` e gli elementi con un trattino nel nome, come `<pizza-card>`, perché sono tuoi.
+
+I nomi HTML che non hanno ancora una parola napoletana passano come sono: `<modulo enctype="multipart/form-data">`, `srcset`, `<track>`, `onwheel`. `emmurt vocabolario` li elenca in fondo. Un nome che non è HTML resta un errore, con il suggerimento della parola più vicina.
 
 I tag si chiudono sempre e nell'ordine giusto, a parte quelli vuoti come `<acap>` e `<miett>`. `<cascett />` vale `<cascett></cascett>`.
 
@@ -157,7 +159,7 @@ Colora i file `.emmurt` e mostra gli errori mentre scrivi. Completa tag, attribu
 
 ## Vocabolario
 
-`emmurt vocabolario` stampa le stesse tabelle.
+`emmurt vocabolario` stampa le stesse tabelle, più l'elenco dei nomi HTML che passano come sono.
 
 <details>
 <summary>Elementi</summary>
