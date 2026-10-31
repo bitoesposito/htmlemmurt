@@ -16,7 +16,7 @@ checksum = "4e7648175b45a9a48536d676f68d918270699102aa8dab5496df06904c914600"
 
 [[package]]
 name = "emmurt-cli"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "emmurt-core",
  "fratm-core",
@@ -25,7 +25,7 @@ dependencies = [
 
 [[package]]
 name = "emmurt-core"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "fratm-core",
  "serde",
@@ -33,7 +33,7 @@ dependencies = [
 
 [[package]]
 name = "emmurt-wasm"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "emmurt-core",
  "fratm-core",

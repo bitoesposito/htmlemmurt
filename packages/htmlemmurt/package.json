@@ -1,6 +1,6 @@
 {
   "name": "htmlemmurt",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "htmlemmurt compiler (WebAssembly), Vite plugin and browser runtime: HTML, ma comme si deve 🤌",
   "license": "MIT",
   "author": "Vito Esposito",
