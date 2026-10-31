@@ -36,6 +36,7 @@ cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
 cargo test --workspace --locked
 cargo build -p emmurt-cli && ./target/debug/emmurt check examples/*.emmurt examples/pezzi && ./target/debug/emmurt check examples/pizzeria
+./target/debug/emmurt fmt --check examples packages/playground crates/emmurt-cli/src/nuovo crates/emmurt-cli/src/nuovo-completa
 cd packages/htmlemmurt && npm run build && npm test           # serve wasm-pack
 cd packages/vscode-extension && npm run compiler && npm test
 cd packages/playground && npm install && npm run build      # dopo il WebAssembly

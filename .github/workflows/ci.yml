@@ -34,6 +34,7 @@ jobs:
           cargo build -p emmurt-cli --locked
           ./target/debug/emmurt check examples/*.emmurt examples/pezzi
           ./target/debug/emmurt check examples/pizzeria
+          ./target/debug/emmurt fmt --check examples packages/playground crates/emmurt-cli/src/nuovo crates/emmurt-cli/src/nuovo-completa
 
   web:
     name: npm, VS Code, end-to-end

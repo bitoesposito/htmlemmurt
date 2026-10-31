@@ -17,10 +17,13 @@
 //! `fratm-core`; `<cess>` and `cess="…"` are CSS in Neapolitan, translated by
 //! its `stile`. `<chiamm da="pezzi/menu.emmurt" />` pastes another file in.
 
+mod format;
 mod lexer;
 pub mod vocabolario;
 
 use std::fmt;
+
+pub use format::format;
 
 use lexer::{Pos, Tag, Token};
 use serde::Serialize;
@@ -188,6 +191,55 @@ struct Open {
     pos: Pos,
 }
 
+/// Closes the innermost open element with `</name>`, or says why it cannot.
+fn close(open: &mut Vec<Open>, name: &str, html: &str, pos: Pos) -> Result<(), Fail> {
+    if VOID.contains(&html) {
+        return Err(
+            Fail::new(pos, format!("<{name}> nun se chiude: è sempe vacante."))
+                .hint(format!("Leva </{name}>.")),
+        );
+    }
+    let same = |o: &Open| o.name.to_lowercase() == name.to_lowercase();
+    match open.last() {
+        Some(last) if same(last) => {
+            open.pop();
+            Ok(())
+        }
+        Some(last) if open.iter().any(same) => Err(Fail::new(
+            pos,
+            format!(
+                "Hê chiuso </{name}> ma <{}> (riga {}) è ancora araputo.",
+                last.name, last.pos.line
+            ),
+        )
+        .hint(format!("Chiudi primma </{}>.", last.name))),
+        last => {
+            let fail = Fail::new(
+                pos,
+                format!("</{name}> chiude na cosa ca nun è maje stata araputa."),
+            );
+            Err(match last {
+                Some(l) => fail.hint(format!(
+                    "L'urdemo araputo è <{}> (riga {}).",
+                    l.name, l.pos.line
+                )),
+                None => fail.hint(format!("Leva </{name}>.")),
+            })
+        }
+    }
+}
+
+/// The error for an element still open at the end of the file.
+fn unclosed(open: &[Open]) -> Result<(), Fail> {
+    match open.last() {
+        Some(o) => Err(
+            Fail::new(o.pos, format!("<{}> nun l'hê maje chiuso.", o.name))
+                .hint(format!("Scrive </{}> quanno fernesce.", o.name)),
+        ),
+        None => Ok(()),
+    }
+}
+
 impl Compiler<'_> {
     fn file(&self) -> &str {
         self.chain.last().map(String::as_str).unwrap_or_default()
@@ -265,54 +317,12 @@ impl Compiler<'_> {
                 }
                 Token::End { name, pos } => {
                     let (html, _) = self.element(&name, pos)?;
-                    if VOID.contains(&html.as_str()) {
-                        return Err(self.fail(
-                            Fail::new(pos, format!("<{name}> nun se chiude: è sempe vacante."))
-                                .hint(format!("Leva </{name}>.")),
-                        ));
-                    }
-                    let same = |o: &Open| o.name.to_lowercase() == name.to_lowercase();
-                    match open.last() {
-                        Some(last) if same(last) => {
-                            open.pop();
-                            out.push_str(&format!("</{html}>"));
-                        }
-                        Some(last) if open.iter().any(same) => {
-                            return Err(self.fail(
-                                Fail::new(
-                                    pos,
-                                    format!(
-                                        "Hê chiuso </{name}> ma <{}> (riga {}) è ancora araputo.",
-                                        last.name, last.pos.line
-                                    ),
-                                )
-                                .hint(format!("Chiudi primma </{}>.", last.name)),
-                            ));
-                        }
-                        last => {
-                            let fail = Fail::new(
-                                pos,
-                                format!("</{name}> chiude na cosa ca nun è maje stata araputa."),
-                            );
-                            let fail = match last {
-                                Some(l) => fail.hint(format!(
-                                    "L'urdemo araputo è <{}> (riga {}).",
-                                    l.name, l.pos.line
-                                )),
-                                None => fail.hint(format!("Leva </{name}>.")),
-                            };
-                            return Err(self.fail(fail));
-                        }
-                    }
+                    close(&mut open, &name, &html, pos).map_err(|f| self.fail(f))?;
+                    out.push_str(&format!("</{html}>"));
                 }
             }
         }
-        if let Some(o) = open.last() {
-            return Err(self.fail(
-                Fail::new(o.pos, format!("<{}> nun l'hê maje chiuso.", o.name))
-                    .hint(format!("Scrive </{}> quanno fernesce.", o.name)),
-            ));
-        }
+        unclosed(&open).map_err(|f| self.fail(f))?;
         Ok(out)
     }
 
