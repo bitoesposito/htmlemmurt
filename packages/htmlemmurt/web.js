@@ -19,6 +19,7 @@ function loadedApi() {
 }
 
 export const compile = (source, options) => loadedApi().compile(source, options);
+export const format = (source) => loadedApi().format(source);
 export const vocabulary = () => loadedApi().vocabulary();
 export const version = () => loadedApi().version();
 export const runtimeError = (error) => loadedApi().runtimeError(error);

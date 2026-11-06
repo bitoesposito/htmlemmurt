@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, writeFileSync, mkdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { compile, vocabulary, version, runtimeError, formatError } from '../index.js';
+import { compile, format, vocabulary, version, runtimeError, formatError } from '../index.js';
 
 test('compile translates a page', () => {
   const { html, errors } = compile('<cristian><panz><cascett classe="a">Uè</cascett></panz></cristian>');
@@ -46,6 +46,11 @@ test('compile takes a custom read function', () => {
   const { errors } = compile('<chiamm da="nada.emmurt" />', { read });
   assert.equal(errors[0].message, "Nun trovo 'nada.emmurt'.");
   assert.equal(errors[0].suggestion, "L'aggio cercato ccà: nada.emmurt");
+});
+
+test('format moves only spaces and line breaks', () => {
+  assert.equal(format('<core>\n<acap>\n</core>'), '<core>\n  <acap>\n</core>\n');
+  assert.equal(format('<core>'), null);
 });
 
 test('vocabulary, version and runtime errors', () => {

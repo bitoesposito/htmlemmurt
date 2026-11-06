@@ -19,6 +19,8 @@ const { html, dependencies, errors } = compile('<cascett classe="a">Uè</cascett
 
 `compile` non lancia mai eccezioni: gli errori stanno in `errors`, con `message`, `file`, `line`, `column` e `suggestion`, in napoletano. Le opzioni sono `filename`, `root` (la cartella per i percorsi che cominciano con `/`), `read` (per leggere i file in un altro modo) e `inline` (incolla nella pagina i file di `<fratm da>`). I moduli `.fratm` li compila il pacchetto [`fratmscript`](https://www.npmjs.com/package/fratmscript).
 
+`format(source)` restituisce la pagina come la scrive `emmurt fmt`, cambiando solo spazi e a capo, oppure `null` se la pagina ha errori (li dice `compile`).
+
 ## Con Vite
 
 ```js

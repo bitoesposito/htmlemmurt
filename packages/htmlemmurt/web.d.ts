@@ -5,6 +5,8 @@ import type { CompileOptions, CompileResult, Vocabulary, EmmurtError } from './i
 export function init(input?: string | URL | Request | Response | BufferSource | WebAssembly.Module): Promise<void>;
 /** Compiles htmlemmurt to HTML. Without `read`, includes cannot be resolved. */
 export function compile(source: string, options?: Omit<CompileOptions, 'root'>): CompileResult;
+/** The page as `emmurt fmt` writes it, or null when it has errors: `compile` says which. */
+export function format(source: string): string | null;
 export function vocabulary(): Vocabulary;
 export function version(): string;
 export function runtimeError(error: unknown): string;
