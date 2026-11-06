@@ -1211,25 +1211,29 @@ mod tests {
         assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire <cascett>?"));
         let e = error("<cascett clase=\"a\">");
         assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire 'classe'?"));
-        // An English name that has a word stays an error on an untranslated tag too
+        // <track> has a word now: its English name is an error, like any other
         let e = error("<track src=\"it.vtt\">");
+        assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire <traccia>?"));
+        let e = error("<traccia src=\"it.vtt\" srclang=\"it\">");
         assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire 'da'?"));
+        let e = error("<traccia da=\"it.vtt\" srclang=\"it\">");
+        assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire 'linguatraccia'?"));
     }
 
     #[test]
     fn html_names_without_a_word_pass_as_written() {
         assert_eq!(
-            html("<modulo addo=\"/carica\" metodo=\"manna\" enctype=\"multipart/form-data\" novalidate></modulo>"),
-            "<form action=\"/carica\" method=\"post\" enctype=\"multipart/form-data\" novalidate></form>"
+            html("<misura valore=\"0.3\" low=\"0.25\" high=\"0.75\" optimum=\"0.5\"></misura>"),
+            "<meter value=\"0.3\" low=\"0.25\" high=\"0.75\" optimum=\"0.5\"></meter>"
         );
         assert_eq!(
-            html("<filmato><track kind=\"subtitles\" srclang=\"it\" da=\"it.vtt\"></filmato>"),
-            "<video><track kind=\"subtitles\" srclang=\"it\" src=\"it.vtt\"></video>"
+            html("<modulo><citofono formtarget=\"_blank\" formnovalidate>Anteprima</citofono></modulo>"),
+            "<form><button formtarget=\"_blank\" formnovalidate>Anteprima</button></form>"
         );
         // Event handlers without a word keep their JavaScript
         assert_eq!(
-            html("<cascett onwheel=\"zoom(event)\"></cascett>"),
-            "<div onwheel=\"zoom(event)\"></div>"
+            html("<cascett onauxclick=\"apri(event)\"></cascett>"),
+            "<div onauxclick=\"apri(event)\"></div>"
         );
         // Names that are not HTML are still errors
         assert_eq!(

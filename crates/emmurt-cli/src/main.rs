@@ -363,7 +363,9 @@ fn vocabulary(as_json: bool) -> ExitCode {
         ("Attribute", vocabolario::UNTRANSLATED_ATTRIBUTES),
         ("Eventi", vocabolario::UNTRANSLATED_EVENTS),
     ] {
-        println!("  {title}: {}", names.join(", "));
+        if !names.is_empty() {
+            println!("  {title}: {}", names.join(", "));
+        }
     }
     ExitCode::SUCCESS
 }

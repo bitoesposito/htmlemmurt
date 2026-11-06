@@ -79,7 +79,7 @@ Dove esiste la parola napoletana, il compilatore accetta solo quella. `<div>` è
 
 Lo stesso vale per attributi (`class` → `classe`), eventi (`onclick` → `quanno-tuocche`) e valori fissi (`tipo="password"` → `tipo="fattimiei"`). Passano così come sono gli attributi `data-*` e `aria-*` e gli elementi con un trattino nel nome, come `<pizza-card>`, perché sono tuoi.
 
-I nomi HTML che non hanno ancora una parola napoletana passano come sono: `<modulo enctype="multipart/form-data">`, `srcset`, `<track>`, `onwheel`. `emmurt vocabolario` li elenca in fondo. Un nome che non è HTML resta un errore, con il suggerimento della parola più vicina.
+I nomi HTML che non hanno ancora una parola napoletana passano come sono: `<misura low="0.25" high="0.75">`, `formnovalidate`, `onauxclick`. Gli elementi hanno tutti la loro parola. `emmurt vocabolario` li elenca in fondo. Un nome che non è HTML resta un errore, con il suggerimento della parola più vicina.
 
 I tag si chiudono sempre e nell'ordine giusto, a parte quelli vuoti come `<acap>` e `<miett>`. `<cascett />` vale `<cascett></cascett>`.
 
@@ -219,6 +219,7 @@ Colora i file `.emmurt` e mostra gli errori mentre scrivi. Completa tag, attribu
 | `<luccolillo>` | `<h4>` |
 | `<luccolino>` | `<h5>` |
 | `<luccolicchio>` | `<h6>` |
+| `<luccolata>` | `<hgroup>` |
 | `<cascett>` | `<div>` |
 | `<chiacchier>` | `<p>` |
 | `<stacc>` | `<hr>` |
@@ -232,6 +233,8 @@ Colora i file `.emmurt` e mostra gli errori mentre scrivi. Completa tag, attribu
 | `<significato>` | `<dd>` |
 | `<quadro>` | `<figure>` |
 | `<didascalia>` | `<figcaption>` |
+| `<listino>` | `<menu>` |
+| `<cerca>` | `<search>` |
 | `<vattenn>` | `<a>` |
 | `<scatulell>` | `<span>` |
 | `<acap>` | `<br>` |
@@ -253,6 +256,16 @@ Colora i file `.emmurt` e mostra gli errori mentre scrivi. Completa tag, attribu
 | `<tastiera>` | `<kbd>` |
 | `<levato>` | `<del>` |
 | `<aggiunto>` | `<ins>` |
+| `<isolato>` | `<bdi>` |
+| `<allevers>` | `<bdo>` |
+| `<dato>` | `<data>` |
+| `<definizione>` | `<dfn>` |
+| `<parentesi>` | `<rp>` |
+| `<pronuncia>` | `<rt>` |
+| `<glossa>` | `<ruby>` |
+| `<schermata>` | `<samp>` |
+| `<incognita>` | `<var>` |
+| `<forsacap>` | `<wbr>` |
 | `<cartulin>` | `<img>` |
 | `<cornice>` | `<picture>` |
 | `<funtana>` | `<source>` |
@@ -261,6 +274,12 @@ Colora i file `.emmurt` e mostra gli errori mentre scrivi. Completa tag, attribu
 | `<fenestella>` | `<iframe>` |
 | `<tela>` | `<canvas>` |
 | `<disegno>` | `<svg>` |
+| `<zona>` | `<area>` |
+| `<mappa>` | `<map>` |
+| `<ncastro>` | `<embed>` |
+| `<ogget>` | `<object>` |
+| `<traccia>` | `<track>` |
+| `<cunte>` | `<math>` |
 | `<tavulat>` | `<table>` |
 | `<cartello>` | `<caption>` |
 | `<capotavula>` | `<thead>` |
@@ -269,6 +288,8 @@ Colora i file `.emmurt` e mostra gli errori mentre scrivi. Completa tag, attribu
 | `<fila>` | `<tr>` |
 | `<casella>` | `<td>` |
 | `<capocasella>` | `<th>` |
+| `<culonna>` | `<col>` |
+| `<culunnato>` | `<colgroup>` |
 | `<modulo>` | `<form>` |
 | `<miett>` | `<input>` |
 | `<citofono>` | `<button>` |
@@ -365,6 +386,56 @@ Un attributo con `ncopp'a` vale solo su quegli elementi; gli altri valgono ovunq
 | `copertina` | `poster` |  |
 | `quanno` | `datetime` |  |
 | `araputo` | `open` |  |
+| `funtane` | `srcset` |  |
+| `grannezze` | `sizes` |  |
+| `schermo` | `media` |  |
+| `mpacchetto` | `enctype` |  |
+| `nuncuntrolla` | `novalidate` |  |
+| `mannaddo` | `formaction` |  |
+| `mannacomme` | `formmethod` |  |
+| `tastierino` | `inputmode` |  |
+| `invio` | `enterkeyhint` |  |
+| `maiuscole` | `autocapitalize` |  |
+| `ntestazione` | `http-equiv` |  |
+| `gabbia` | `sandbox` |  |
+| `permesso` | `allow` |  |
+| `dacheparte` | `referrerpolicy` |  |
+| `sbroglia` | `decoding` |  |
+| `precedenza` | `fetchpriority` |  |
+| `zumpariello` | `popover` |  |
+| `fazumpa` | `popovertarget` |  |
+| `muorto` | `inert` |  |
+| `verso` | `dir` |  |
+| `traduci` | `translate` |  |
+| `scurciatoia` | `accesskey` |  |
+| `linguaddo` | `hreflang` |  |
+| `spia` | `ping` |  |
+| `mappa` | `usemap` |  |
+| `capocaselle` | `headers` |  |
+| `abbraccia` | `scope` |  |
+| `quante` | `span` |  |
+| `accummencia` | `start` |  |
+| `arreto` | `reversed` |  |
+| `pruvenienza` | `cite` |  |
+| `vaacapo` | `wrap` |  |
+| `modulo` | `form` |  |
+| `grannezza` | `size` |  |
+| `nommeverso` | `dirname` |  |
+| `accettacodifica` | `accept-charset` |  |
+| `rrobbacosa` | `itemprop` |  |
+| `cosa` | `itemscope` |  |
+| `razza` | `itemtype` |  |
+| `dintapaggena` | `playsinline` |  |
+| `precarica` | `preload` |  |
+| `scuntrino` | `nonce` |  |
+| `natura` | `as` |  |
+| `blocca` | `blocking` |  |
+| `culore` | `color` |  |
+| `forma` | `shape` |  |
+| `coordinate` | `coords` |  |
+| `specie` | `kind` |  |
+| `linguatraccia` | `srclang` |  |
+| `primmascelta` | `default` |  |
 
 </details>
 
@@ -388,6 +459,39 @@ Dentro le virgolette ci va FratmScript.
 | `quanno-piglie` | `onfocus` |
 | `quanno-perde` | `onblur` |
 | `quanno-scorre` | `onscroll` |
+| `quanno-schiacce` | `onmousedown` |
+| `quanno-lasse` | `onmouseup` |
+| `quanno-muove` | `onmousemove` |
+| `quanno-passe` | `onmouseover` |
+| `quanno-fuje` | `onmouseout` |
+| `quanno-gire` | `onwheel` |
+| `quanno-tuocche-a-destra` | `oncontextmenu` |
+| `quanno-appoggie` | `onpointerdown` |
+| `quanno-stacche` | `onpointerup` |
+| `quanno-striscie` | `onpointermove` |
+| `quanno-sfiore` | `ontouchstart` |
+| `quanno-lieve` | `ontouchend` |
+| `quanno-trascine` | `ondrag` |
+| `quanno-afferre` | `ondragstart` |
+| `quanno-mulle` | `ondrop` |
+| `quanno-sorvole` | `ondragover` |
+| `quanno-batte` | `onkeypress` |
+| `quanno-azzere` | `onreset` |
+| `quanno-sbaglie` | `oninvalid` |
+| `quanno-schiatta` | `onerror` |
+| `quanno-stire` | `onresize` |
+| `quanno-fernesce-ammuina` | `onanimationend` |
+| `quanno-fernesce-passaggio` | `ontransitionend` |
+| `quanno-parte` | `onplay` |
+| `quanno-ferma` | `onpause` |
+| `quanno-fernesce` | `onended` |
+| `quanno-cammina` | `ontimeupdate` |
+| `quanno-copie` | `oncopy` |
+| `quanno-ncolle` | `onpaste` |
+| `quanno-evidenzie` | `onselect` |
+| `quanno-arape-chiude` | `ontoggle` |
+| `quanno-chiude` | `onclose` |
+| `quanno-te-ne-vaje` | `onbeforeunload` |
 
 </details>
 

@@ -29,6 +29,7 @@
 | `<h4>` | `luccolillo` |
 | `<h5>` | `luccolino` |
 | `<h6>` | `luccolicchio` |
+| `<hgroup>` | `luccolata` |
 | `<div>` | `cascett` |
 | `<p>` | `chiacchier` |
 | `<hr>` | `stacc` |
@@ -42,6 +43,8 @@
 | `<dd>` | `significato` |
 | `<figure>` | `quadro` |
 | `<figcaption>` | `didascalia` |
+| `<menu>` | `listino` |
+| `<search>` | `cerca` |
 | `<a>` | `vattenn` |
 | `<span>` | `scatulell` |
 | `<br>` | `acap` |
@@ -63,6 +66,16 @@
 | `<kbd>` | `tastiera` |
 | `<del>` | `levato` |
 | `<ins>` | `aggiunto` |
+| `<bdi>` | `isolato` |
+| `<bdo>` | `allevers` |
+| `<data>` | `dato` |
+| `<dfn>` | `definizione` |
+| `<rp>` | `parentesi` |
+| `<rt>` | `pronuncia` |
+| `<ruby>` | `glossa` |
+| `<samp>` | `schermata` |
+| `<var>` | `incognita` |
+| `<wbr>` | `forsacap` |
 | `<img>` | `cartulin` |
 | `<picture>` | `cornice` |
 | `<source>` | `funtana` |
@@ -71,6 +84,12 @@
 | `<iframe>` | `fenestella` |
 | `<canvas>` | `tela` |
 | `<svg>` | `disegno` |
+| `<area>` | `zona` |
+| `<map>` | `mappa` |
+| `<embed>` | `ncastro` |
+| `<object>` | `ogget` |
+| `<track>` | `traccia` |
+| `<math>` | `cunte` |
 | `<table>` | `tavulat` |
 | `<caption>` | `cartello` |
 | `<thead>` | `capotavula` |
@@ -79,6 +98,8 @@
 | `<tr>` | `fila` |
 | `<td>` | `casella` |
 | `<th>` | `capocasella` |
+| `<col>` | `culonna` |
+| `<colgroup>` | `culunnato` |
 | `<form>` | `modulo` |
 | `<input>` | `miett` |
 | `<button>` | `citofono` |
@@ -165,6 +186,56 @@
 | `poster` | `copertina` |
 | `datetime` | `quanno` |
 | `open` | `araputo` |
+| `srcset` | `funtane` |
+| `sizes` | `grannezze` |
+| `media` | `schermo` |
+| `enctype` | `mpacchetto` |
+| `novalidate` | `nuncuntrolla` |
+| `formaction` | `mannaddo` |
+| `formmethod` | `mannacomme` |
+| `inputmode` | `tastierino` |
+| `enterkeyhint` | `invio` |
+| `autocapitalize` | `maiuscole` |
+| `http-equiv` | `ntestazione` |
+| `sandbox` | `gabbia` |
+| `allow` | `permesso` |
+| `referrerpolicy` | `dacheparte` |
+| `decoding` | `sbroglia` |
+| `fetchpriority` | `precedenza` |
+| `popover` | `zumpariello` |
+| `popovertarget` | `fazumpa` |
+| `inert` | `muorto` |
+| `dir` | `verso` |
+| `translate` | `traduci` |
+| `accesskey` | `scurciatoia` |
+| `hreflang` | `linguaddo` |
+| `ping` | `spia` |
+| `usemap` | `mappa` |
+| `headers` | `capocaselle` |
+| `scope` | `abbraccia` |
+| `span` | `quante` |
+| `start` | `accummencia` |
+| `reversed` | `arreto` |
+| `cite` | `pruvenienza` |
+| `wrap` | `vaacapo` |
+| `form` | `modulo` |
+| `size` | `grannezza` |
+| `dirname` | `nommeverso` |
+| `accept-charset` | `accettacodifica` |
+| `itemprop` | `rrobbacosa` |
+| `itemscope` | `cosa` |
+| `itemtype` | `razza` |
+| `playsinline` | `dintapaggena` |
+| `preload` | `precarica` |
+| `nonce` | `scuntrino` |
+| `as` | `natura` |
+| `blocking` | `blocca` |
+| `color` | `culore` |
+| `shape` | `forma` |
+| `coords` | `coordinate` |
+| `kind` | `specie` |
+| `srclang` | `linguatraccia` |
+| `default` | `primmascelta` |
 | `key` | `chiave` |
 | `defaultValue` | `valore-iniziale` |
 
@@ -185,10 +256,43 @@
 | `focus` | `quanno-piglie` |
 | `blur` | `quanno-perde` |
 | `scroll` | `quanno-scorre` |
+| `mousedown` | `quanno-schiacce` |
+| `mouseup` | `quanno-lasse` |
+| `mousemove` | `quanno-muove` |
+| `mouseover` | `quanno-passe` |
+| `mouseout` | `quanno-fuje` |
+| `wheel` | `quanno-gire` |
+| `contextmenu` | `quanno-tuocche-a-destra` |
+| `pointerdown` | `quanno-appoggie` |
+| `pointerup` | `quanno-stacche` |
+| `pointermove` | `quanno-striscie` |
+| `touchstart` | `quanno-sfiore` |
+| `touchend` | `quanno-lieve` |
+| `drag` | `quanno-trascine` |
+| `dragstart` | `quanno-afferre` |
+| `drop` | `quanno-mulle` |
+| `dragover` | `quanno-sorvole` |
+| `keypress` | `quanno-batte` |
+| `reset` | `quanno-azzere` |
+| `invalid` | `quanno-sbaglie` |
+| `error` | `quanno-schiatta` |
+| `resize` | `quanno-stire` |
+| `animationend` | `quanno-fernesce-ammuina` |
+| `transitionend` | `quanno-fernesce-passaggio` |
+| `play` | `quanno-parte` |
+| `pause` | `quanno-ferma` |
+| `ended` | `quanno-fernesce` |
+| `timeupdate` | `quanno-cammina` |
+| `copy` | `quanno-copie` |
+| `paste` | `quanno-ncolle` |
+| `select` | `quanno-evidenzie` |
+| `toggle` | `quanno-arape-chiude` |
+| `close` | `quanno-chiude` |
+| `beforeunload` | `quanno-te-ne-vaje` |
 
 ## Note
 
-- Quando un tag e un attributo indicano la stessa cosa, usano la stessa parola: `titolo` (`<title>` e `title`), `cess` (`<style>` e `style`), `suggerimenti` (`<datalist>` e `list`), `etichetta` (`<label>` e `label`).
+- Quando un tag e un attributo indicano la stessa cosa, usano la stessa parola: `titolo` (`<title>` e `title`), `cess` (`<style>` e `style`), `suggerimenti` (`<datalist>` e `list`), `etichetta` (`<label>` e `label`), `modulo` (`<form>` e `form`), `mappa` (`<map>` e `usemap`).
 - `<fratm>` è l'unico tag per `<script>`. Il contenuto è FratmScript, a meno che `tipo` non indichi altro (`application/ld+json`, `importmap`, `text/javascript`): in quel caso passa com'è, come fa l'HTML con `type`.
 - `chiave` (`key`) e `valore-iniziale` (`defaultValue`) valgono solo nel JSX.
 - Nel JSX `quanno-scrive` diventa `onInput` e `quanno-cagne` diventa `onChange`, separati.
