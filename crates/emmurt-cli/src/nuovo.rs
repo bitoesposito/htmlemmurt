@@ -4,7 +4,7 @@
 use std::path::Path;
 
 /// The version of fratmscript the apps install, for `{{fratmscript}}`.
-const FRATMSCRIPT: &str = "^0.16.1";
+const FRATMSCRIPT: &str = "^0.17.1";
 
 /// The template, as (path in the new app, content). `{{nomme}}` becomes the
 /// app name and `{{versione}}` the version of htmlemmurt to install.
