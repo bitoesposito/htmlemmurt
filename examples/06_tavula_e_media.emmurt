@@ -2,8 +2,8 @@
   <capa>
     <titolo>Tavule e media</titolo>
     <cess>
-      table { border-collapse: collapse; }
-      td, th { padding: .25rem .5rem; }
+      tavulat { border-collapse: collapse; }
+      casella, capocasella { spazio: .25rem .5rem; }
     </cess>
   </capa>
   <panz>

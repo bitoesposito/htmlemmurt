@@ -14,13 +14,17 @@
 //! tags are errors, in Neapolitan, with line and column. The words are the
 //! ones of `fratm_core::html`, shared with FratmScript's JSX. `<fratm>` blocks
 //! and `quanno-*` handlers are FratmScript, compiled to JavaScript with
-//! `fratm-core`; `<cess>` and `cess="…"` are CSS in Neapolitan, translated by
-//! its `stile`. `<chiamm da="pezzi/menu.emmurt" />` pastes another file in.
+//! `fratm-core`; `<cess>` and `cess="…"` are CSS in Neapolitan, compiled by
+//! par-o-css: strict like the pages, and `@chiamm "par-o-css"` in a `<cess>`
+//! writes the rules of the par-o-css classes the page uses. A Tailwind class
+//! in `classe` is an error that names the par-o-css one.
+//! `<chiamm da="pezzi/menu.emmurt" />` pastes another file in.
 
 mod format;
 mod lexer;
 pub mod vocabolario;
 
+use std::collections::BTreeSet;
 use std::fmt;
 
 pub use format::format;
@@ -138,8 +142,17 @@ pub fn compile(source: &str, options: &Options) -> Result<Output, Error> {
         chain: vec![options.filename.replace('\\', "/")],
         dependencies: Vec::new(),
         pieces: Vec::new(),
+        classes: BTreeSet::new(),
+        sheets: Vec::new(),
     };
-    let html = compiler.fragment(source)?;
+    parocss_core::scan(source, &mut compiler.classes);
+    let mut html = compiler.fragment(source)?;
+    // The stylesheets that write the classes, now that every file is read
+    for (i, sheet) in std::mem::take(&mut compiler.sheets).into_iter().enumerate() {
+        let (css, dependencies) = compiler.css(&sheet.text, sheet.at, &sheet.file)?;
+        compiler.dependencies.extend(dependencies);
+        html = html.replacen(&sheet_marker(i), &css, 1);
+    }
     let html = if is_page(&html) { page(html) } else { html };
     Ok(Output {
         html,
@@ -154,6 +167,23 @@ struct Compiler<'a> {
     dependencies: Vec<String>,
     /// The parameters of the pieces being compiled, innermost last.
     pieces: Vec<Piece>,
+    /// The words of the files read that may be classes, for `@chiamm "par-o-css"`.
+    classes: BTreeSet<String>,
+    /// The `<cess>` that write the classes of the page: compiled at the end.
+    sheets: Vec<Sheet>,
+}
+
+/// A `<cess>` compiled once the whole page is read: its CSS, where it
+/// starts and the file it is in.
+struct Sheet {
+    text: String,
+    at: Pos,
+    file: String,
+}
+
+/// Stands for the CSS of the `i`-th [`Sheet`] until it is compiled.
+fn sheet_marker(i: usize) -> String {
+    format!("\u{0}cess{i}\u{0}")
 }
 
 /// The placeholder that gets what stands between `<chiamm>` and `</chiamm>`.
@@ -285,7 +315,21 @@ impl Compiler<'_> {
                     let content = match html.as_str() {
                         "script" => self.script(&tag, &mut attrs, raw())?,
                         "style" => match raw() {
-                            Some((text, pos)) => self.css(&text, pos)?,
+                            // ponytail: a mention of par-o-css is enough to wait for
+                            // the classes; one in a comment only delays the CSS
+                            Some((text, pos)) if text.contains("par-o-css") => {
+                                self.sheets.push(Sheet {
+                                    text,
+                                    at: pos,
+                                    file: self.file().to_string(),
+                                });
+                                sheet_marker(self.sheets.len() - 1)
+                            }
+                            Some((text, pos)) => {
+                                let (css, dependencies) = self.css(&text, pos, self.file())?;
+                                self.dependencies.extend(dependencies);
+                                css
+                            }
                             None => String::new(),
                         },
                         _ => String::new(),
@@ -387,7 +431,13 @@ impl Compiler<'_> {
                 (html.to_string(), Some(escape_attr(js.trim_end())))
             } else if let Some(attr) = vocabolario::attr_for(&lower, element) {
                 let value = match &a.value {
-                    Some(v) if attr.html == "style" => Some(quote(&self.css(v, a.value_pos)?)),
+                    Some(v) if attr.html == "style" => {
+                        Some(quote(&self.css(v, a.value_pos, self.file())?.0))
+                    }
+                    Some(v) if attr.html == "class" => {
+                        self.tailwind(v, a.value_pos)?;
+                        Some(self.value(attr, a, v)?)
+                    }
                     Some(v) => Some(self.value(attr, a, v)?),
                     None => None,
                 };
@@ -512,27 +562,78 @@ impl Compiler<'_> {
         Ok(format!("\n{}", escape_script(&js)))
     }
 
-    /// CSS in Neapolitan that starts at `at`, translated by FratmScript's
-    /// `stile`; plain CSS passes through.
-    fn css(&self, text: &str, at: Pos) -> Result<String, Error> {
-        match fratm_core::stile::translate(&[text.to_string()]) {
-            Ok(mut chunks) => Ok(chunks.remove(0)),
+    /// CSS in Neapolitan that starts at `at` in `file`, compiled by
+    /// par-o-css with the classes of the page, and the `.cess` files it
+    /// pastes in with `@chiamm`.
+    fn css(&self, text: &str, at: Pos, file: &str) -> Result<(String, Vec<String>), Error> {
+        let options = parocss_core::Options {
+            filename: file,
+            read: self.options.read,
+            classes: &self.classes,
+        };
+        match parocss_core::compile(text, &options) {
+            Ok(out) => Ok((out.css, out.dependencies)),
+            // An error in a `.cess` pasted in is in that file
+            Err(e) if e.file != file => Err(Error {
+                message: e.message,
+                file: e.file,
+                line: e.line,
+                column: e.column,
+                suggestion: e.suggestion,
+            }),
             Err(e) => {
-                let (line, column) = (e.position.line, e.position.column);
-                let pos = if line == 0 {
+                let pos = if e.line == 1 {
                     Pos {
                         line: at.line,
-                        column: at.column + column,
+                        column: at.column + e.column - 1,
                     }
                 } else {
                     Pos {
-                        line: at.line + line,
-                        column: column + 1,
+                        line: at.line + e.line - 1,
+                        column: e.column,
                     }
                 };
-                Err(self.fail(Fail::new(pos, e.message)))
+                let fail = Fail {
+                    pos,
+                    message: e.message,
+                    suggestion: e.suggestion,
+                };
+                Err(fail.in_file(file))
             }
         }
+    }
+
+    /// A Tailwind class in `classe`, starting at `at`, is an error that
+    /// names the par-o-css class to write: `p-4` is `spazio-4`.
+    fn tailwind(&self, value: &str, at: Pos) -> Result<(), Error> {
+        let mut pos = at;
+        let mut word = String::new();
+        let mut start = pos;
+        for c in value.chars().chain([' ']) {
+            if c.is_whitespace() {
+                if let Some(nap) = parocss_core::suggestion(&word) {
+                    return Err(self.fail(
+                        Fail::new(start, format!("'{word}' nun è napoletano."))
+                            .hint(format!("Vuoi dire '{nap}'?")),
+                    ));
+                }
+                word.clear();
+            } else {
+                if word.is_empty() {
+                    start = pos;
+                }
+                word.push(c);
+            }
+            if c == '\n' {
+                pos = Pos {
+                    line: pos.line + 1,
+                    column: 1,
+                };
+            } else {
+                pos.column += 1;
+            }
+        }
+        Ok(())
     }
 
     /// `<chiamm da="…" />`: the compiled content of another file. Its other
@@ -741,6 +842,7 @@ impl Compiler<'_> {
             )
         })?;
         self.dependencies.push(path.to_string());
+        parocss_core::scan(&source, &mut self.classes);
         Ok(source)
     }
 }
@@ -957,7 +1059,7 @@ mod tests {
     #[test]
     fn raw_elements_keep_their_content() {
         assert_eq!(
-            html("<cess>div > p { color: red }</cess><titolo>a <b></titolo>"),
+            html("<cess>cascett > chiacchier { culore: russo }</cess><titolo>a <b></titolo>"),
             "<style>div > p { color: red }</style><title>a <b></title>"
         );
     }
@@ -979,6 +1081,85 @@ mod tests {
         );
         let e = error("<cess>\n  cascett { culore russo }\n</cess>");
         assert_eq!(e.line, 2, "{e}");
+    }
+
+    #[test]
+    fn cess_is_strict_like_the_pages() {
+        let e = error("<capa>\n  <cess>\n    cascett { color: russo }\n  </cess>\n</capa>");
+        assert_eq!(e.message, "'color' nun è napoletano.");
+        assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire 'culore'?"));
+        assert_eq!((e.line, e.column), (3, 15));
+        let e = error("<cess>citofono:hover { culore: russo }</cess>");
+        assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire ':passanno'?"));
+        assert_eq!((e.line, e.column), (1, 16));
+        let e = error("<cascett cess=\"culore: red\"></cascett>");
+        assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire 'russo'?"));
+        assert_eq!((e.line, e.column), (1, 24));
+    }
+
+    #[test]
+    fn par_o_css_writes_the_classes_of_the_page() {
+        let files = [
+            (
+                "sito/pezzi/carta.emmurt",
+                "<fattariello classe=\"carta ombra-md\">{{cuntenuto}}</fattariello>",
+            ),
+            ("sito/stile/carta.cess", ".carta { @applica spazio-4 }"),
+        ];
+        let out = with_files(
+            &files,
+            "<cess>@chiamm \"par-o-css\"; @chiamm \"stile/carta.cess\";</cess>\n<cascett classe=\"flessibile menu\">\n<chiamm da=\"pezzi/carta.emmurt\">Uè</chiamm>\n</cascett>",
+            FratmSrc::Keep,
+        )
+        .unwrap();
+        // The classes of the page and of its pieces, not the words that are not classes
+        assert!(
+            out.html.contains("  .flessibile {\n    display: flex;"),
+            "{}",
+            out.html
+        );
+        assert!(out
+            .html
+            .contains("  .ombra-md {\n    box-shadow: var(--ombra-md);"));
+        assert!(!out.html.contains(".menu"));
+        assert!(out
+            .html
+            .contains(".carta { padding: calc(var(--spazio) * 4); }"));
+        assert!(out
+            .dependencies
+            .contains(&"sito/stile/carta.cess".to_string()));
+        assert!(!out.html.contains('\u{0}'));
+        // An error in a .cess pasted in is in that file
+        let files = [("sito/stile/carta.cess", ".carta {\n  color: russo\n}")];
+        let e = with_files(
+            &files,
+            "<cess>@chiamm \"stile/carta.cess\";</cess>",
+            FratmSrc::Keep,
+        )
+        .unwrap_err();
+        assert_eq!(
+            (e.file.as_str(), e.line, e.column),
+            ("sito/stile/carta.cess", 2, 3)
+        );
+    }
+
+    #[test]
+    fn tailwind_classes_are_errors_with_the_class_to_write() {
+        let e = error("<cascett classe=\"menu p-4\"></cascett>");
+        assert_eq!(e.message, "'p-4' nun è napoletano.");
+        assert_eq!(e.suggestion.as_deref(), Some("Vuoi dire 'spazio-4'?"));
+        assert_eq!((e.line, e.column), (1, 23));
+        let e = error("<cascett classe=\"carta\n  hover:bg-blue-600\"></cascett>");
+        assert_eq!(
+            e.suggestion.as_deref(),
+            Some("Vuoi dire 'passanno:sfunno-blu-600'?")
+        );
+        assert_eq!((e.line, e.column), (2, 3));
+        // par-o-css classes and the page's own pass
+        assert_eq!(
+            html("<cascett classe=\"flessibile md:spazio-4 carta\"></cascett>"),
+            "<div class=\"flessibile md:spazio-4 carta\"></div>"
+        );
     }
 
     #[test]
