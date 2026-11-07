@@ -48,6 +48,11 @@ export interface Vocabulary {
 
 /** Compiles htmlemmurt to HTML. Never throws on invalid source: check `errors`. */
 export function compile(source: string, options?: CompileOptions): CompileResult;
+/**
+ * The page as `emmurt fmt` writes it: only spaces and line breaks change.
+ * Null when it has errors, which `compile` reports.
+ */
+export function format(source: string): string | null;
 /** Every Neapolitan name and its HTML. */
 export function vocabulary(): Vocabulary;
 /** Version of the compiler. */

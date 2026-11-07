@@ -9,6 +9,11 @@ export function createApi(wasm) {
     return { html: response.html, dependencies: response.dependencies, errors: response.errors };
   }
 
+  // Undefined from the bindings when the page cannot be formatted
+  function format(source) {
+    return wasm.format(String(source)) ?? null;
+  }
+
   function vocabulary() {
     return JSON.parse(wasm.vocabulary());
   }
@@ -19,7 +24,7 @@ export function createApi(wasm) {
     return wasm.runtimeError(name, message);
   }
 
-  return { compile, vocabulary, version: wasm.version, runtimeError };
+  return { compile, format, vocabulary, version: wasm.version, runtimeError };
 }
 
 /** `file:line:column: message`, then the hint on its own line. */
