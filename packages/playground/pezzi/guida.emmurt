@@ -1,0 +1,29 @@
+<!-- 'A guida: na sezione 'a vota, cu l'esempi ca se fanno girà. 'E testi 'e mette guida.fratm -->
+<cascett chi="guida-paggena" classe="flessibile direzione-colonna md:griglia md:colonne-[15rem_1fr] cresce altezza-minima-0 trabocca-nascosto" annascuso>
+  <tomtom classe="annascuso md:blocco sfunno-carta spazio-y-4 bordo-destra-1 trabocca-automatico" data-t-aria="guide.sections">
+    <chiacchier classe="margine-sotto-2 spazio-x-4 scrittura-peso-600 scrittura-grannezza-sm" data-t="guide.title">Guida</chiacchier>
+    <elenco chi="guida-indice" classe="flessibile direzione-colonna spazio-mmiez-0.5 spazio-x-2"></elenco>
+  </tomtom>
+  <cascett chi="guida-scorre" classe="cresce altezza-minima-0 trabocca-automatico sfunno-paggena">
+    <fattariello classe="flessibile direzione-colonna spazio-mmiez-4 margine-x-automatico spazio-x-4 sm:spazio-x-6 spazio-y-6 larghezza-massima-3xl">
+      <scegli chi="guida-scegli" classe="scegli larghezza-chino md:annascuso" data-t-aria="guide.section"></scegli>
+      <cappiell>
+        <chiacchier chi="guida-dove" classe="scrittura-grannezza-xs culore-scritta-smorta maiuscolo spazio-lettere-[0.05em]"></chiacchier>
+        <luccolo chi="guida-titolo" classe="margine-ncoppa-1 grassetto scrittura-grannezza-2xl"></luccolo>
+      </cappiell>
+      <cascett chi="guida-testo" classe="testo flessibile direzione-colonna spazio-mmiez-4 culore-scritta-smorta altezza-riga-[1.625]"></cascett>
+      <chiacchier chi="guida-intro" classe="scrittura-grannezza-sm corsivo culore-scritta-smorta"></chiacchier>
+      <cascett chi="guida-esempi" classe="flessibile direzione-colonna spazio-mmiez-4"></cascett>
+      <cascett classe="flessibile giustifica-spartuto allinea-cose-miezo spazio-mmiez-2 spazio-ncoppa-4 bordo-ncoppa-1">
+        <citofono chi="guida-arreto" tipo="buttone" classe="buttone buttone-contorno buttone-piccolo larghezza-minima-0">
+          <scatulell data-icona="sinistra"></scatulell>
+          <scatulell chi="guida-arreto-testo" classe="taglia"></scatulell>
+        </citofono>
+        <citofono chi="guida-appriesso" tipo="buttone" classe="buttone buttone-primario buttone-piccolo larghezza-minima-0">
+          <scatulell chi="guida-appriesso-testo" classe="taglia"></scatulell>
+          <scatulell data-icona="destra"></scatulell>
+        </citofono>
+      </cascett>
+    </fattariello>
+  </cascett>
+</cascett>

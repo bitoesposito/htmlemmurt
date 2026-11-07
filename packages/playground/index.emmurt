@@ -1,76 +1,42 @@
-<!-- 'O playground è scritto isso stesso in htmlemmurt e FratmScript -->
+<!-- 'O playground è scritto isso stesso in htmlemmurt, FratmScript e par-o-css -->
 <cristian lingua="it">
   <capa>
     <inciucc nomme="viewport" cuntenuto="width=device-width, initial-scale=1">
     <titolo>htmlemmurt: 'o playground</titolo>
-    <inciucc nomme="description" cuntenuto="Scrive HTML in napoletano e vide subbeto 'a paggena. Fratello di FratmScript.">
+    <inciucc nomme="description" cuntenuto="Scrive HTML in napoletano e vide subbeto 'a paggena. Fratello di FratmScript e par-o-css.">
     <inciucc nomme="og:title" cuntenuto="htmlemmurt: HTML, ma comme si deve">
     <inciucc nomme="og:description" cuntenuto="Scrive &lt;cascett&gt; e esce &lt;div&gt;. Provalo int'o browser.">
     <inciucc nomme="og:image" cuntenuto="https://bitoesposito.github.io/htmlemmurt/og.png">
     <inciucc nomme="twitter:card" cuntenuto="summary_large_image">
     <attacca rapporto="icona" addo="favicon.svg" tipo="image/svg+xml">
-    <attacca rapporto="stile" addo="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400..600&display=swap">
-    <attacca rapporto="stile" addo="./src/stile.css">
+    <attacca rapporto="alternate" tipo="text/plain" titolo="llms.txt" addo="llms.txt">
+    <!-- 'O tema primma d'o CSS, accussì 'a paggena nun lampeggia -->
+    <fratm tipo="text/javascript">
+      let scelta = null
+      try {
+        scelta = localStorage.getItem("htmlemmurt:tema")
+      } catch {}
+      const scuro = scelta === "scuro" || (scelta !== "chiaro" && matchMedia("(prefers-color-scheme: dark)").matches)
+      document.documentElement.dataset.tema = scuro ? "scuro" : "chiaro"
+    </fratm>
+    <attacca rapporto="stile" addo="./src/stile.cess">
   </capa>
-  <panz>
-    <cappiell classe="testata">
-      <cascett classe="insegna">
-        <luccolone classe="targa">
-          <scatulell classe="vico">Htmlemmurt</scatulell>
-        </luccolone>
-        <chiacchier classe="motto">Scrive <codice>&lt;cascett&gt;</codice> e esce <codice>&lt;div&gt;</codice>.</chiacchier>
+  <panz classe="flessibile direzione-colonna altezza-[100dvh] trabocca-nascosto sfunno-paggena culore-scritta">
+    <chiamm da="pezzi/testata.emmurt" />
+    <core classe="flessibile direzione-colonna cresce altezza-minima-0 trabocca-nascosto">
+      <chiamm da="pezzi/guida.emmurt" />
+      <chiamm da="pezzi/schede.emmurt" />
+      <cascett chi="banco" classe="flessibile direzione-colonna md:griglia md:colonne-2 cresce altezza-minima-0 trabocca-nascosto">
+        <chiamm da="pezzi/codice.emmurt" />
+        <chiamm da="pezzi/uscita.emmurt" />
       </cascett>
-      <tomtom classe="comandi" aria-label="Comandi">
-        <etichetta classe="esempi">
-          <scatulell>Esempi</scatulell>
-          <scegli chi="esempi"><opzione valore="" stutato scigliuto>Scegli…</opzione></scegli>
-        </etichetta>
-        <citofono chi="condividi" tipo="buttone" aria-live="polite">Copia link</citofono>
-        <vattenn addo="https://github.com/bitoesposito/htmlemmurt">GitHub</vattenn>
-        <vattenn addo="https://www.npmjs.com/package/htmlemmurt">npm</vattenn>
-        <vattenn addo="https://marketplace.visualstudio.com/items?itemName=bitoesposito.htmlemmurt">VS Code</vattenn>
-      </tomtom>
-    </cappiell>
-
-    <core classe="banco">
-      <piezz classe="pannello" aria-label="Sorgente">
-        <cascett classe="barra">
-          <scatulell classe="file"><cartulin da="favicon.svg" spiegazione="" larghezza="16" altezza="16"> index.emmurt</scatulell>
-        </cascett>
-        <cascett chi="editor" classe="editor"></cascett>
-        <chiacchier chi="stato" classe="stato" ruolo="status" aria-live="polite">Carico 'o compilatore…</chiacchier>
-      </piezz>
-
-      <piezz classe="pannello" aria-label="Risultato">
-        <cascett classe="barra schede" ruolo="tablist" aria-label="Risultato">
-          <citofono classe="scheda" ruolo="tab" chi="scheda-anteprima" aria-controls="anteprima" aria-selected="true">Anteprima</citofono>
-          <citofono classe="scheda" ruolo="tab" chi="scheda-html" aria-controls="html" aria-selected="false" turno="-1">HTML</citofono>
-          <citofono classe="scheda" ruolo="tab" chi="scheda-vocabolario" aria-controls="vocabolario" aria-selected="false" turno="-1">Vocabolario</citofono>
-        </cascett>
-        <cascett chi="anteprima" classe="vista" ruolo="tabpanel" aria-labelledby="scheda-anteprima"></cascett>
-        <cascett chi="html" classe="vista editor" ruolo="tabpanel" aria-labelledby="scheda-html" annascuso></cascett>
-        <cascett chi="vocabolario" classe="vista vocabolario" ruolo="tabpanel" aria-labelledby="scheda-vocabolario" turno="0" annascuso>
-          <etichetta classe="cerca">
-            <scatulell>Cerca na parola</scatulell>
-            <miett chi="cerca" tipo="cerca" esempio="cascett, div, quanno…">
-          </etichetta>
-          <cascett chi="parole"></cascett>
-          <chiacchier chi="nisciuna" classe="nisciuna" annascuso></chiacchier>
-        </cascett>
-        <piezz classe="console" aria-label="Console">
-          <cascett classe="barra"><scatulell>Console</scatulell></cascett>
-          <elenco chi="console" ruolo="log"></elenco>
-        </piezz>
-      </piezz>
     </core>
-
-    <pere classe="pere">
-      <chiacchier>
-        Stu playground è scritto isso stesso in htmlemmurt e FratmScript:
-        <vattenn addo="https://github.com/bitoesposito/htmlemmurt/tree/main/packages/playground">vide 'o codice</vattenn>.
-      </chiacchier>
-    </pere>
-
+    <chiamm da="pezzi/stato.emmurt" />
+    <chiamm da="pezzi/aiuto.emmurt" />
+    <chiacchier chi="avviso" classe="avviso" ruolo="status" aria-live="polite" annascuso></chiacchier>
+    <cascett chi="carica" classe="fisso ncoppa-0 manca-0 destra-0 sotto-0 livello-50 flessibile allinea-cose-miezo giustifica-miezo sfunno-paggena/80 scrittura-grannezza-sm culore-scritta-smorta">
+      <scatulell data-t="loading">Carico 'o compilatore…</scatulell>
+    </cascett>
     <fratm da="/src/main.fratm" />
   </panz>
 </cristian>

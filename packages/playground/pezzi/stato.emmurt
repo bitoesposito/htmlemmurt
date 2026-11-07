@@ -1,0 +1,18 @@
+<!-- 'A barra 'e stato: comme sta 'o compilatore, quanto ce ha miso e chi l'ha fatto -->
+<pere chi="barra-stato" classe="flessibile giustifica-spartuto allinea-cose-miezo spazio-mmiez-3 sfunno-carta spazio-x-4 spazio-y-0.5 bordo-ncoppa-1 scrittura-grannezza-xs culore-scritta-smorta">
+  <cascett classe="flessibile allinea-cose-miezo spazio-mmiez-2 larghezza-minima-0" ruolo="status" aria-live="polite">
+    <scatulell chi="stato-pallino" classe="pallino sfunno-attesa pulsa"></scatulell>
+    <scatulell chi="stato-testo" classe="taglia" data-t="status.loading">Carico…</scatulell>
+  </cascett>
+  <cascett classe="flessibile allinea-cose-miezo spazio-mmiez-3 [flex-shrink:0]">
+    <scatulell chi="tiempo" classe="annascuso sm:in-linea"></scatulell>
+    <scatulell chi="tiempo-filo" classe="annascuso sm:blocco larghezza-px altezza-3.5 sfunno-filo" ruolo="separator" aria-orientation="vertical"></scatulell>
+    <chiacchier classe="flessibile allinea-cose-miezo spazio-mmiez-0.5 [white-space:nowrap]">
+      <scatulell data-t="footer.madeBy">Fatto cu ammore da</scatulell>
+      <vattenn addo="https://github.com/bitoesposito" arape="nuova" rapporto="noopener" classe="buttone buttone-fantasma altezza-6 spazio-x-1.5 spazio-mmiez-1 scrittura-grannezza-xs culore-scritta" titolo="Vito Esposito">
+        <cartulin da="https://github.com/bitoesposito.png?size=32" spiegazione="" larghezza="16" altezza="16" classe="bordo-tunno-chino">
+        Vito
+      </vattenn>
+    </chiacchier>
+  </cascett>
+</pere>

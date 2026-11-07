@@ -115,3 +115,52 @@ fn guide_examples_compile() {
         assert_eq!(emmurt_core::format(block, "guida").unwrap(), *block);
     }
 }
+
+/// The playground's guide and lessons: every snippet compiles (the
+/// `*.sbagliato.emmurt` ones must fail) and is formatted, and every lesson's
+/// solution is a different page from its start. `<chiamm>` reads
+/// `examples/pezzi`, as in the playground.
+#[test]
+fn playground_snippets_compile() {
+    let examples = repo().join("examples");
+    let read = |path: &str| fs::read_to_string(examples.join(path)).ok();
+    let options = Options {
+        read: &read,
+        ..Options::default()
+    };
+    for dir in ["guida", "scola"] {
+        let dir = repo().join("packages/playground/src").join(dir);
+        let mut files: Vec<PathBuf> = fs::read_dir(&dir)
+            .unwrap()
+            .map(|e| e.unwrap().path())
+            .filter(|p| p.extension().is_some_and(|e| e == "emmurt"))
+            .collect();
+        files.sort();
+        assert!(files.len() >= 9, "{}", dir.display());
+        for path in files {
+            let name = path.file_name().unwrap().to_string_lossy().to_string();
+            let source = fs::read_to_string(&path).unwrap();
+            let html = compile(&source, &options).map(|out| out.html);
+            assert_eq!(
+                html.is_err(),
+                name.ends_with(".sbagliato.emmurt"),
+                "{name}: {:?}",
+                html.as_ref().err()
+            );
+            assert_eq!(
+                emmurt_core::format(&source, &name).unwrap(),
+                source,
+                "{name} is not formatted"
+            );
+            if let Some(start) = name.strip_suffix(".soluzione.emmurt") {
+                let starter = fs::read_to_string(dir.join(format!("{start}.emmurt"))).unwrap();
+                let starter = compile(&starter, &options).unwrap().html;
+                assert_ne!(
+                    starter,
+                    html.unwrap(),
+                    "{name} is the same page as its start"
+                );
+            }
+        }
+    }
+}

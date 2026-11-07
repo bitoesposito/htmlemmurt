@@ -1,0 +1,288 @@
+/* The playground's stylesheet, in par-o-css: the look of FratmScript's
+   playground (coss/shadcn tokens on neutral greys). Pages use classes for
+   the layout; the parts they share (buttons, menus, badges) are in the
+   componenti layer, so a class on the element still wins over them. */
+@layer pulizia, componenti, classi;
+@chiamm "par-o-css"
+
+@tema {
+  --culore-paggena: #ffffff
+  --culore-scritta: #262626
+  --culore-carta: #ffffff
+  --culore-smorto: rgb(0 0 0 / 4%)
+  --culore-scritta-smorta: color-mix(in srgb, #737373 90%, #000000)
+  --culore-filo: rgb(0 0 0 / 8%)
+  --culore-casella: rgb(0 0 0 / 10%)
+  --culore-primario: #262626
+  --culore-primario-scritta: #fafafa
+  --culore-anello: #a3a3a3
+  --culore-sbaglio: #ef4444
+  --culore-sbaglio-scritta: #b91c1c
+  --culore-buono: #10b981
+  --culore-buono-scritta: #047857
+  --culore-attesa: #f59e0b
+  --culore-attesa-scritta: #b45309
+  --culore-nfo: #3b82f6
+  --scrittura-mono: "Fira Code", "SF Mono", Monaco, Inconsolata, ui-monospace, monospace
+}
+
+/* Code colours, as in FratmScript's editor */
+:radice {
+  color-scheme: light;
+  --cm-tag: #dc2626;
+  --cm-attributo: #b45309;
+  --cm-valore: #047857;
+  --cm-parola: #7c3aed;
+  --cm-commento: #6b7280;
+  --cm-punteggiatura: #6b7280;
+  --cm-nomme: #374151;
+  --cm-numero: #b45309;
+  --cm-funzione: #2563eb;
+  --cm-operatore: #0e7490;
+  --cm-cursore: #ef4444;
+  --cm-selezione: rgb(239 68 68 / 20%);
+}
+
+/* The theme menu writes data-tema; "system" follows the device (see index.emmurt) */
+:radice[data-tema="scuro"] {
+  color-scheme: dark;
+  --culore-paggena: color-mix(in srgb, #0a0a0a 95%, #ffffff);
+  --culore-scritta: #f5f5f5;
+  --culore-carta: color-mix(in srgb, color-mix(in srgb, #0a0a0a 95%, #ffffff) 98%, #ffffff);
+  --culore-smorto: rgb(255 255 255 / 4%);
+  --culore-scritta-smorta: color-mix(in srgb, #737373 75%, #ffffff);
+  --culore-filo: rgb(255 255 255 / 6%);
+  --culore-casella: rgb(255 255 255 / 8%);
+  --culore-primario: #f5f5f5;
+  --culore-primario-scritta: #262626;
+  --culore-anello: #737373;
+  --culore-sbaglio: color-mix(in srgb, #ef4444 90%, #ffffff);
+  --culore-sbaglio-scritta: #f87171;
+  --culore-buono-scritta: #34d399;
+  --culore-attesa-scritta: #fbbf24;
+  --cm-tag: #f87171;
+  --cm-attributo: #fbbf24;
+  --cm-valore: #34d399;
+  --cm-parola: #a78bfa;
+  --cm-commento: #9ca3af;
+  --cm-punteggiatura: #9ca3af;
+  --cm-nomme: #e5e7eb;
+  --cm-numero: #fbbf24;
+  --cm-funzione: #60a5fa;
+  --cm-operatore: #22d3ee;
+}
+
+@layer pulizia {
+  * {
+    bordo-culore: var(--culore-filo);
+  }
+
+  panz {
+    scrittura: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  :fuoco-visibile {
+    contorno: 2px continuo var(--culore-anello);
+    outline-offset: 1px;
+  }
+
+  ::-webkit-scrollbar {
+    larghezza: 8px;
+    altezza: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    sfunno: var(--culore-casella);
+    bordo-tunno: 9999px;
+  }
+}
+
+@layer componenti {
+  /* Buttons: coss sizes (h-8, px-3), rounded-lg, a 1px border */
+  .buttone {
+    @applica relativo flessibile-in-linea allinea-cose-miezo giustifica-miezo spazio-mmiez-2 altezza-8 spazio-x-3 bordo bordo-tunno-lg scrittura-grannezza-sm scrittura-peso-500 cursore-manella selezione-nisciuno transizione
+    bordo-culore: trasparente;
+    white-space: nun-va-a-capo;
+    text-decoration-line: nisciuno;
+  }
+
+  .buttone:stutato {
+    opacità: 0.64;
+    puntatore: nisciuno;
+  }
+
+  .buttone disegno {
+    larghezza: 1rem;
+    altezza: 1rem;
+    opacità: 0.8;
+    flex-shrink: 0;
+  }
+
+  .buttone-primario {
+    @applica sfunno-primario culore-primario-scritta bordo-primario ombra-xs
+    @applica passanno:sfunno-primario/90
+  }
+
+  .buttone-contorno {
+    @applica sfunno-paggena culore-scritta bordo-casella ombra-xs
+    @applica passanno:sfunno-smorto
+  }
+
+  .buttone-fantasma {
+    @applica culore-scritta
+    @applica passanno:sfunno-smorto
+  }
+
+  .buttone-fantasma[aria-pressed="true"] {
+    @applica sfunno-smorto
+  }
+
+  .buttone-icona {
+    @applica larghezza-8 spazio-x-0
+  }
+
+  .buttone-piccolo {
+    @applica altezza-7 spazio-x-2.5 spazio-mmiez-1.5 scrittura-grannezza-xs
+  }
+
+  /* Native select with FratmScript's chevron */
+  .scegli {
+    @applica altezza-8 bordo bordo-casella bordo-tunno-lg sfunno-smorto culore-scritta scrittura-grannezza-sm spazio-manca-3 spazio-destra-8 ombra-xs cursore-manella
+    appearance: nisciuno;
+    sfunno-immagine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: nun-ripete;
+    background-position: destra 0.5rem miezo;
+  }
+
+  .scegli opzione {
+    sfunno-culore: var(--culore-carta);
+    culore: var(--culore-scritta);
+  }
+
+  .distintivo {
+    @applica flessibile-in-linea allinea-cose-miezo bordo bordo-casella bordo-tunno spazio-x-1 scrittura-mono scrittura-grannezza-xs culore-scritta
+  }
+
+  /* A section of the output: a dot, a small uppercase title, its actions */
+  .titoletto {
+    @applica flessibile allinea-cose-miezo spazio-mmiez-2 scrittura-grannezza-xs scrittura-peso-500 culore-scritta-smorta maiuscolo
+    spazio-lettere: 0.05em;
+  }
+
+  .pallino {
+    @applica larghezza-2 altezza-2 bordo-tunno-chino
+    flex-shrink: 0;
+  }
+
+  .pulsa {
+    animazione: pulsa 2s facile infinito;
+  }
+
+  /* Tabs: the phone panels and the output sections */
+  .scheda {
+    @applica flessibile cresce giustifica-miezo allinea-cose-miezo spazio-mmiez-1.5 spazio-y-2.5 scrittura-grannezza-sm scrittura-peso-500 culore-scritta-smorta cursore-manella transizione
+    bordo-sotto: 2px continuo trasparente;
+  }
+
+  .scheda[aria-selected="true"] {
+    @applica culore-scritta
+    border-bottom-color: var(--culore-primario);
+  }
+
+  .scheda-piccola {
+    @applica spazio-x-1.5 spazio-y-0.5 bordo-tunno scrittura-grannezza-xs scrittura-peso-500 culore-scritta-smorta maiuscolo cursore-manella
+    spazio-lettere: 0.05em;
+  }
+
+  .scheda-piccola[aria-selected="true"] {
+    @applica sfunno-smorto culore-scritta
+  }
+
+  .contatore {
+    @applica spazio-x-1.5 bordo-tunno-chino sfunno-smorto culore-scritta-smorta scrittura-grannezza-xs
+    larghezza-minima: 1.25rem;
+    altezza-riga: 1.25rem;
+  }
+
+  .contatore[data-sbagli] {
+    @applica sfunno-sbaglio culore-janco
+  }
+
+  .taglia {
+    trabocca: nascosto;
+    text-overflow: ellipsis;
+    white-space: nun-va-a-capo;
+  }
+
+  /* Text with `code` in it: lessons, guide, help */
+  .testo codice {
+    @applica sfunno-smorto spazio-x-1 bordo-tunno scrittura-mono culore-scritta
+    scrittura-grannezza: 0.85em;
+    spazio-ncoppa: 0.125rem;
+    spazio-sotto: 0.125rem;
+  }
+
+  /* The console: one line per message */
+  .voce-console {
+    @applica flessibile allinea-cose-inizio spazio-mmiez-2 spazio-x-3 spazio-y-1.5 bordo-sotto-1 scrittura-mono scrittura-grannezza-sm
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .voce-console:urdemo-figlio {
+    bordo-sotto-larghezza: 0;
+  }
+
+  .voce-console[data-tipo="warn"] {
+    @applica culore-attesa-scritta sfunno-attesa/5
+  }
+
+  .voce-console[data-tipo="error"] {
+    @applica culore-sbaglio-scritta sfunno-sbaglio/5
+  }
+
+  /* The exercise of a lesson: green once the page matches the solution */
+  #lezione-compito {
+    @applica bordo-primario/30 sfunno-primario/5
+  }
+
+  #lezione-compito[data-fatto] {
+    @applica bordo-buono/40 sfunno-buono/10
+  }
+
+  .avviso {
+    @applica posizione-fisso destra-4 sotto-12 livello-50 bordo bordo-tunno-lg sfunno-carta culore-scritta ombra-lg spazio-x-4 spazio-y-3 scrittura-grannezza-sm larghezza-massima-xs
+  }
+}
+
+@keyframes pulsa {
+  50% {
+    opacità: 0.5;
+  }
+}
+
+/* On phones the open section fills the output panel (over its height class) */
+#uscita [data-sola] {
+  altezza: automatico;
+  flessibile: 1 1 0;
+  bordo-sotto-larghezza: 0;
+}
+
+/* The page under test and the help dialog */
+fenestella {
+  @applica larghezza-chino altezza-chino bordo-0 sfunno-janco
+}
+
+dialogo::backdrop {
+  sfunno: rgb(0 0 0 / 40%);
+}
+
+@quanno (prefers-reduced-motion: reduce) {
+  .pulsa,
+  .transizione,
+  .buttone,
+  .scheda {
+    animazione: nisciuno;
+    transizione: nisciuno;
+  }
+}

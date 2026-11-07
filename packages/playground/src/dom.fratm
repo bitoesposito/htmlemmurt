@@ -1,0 +1,42 @@
+// Doje cose ca servono a tutt'e pezze d'o playground
+
+/** N'elemento cu 'e classi e, si ce sta, 'o testo. */
+mann for facc crea(tag, classe = "", testo) {
+    chist è el = document.createElement(tag)
+    si (classe) {
+        el.className = classe
+    }
+    si (testo !== boh) {
+        el.textContent = testo
+    }
+    piglie el
+}
+
+/** Testo cu `codice` tra 'e backtick, comme int'e lezioni e int'a guida. */
+mann for facc scriviTesto(el, testo) {
+    el.replaceChildren()
+    pe ogni (chist è [i, pezzo] dint testo.split(/`([^`]+)`/).entries()) {
+        si (i % 2 === 1) {
+            el.append(crea("code", "", pezzo))
+        } sinnò si (pezzo) {
+            el.append(pezzo)
+        }
+    }
+}
+
+/** Leggere e scrivere int'o localStorage senza schiattà (navigazione privata). */
+mann for facc leggiSalvato(chiave) {
+    pruvamm {
+        piglie localStorage.getItem(chiave)
+    } e si schiatta (e) {
+        piglie nisciun
+    }
+}
+
+mann for facc salva(chiave, valore) {
+    pruvamm {
+        localStorage.setItem(chiave, valore)
+    } e si schiatta (e) {
+        // Vale pe sta visita
+    }
+}

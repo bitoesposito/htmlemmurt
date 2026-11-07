@@ -1,0 +1,255 @@
+{
+  "sections": [
+    {
+      "id": "paggena",
+      "title": { "it": "La pagina", "en": "The page", "nap": "'A paggena" },
+      "body": {
+        "it": [
+          "Una pagina comincia con `<cristian>`, che è `<html>` (`lingua` è `lang`). Dentro ci sono `<capa>` (`<head>`), con `<titolo>` (`<title>`) e `<inciucc>` (`<meta>`), e `<panz>` (`<body>`), con quello che si vede.",
+          "Un file che comincia con `<cristian>` è una pagina: il compilatore ci mette `<!DOCTYPE html>` e, se manca, `<meta charset=\"utf-8\">`. Non scriverli tu: `<!DOCTYPE>` è un errore.",
+          "Un file che non comincia con `<cristian>` è un pezzo e diventa solo il suo HTML: gli altri esempi di questa guida sono pezzi. I commenti si scrivono come in HTML, `<!-- … -->`, e restano nella pagina."
+        ],
+        "en": [
+          "A page starts with `<cristian>`, which is `<html>` (`lingua` is `lang`). Inside go `<capa>` (`<head>`), with `<titolo>` (`<title>`) and `<inciucc>` (`<meta>`), and `<panz>` (`<body>`), with what you see.",
+          "A file that starts with `<cristian>` is a page: the compiler adds `<!DOCTYPE html>` and, when it is missing, `<meta charset=\"utf-8\">`. Don't write them yourself: `<!DOCTYPE>` is an error.",
+          "A file that doesn't start with `<cristian>` is a fragment and becomes just its HTML: the other examples in this guide are fragments. Comments are written as in HTML, `<!-- … -->`, and stay in the page."
+        ],
+        "nap": [
+          "Na paggena accummencia cu `<cristian>`, ca è `<html>` (`lingua` è `lang`). Llà dinto ce stanno `<capa>` (`<head>`), cu `<titolo>` (`<title>`) e `<inciucc>` (`<meta>`), e `<panz>` (`<body>`), cu chello ca se vede.",
+          "Nu file ca accummencia cu `<cristian>` è na paggena: 'o compilatore ce mette `<!DOCTYPE html>` e, si nun ce sta, `<meta charset=\"utf-8\">`. Nun 'e scrivere tu: `<!DOCTYPE>` è n'errore.",
+          "Nu file ca nun accummencia cu `<cristian>` è nu pezzo e addiventa sulo 'o HTML suoio: l'ati esempi 'e sta guida so' tutte pezzi. 'E commenti se scriveno comme in HTML, `<!-- … -->`, e restano dint'a paggena."
+        ]
+      },
+      "snippets": ["01_paggena.emmurt"]
+    },
+    {
+      "id": "testo",
+      "title": { "it": "Testo", "en": "Text", "nap": "'O testo" },
+      "body": {
+        "it": [
+          "I titoli vanno da `<luccolone>` (`<h1>`) a `<luccolicchio>` (`<h6>`), passando per `<luccolo>`, `<luccoliello>`, `<luccolillo>` e `<luccolino>`. Un paragrafo è `<chiacchier>` (`<p>`).",
+          "Dentro il testo ci sono `<fort>` (`<strong>`), `<corsivo>` (`<em>`), `<piccirill>` (`<small>`), `<evidenziato>` (`<mark>`), `<codice>` (`<code>`), `<tastiera>` (`<kbd>`) e `<scatulell>` (`<span>`).",
+          "`<acap>` (`<br>`) va a capo e `<stacc>` (`<hr>`) traccia una linea: sono vuoti e non si chiudono, come `<miett>` e `<cartulin>`. Gli altri tag si chiudono sempre, nell'ordine giusto; `<cascett />` vale `<cascett></cascett>`.",
+          "Dove c'è la parola napoletana si scrive solo quella: `<strong>` è un errore, e il compilatore ti suggerisce `<fort>`."
+        ],
+        "en": [
+          "Headings go from `<luccolone>` (`<h1>`) to `<luccolicchio>` (`<h6>`), through `<luccolo>`, `<luccoliello>`, `<luccolillo>` and `<luccolino>`. A paragraph is `<chiacchier>` (`<p>`).",
+          "Inside text you have `<fort>` (`<strong>`), `<corsivo>` (`<em>`), `<piccirill>` (`<small>`), `<evidenziato>` (`<mark>`), `<codice>` (`<code>`), `<tastiera>` (`<kbd>`) and `<scatulell>` (`<span>`).",
+          "`<acap>` (`<br>`) breaks the line and `<stacc>` (`<hr>`) draws a rule: they are empty and never closed, like `<miett>` and `<cartulin>`. Every other tag is always closed, in the right order; `<cascett />` is the same as `<cascett></cascett>`.",
+          "Where a Neapolitan word exists, only that word is accepted: `<strong>` is an error, and the compiler suggests `<fort>`."
+        ],
+        "nap": [
+          "'E titoli vanno 'a `<luccolone>` (`<h1>`) a `<luccolicchio>` (`<h6>`), passanno pe `<luccolo>`, `<luccoliello>`, `<luccolillo>` e `<luccolino>`. Nu paragrafo è `<chiacchier>` (`<p>`).",
+          "Dint'o testo ce stanno `<fort>` (`<strong>`), `<corsivo>` (`<em>`), `<piccirill>` (`<small>`), `<evidenziato>` (`<mark>`), `<codice>` (`<code>`), `<tastiera>` (`<kbd>`) e `<scatulell>` (`<span>`).",
+          "`<acap>` (`<br>`) va a capo e `<stacc>` (`<hr>`) fa na linea: so' vacante e nun se chiudono, comme `<miett>` e `<cartulin>`. L'ati tag se chiudono sempe, int'all'ordine giusto; `<cascett />` vale `<cascett></cascett>`.",
+          "Addò ce sta 'a parola napoletana se scrive sulo chella: `<strong>` è n'errore, e 'o compilatore te dice `<fort>`."
+        ]
+      },
+      "snippets": ["02_testo.emmurt"]
+    },
+    {
+      "id": "vattenn",
+      "title": { "it": "Link e immagini", "en": "Links and images", "nap": "Vattenn e cartuline" },
+      "body": {
+        "it": [
+          "`<vattenn>` è il link (`<a>`): `addo` è `href` e `arape` è `target`. I valori fissi si traducono: `arape=\"nuova\"` diventa `target=\"_blank\"`, `arape=\"ccà\"` diventa `target=\"_self\"`.",
+          "`<cartulin>` è l'immagine (`<img>`), un tag vuoto: `da` è `src`, `spiegazione` è `alt`, `larghezza` e `altezza` sono `width` e `height`, `carica=\"chianochiano\"` è `loading=\"lazy\"`. Con `<quadro>` (`<figure>`) e `<didascalia>` (`<figcaption>`) ci metti sotto una didascalia.",
+          "`<filmato>` è `<video>` e `<suono>` è `<audio>`, con `comandi` (`controls`), `muto` (`muted`) e `ripete` (`loop`). Il file sta in `da` oppure in uno o più `<funtana>` (`<source>`)."
+        ],
+        "en": [
+          "`<vattenn>` is the link (`<a>`): `addo` is `href` and `arape` is `target`. Fixed values are translated: `arape=\"nuova\"` becomes `target=\"_blank\"`, `arape=\"ccà\"` becomes `target=\"_self\"`.",
+          "`<cartulin>` is the image (`<img>`), an empty tag: `da` is `src`, `spiegazione` is `alt`, `larghezza` and `altezza` are `width` and `height`, `carica=\"chianochiano\"` is `loading=\"lazy\"`. With `<quadro>` (`<figure>`) and `<didascalia>` (`<figcaption>`) you put a caption under it.",
+          "`<filmato>` is `<video>` and `<suono>` is `<audio>`, with `comandi` (`controls`), `muto` (`muted`) and `ripete` (`loop`). The file goes in `da` or in one or more `<funtana>` (`<source>`)."
+        ],
+        "nap": [
+          "`<vattenn>` è 'o link (`<a>`): `addo` è `href` e `arape` è `target`. 'E valori fissi se traducono: `arape=\"nuova\"` addiventa `target=\"_blank\"`, `arape=\"ccà\"` addiventa `target=\"_self\"`.",
+          "`<cartulin>` è 'a fotografia (`<img>`), nu tag vacante: `da` è `src`, `spiegazione` è `alt`, `larghezza` e `altezza` so' `width` e `height`, `carica=\"chianochiano\"` è `loading=\"lazy\"`. Cu `<quadro>` (`<figure>`) e `<didascalia>` (`<figcaption>`) ce miette na didascalia sotto.",
+          "`<filmato>` è `<video>` e `<suono>` è `<audio>`, cu `comandi` (`controls`), `muto` (`muted`) e `ripete` (`loop`). 'O file va int'o `da` o dint'a una o cchiù `<funtana>` (`<source>`)."
+        ]
+      },
+      "snippets": ["03_vattenn.emmurt", "03_filmato.emmurt"]
+    },
+    {
+      "id": "liste",
+      "title": { "it": "Liste e tabelle", "en": "Lists and tables", "nap": "Liste e tavulate" },
+      "body": {
+        "it": [
+          "`<list>` è la lista puntata (`<ul>`), `<elenco>` quella numerata (`<ol>`); ogni voce è `<voce>` (`<li>`). Per le definizioni c'è `<vocabolario>` (`<dl>`) con `<parola>` (`<dt>`) e `<significato>` (`<dd>`).",
+          "`<tavulat>` è la tabella (`<table>`), `<fila>` è una riga (`<tr>`), `<casella>` è una cella (`<td>`) e `<capocasella>` è una cella d'intestazione (`<th>`).",
+          "Le parti della tabella sono `<capotavula>` (`<thead>`), `<cuorpotavula>` (`<tbody>`) e `<peretavula>` (`<tfoot>`), il titolo è `<cartello>` (`<caption>`). `allarga` è `colspan` e `allonga` è `rowspan`."
+        ],
+        "en": [
+          "`<list>` is the bulleted list (`<ul>`), `<elenco>` the numbered one (`<ol>`); each item is `<voce>` (`<li>`). For definitions there is `<vocabolario>` (`<dl>`) with `<parola>` (`<dt>`) and `<significato>` (`<dd>`).",
+          "`<tavulat>` is the table (`<table>`), `<fila>` is a row (`<tr>`), `<casella>` is a cell (`<td>`) and `<capocasella>` is a header cell (`<th>`).",
+          "The parts of a table are `<capotavula>` (`<thead>`), `<cuorpotavula>` (`<tbody>`) and `<peretavula>` (`<tfoot>`), and its title is `<cartello>` (`<caption>`). `allarga` is `colspan` and `allonga` is `rowspan`."
+        ],
+        "nap": [
+          "`<list>` è 'a lista cu 'e pallini (`<ul>`), `<elenco>` chella cu 'e nummere (`<ol>`); ogni voce è `<voce>` (`<li>`). Pe 'e definizioni ce sta `<vocabolario>` (`<dl>`) cu `<parola>` (`<dt>`) e `<significato>` (`<dd>`).",
+          "`<tavulat>` è 'a tabella (`<table>`), `<fila>` è na riga (`<tr>`), `<casella>` è na cella (`<td>`) e `<capocasella>` è na cella 'e capa (`<th>`).",
+          "'E parte d'a tavulata so' `<capotavula>` (`<thead>`), `<cuorpotavula>` (`<tbody>`) e `<peretavula>` (`<tfoot>`), e 'o titolo è `<cartello>` (`<caption>`). `allarga` è `colspan` e `allonga` è `rowspan`."
+        ]
+      },
+      "snippets": ["04_liste.emmurt", "04_tavulat.emmurt"]
+    },
+    {
+      "id": "moduli",
+      "title": { "it": "Moduli", "en": "Forms", "nap": "Moduli" },
+      "body": {
+        "it": [
+          "`<modulo>` è `<form>`: sul modulo `addo` è `action` e `metodo=\"manna\"` è `method=\"post\"` (`piglia` è `get`). `<etichetta pe=\"…\">` è `<label for=\"…\">`.",
+          "`<miett>` è `<input>`, un tag vuoto. I valori di `tipo` si traducono: `testo` è `text`, `fattimiei` è `password`, `posta` è `email`, `numero` è `number`, `spunta` è `checkbox`, `pallino` è `radio`.",
+          "`esempio` è `placeholder`, `obbligatorio` è `required`, `nomme` è `name`, `valore` è `value`. `<scegli>` (`<select>`) contiene le `<opzione>` (`<option>`), e `scigliuto` è `selected`; `<ragionamento>` è `<textarea>`.",
+          "`<citofono>` è `<button>`: `tipo=\"manna\"` invia il modulo (`submit`), `tipo=\"buttone\"` è un bottone e basta (`button`)."
+        ],
+        "en": [
+          "`<modulo>` is `<form>`: on a form `addo` is `action` and `metodo=\"manna\"` is `method=\"post\"` (`piglia` is `get`). `<etichetta pe=\"…\">` is `<label for=\"…\">`.",
+          "`<miett>` is `<input>`, an empty tag. The values of `tipo` are translated: `testo` is `text`, `fattimiei` is `password`, `posta` is `email`, `numero` is `number`, `spunta` is `checkbox`, `pallino` is `radio`.",
+          "`esempio` is `placeholder`, `obbligatorio` is `required`, `nomme` is `name`, `valore` is `value`. `<scegli>` (`<select>`) holds the `<opzione>` (`<option>`), and `scigliuto` is `selected`; `<ragionamento>` is `<textarea>`.",
+          "`<citofono>` is `<button>`: `tipo=\"manna\"` sends the form (`submit`), `tipo=\"buttone\"` is just a button (`button`)."
+        ],
+        "nap": [
+          "`<modulo>` è `<form>`: ncopp'o modulo `addo` è `action` e `metodo=\"manna\"` è `method=\"post\"` (`piglia` è `get`). `<etichetta pe=\"…\">` è `<label for=\"…\">`.",
+          "`<miett>` è `<input>`, nu tag vacante. 'E valori 'e `tipo` se traducono: `testo` è `text`, `fattimiei` è `password`, `posta` è `email`, `numero` è `number`, `spunta` è `checkbox`, `pallino` è `radio`.",
+          "`esempio` è `placeholder`, `obbligatorio` è `required`, `nomme` è `name`, `valore` è `value`. `<scegli>` (`<select>`) tene 'e `<opzione>` (`<option>`), e `scigliuto` è `selected`; `<ragionamento>` è `<textarea>`.",
+          "`<citofono>` è `<button>`: `tipo=\"manna\"` manna 'o modulo (`submit`), `tipo=\"buttone\"` è nu buttone e basta (`button`)."
+        ]
+      },
+      "snippets": ["05_modulo.emmurt"]
+    },
+    {
+      "id": "attributi",
+      "title": { "it": "Attributi", "en": "Attributes", "nap": "Attribute" },
+      "body": {
+        "it": [
+          "`classe` è `class`, `chi` è `id`, `titolo` è `title`, `annascuso` è `hidden` e `cess` è `style`. I valori di `classe`, `chi` e `titolo` restano come li scrivi; quello di `cess` è CSS in napoletano, come in `<cess>`.",
+          "Si traducono solo i valori fissi, quelli che HTML conosce: `scrivibile=\"overo\"` diventa `contenteditable=\"true\"`, come `tipo=\"spunta\"` diventa `type=\"checkbox\"`.",
+          "Gli attributi `data-*` e `aria-*` passano come sono, e anche gli elementi con un trattino nel nome, come `<pizza-card>`: sono tuoi. Passano come sono anche i nomi HTML che non hanno ancora una parola napoletana, come `low` e `high` di `<misura>` (`<meter>`); `emmurt vocabolario` li elenca in fondo."
+        ],
+        "en": [
+          "`classe` is `class`, `chi` is `id`, `titolo` is `title`, `annascuso` is `hidden` and `cess` is `style`. The values of `classe`, `chi` and `titolo` stay as you write them; the value of `cess` is Neapolitan CSS, as in `<cess>`.",
+          "Only fixed values, the ones HTML knows, are translated: `scrivibile=\"overo\"` becomes `contenteditable=\"true\"`, just as `tipo=\"spunta\"` becomes `type=\"checkbox\"`.",
+          "`data-*` and `aria-*` attributes pass as written, and so do elements with a dash in their name, like `<pizza-card>`: they are yours. HTML names that don't have a Neapolitan word yet pass as written too, like `low` and `high` on `<misura>` (`<meter>`); `emmurt vocabolario` lists them at the end."
+        ],
+        "nap": [
+          "`classe` è `class`, `chi` è `id`, `titolo` è `title`, `annascuso` è `hidden` e `cess` è `style`. 'E valori 'e `classe`, `chi` e `titolo` restano comme 'e scrive; chillo 'e `cess` è CSS in napoletano, comme dint'o `<cess>`.",
+          "Se traducono sulo 'e valori fissi, chille ca l'HTML cunosce: `scrivibile=\"overo\"` addiventa `contenteditable=\"true\"`, comme `tipo=\"spunta\"` addiventa `type=\"checkbox\"`.",
+          "L'attribute `data-*` e `aria-*` passano comme so', e pure l'elementi cu nu trattino int'o nomme, comme `<pizza-card>`: so' 'e tuoje. Passano comme so' pure 'e nomme HTML ca nun teneno ancora na parola napoletana, comme `low` e `high` 'e `<misura>` (`<meter>`); `emmurt vocabolario` 'e mette in fondo."
+        ]
+      },
+      "snippets": ["06_attributi.emmurt"]
+    },
+    {
+      "id": "eventi",
+      "title": { "it": "Eventi", "en": "Events", "nap": "Eventi" },
+      "body": {
+        "it": [
+          "Gli eventi si scrivono `quanno-*`: `quanno-tuocche` è `onclick`, `quanno-scrive` è `oninput`, `quanno-cagne` è `onchange`, `quanno-manne` è `onsubmit`, `quanno-premi` è `onkeydown`, `quanno-trase` e `quanno-esce` sono `onmouseenter` e `onmouseleave`.",
+          "Il valore è FratmScript e diventa JavaScript: `stu cos` è `this`, cioè l'elemento che ha ricevuto l'evento. `onclick` è un errore che ti suggerisce `quanno-tuocche`, e un `quanno-*` che non esiste è un errore con l'elenco di quelli buoni.",
+          "Un evento può chiamare le funzioni di un blocco `<fratm>` della pagina: lo vedi nella prossima sezione."
+        ],
+        "en": [
+          "Events are written `quanno-*`: `quanno-tuocche` is `onclick`, `quanno-scrive` is `oninput`, `quanno-cagne` is `onchange`, `quanno-manne` is `onsubmit`, `quanno-premi` is `onkeydown`, `quanno-trase` and `quanno-esce` are `onmouseenter` and `onmouseleave`.",
+          "The value is FratmScript and becomes JavaScript: `stu cos` is `this`, the element that got the event. `onclick` is an error that suggests `quanno-tuocche`, and a `quanno-*` that doesn't exist is an error that lists the valid ones.",
+          "An event can call the functions of a `<fratm>` block in the page: the next section shows how."
+        ],
+        "nap": [
+          "L'eventi se scriveno `quanno-*`: `quanno-tuocche` è `onclick`, `quanno-scrive` è `oninput`, `quanno-cagne` è `onchange`, `quanno-manne` è `onsubmit`, `quanno-premi` è `onkeydown`, `quanno-trase` e `quanno-esce` so' `onmouseenter` e `onmouseleave`.",
+          "Int'e virgulette ce va FratmScript, ca addiventa JavaScript: `stu cos` è `this`, cioè l'elemento ca ha avuto l'evento. `onclick` è n'errore ca te dice `quanno-tuocche`, e nu `quanno-*` ca nun esiste è n'errore cu 'a lista 'e chille buone.",
+          "N'evento pò chiammà 'e funzioni 'e nu blocco `<fratm>` d'a paggena: 'o vide int'a sezione appriesso."
+        ]
+      },
+      "snippets": ["07_eventi.emmurt"]
+    },
+    {
+      "id": "fratm",
+      "title": { "it": "Script in FratmScript", "en": "FratmScript scripts", "nap": "'O blocco fratm" },
+      "body": {
+        "it": [
+          "`<fratm>` è `<script>` e contiene FratmScript, che il compilatore traduce in JavaScript: `tien`, `chist è`, `facc`, `piglie`, `stamm a dì`. Se il FratmScript è sbagliato, l'errore arriva con la riga della pagina.",
+          "Un blocco classico rende globali le sue funzioni, così i `quanno-*` le possono chiamare. `chiamm { … } da \"fratm\"` usa la libreria di FratmScript: il compilatore copia nel blocco solo le funzioni che usi e il blocco resta classico.",
+          "Un blocco che usa `chiamm` da un altro modulo o `mann for`, o che ha `tipo=\"modulo\"`, diventa `<script type=\"module\">`: le sue funzioni non sono globali. Con un altro `tipo`, come `tipo=\"text/javascript\"`, il contenuto non è FratmScript e resta com'è.",
+          "`<fratm da=\"main.fratm\" />` carica un file: dentro Vite resta un modulo e Vite compila il file, con la CLI e nel browser il codice viene incollato nella pagina."
+        ],
+        "en": [
+          "`<fratm>` is `<script>` and holds FratmScript, which the compiler turns into JavaScript: `tien`, `chist è`, `facc`, `piglie`, `stamm a dì`. When the FratmScript is wrong, the error comes with the line in the page.",
+          "A classic block makes its functions global, so `quanno-*` attributes can call them. `chiamm { … } da \"fratm\"` uses the FratmScript library: the compiler copies in only the functions you use and the block stays classic.",
+          "A block that uses `chiamm` from another module or `mann for`, or has `tipo=\"modulo\"`, becomes `<script type=\"module\">`: its functions are not global. With any other `tipo`, like `tipo=\"text/javascript\"`, the content is not FratmScript and stays as it is.",
+          "`<fratm da=\"main.fratm\" />` loads a file: inside Vite it stays a module and Vite compiles the file, with the CLI and in the browser the code is pasted into the page."
+        ],
+        "nap": [
+          "`<fratm>` è `<script>` e tene FratmScript, ca 'o compilatore traduce in JavaScript: `tien`, `chist è`, `facc`, `piglie`, `stamm a dì`. Si 'o FratmScript è sbagliato, l'errore arriva cu 'a riga d'a paggena.",
+          "Nu blocco classico fa globali 'e funzioni soje, accussì 'e `quanno-*` 'e ponno chiammà. `chiamm { … } da \"fratm\"` usa 'a libreria 'e FratmScript: 'o compilatore ce copia sulo 'e funzioni ca usi e 'o blocco resta classico.",
+          "Nu blocco ca usa `chiamm` 'a n'ato modulo o `mann for`, o ca tene `tipo=\"modulo\"`, addiventa `<script type=\"module\">`: 'e funzioni soje nun so' globali. Cu n'ato `tipo`, comme `tipo=\"text/javascript\"`, 'o contenuto nun è FratmScript e resta comm'è.",
+          "`<fratm da=\"main.fratm\" />` carica nu file: dint'a Vite resta nu modulo e Vite compila 'o file, cu 'a CLI e int'o browser 'o codice vene ncullato dint'a paggena."
+        ]
+      },
+      "snippets": ["08_fratm.emmurt", "08_modulo.emmurt"]
+    },
+    {
+      "id": "cess",
+      "title": { "it": "CSS in napoletano", "en": "CSS in Neapolitan", "nap": "'O cess, cioè 'o CSS" },
+      "body": {
+        "it": [
+          "`<cess>` è `<style>` e l'attributo `cess` è `style`: dentro ci va CSS con le parole napoletane dello `stile` di FratmScript. Si traducono le proprietà (`culore` è `color`, `sfunno-culore` è `background-color`, `spazio` è `padding`, `bordo-tunno` è `border-radius`) e i valori (`russo` è `red`, `janco` è `white`, `miezo` è `center`).",
+          "Nei selettori valgono i tag napoletani e le pseudo-classi: `citofono:passanno` diventa `button:hover`. `@quanno` è `@media`, e si traducono anche le sue condizioni: `(larghezza-massima: 600px)` diventa `(max-width: 600px)`.",
+          "Il punto e virgola è facoltativo: basta andare a capo. Classi, id, unità, colori come `#c8321e` e i nomi CSS che non hanno ancora una parola napoletana (`border-collapse`) passano come sono."
+        ],
+        "en": [
+          "`<cess>` is `<style>` and the `cess` attribute is `style`: inside goes CSS with the Neapolitan words of FratmScript's `stile`. Properties are translated (`culore` is `color`, `sfunno-culore` is `background-color`, `spazio` is `padding`, `bordo-tunno` is `border-radius`) and so are values (`russo` is `red`, `janco` is `white`, `miezo` is `center`).",
+          "Selectors take the Neapolitan tags and pseudo-classes: `citofono:passanno` becomes `button:hover`. `@quanno` is `@media`, and its conditions are translated too: `(larghezza-massima: 600px)` becomes `(max-width: 600px)`.",
+          "The semicolon is optional: a new line is enough. Classes, ids, units, colours like `#c8321e` and CSS names that don't have a Neapolitan word yet (`border-collapse`) pass as written."
+        ],
+        "nap": [
+          "`<cess>` è `<style>` e l'attributo `cess` è `style`: llà dinto ce va CSS cu 'e parole napoletane d'o `stile` 'e FratmScript. Se traducono 'e proprietà (`culore` è `color`, `sfunno-culore` è `background-color`, `spazio` è `padding`, `bordo-tunno` è `border-radius`) e pure 'e valori (`russo` è `red`, `janco` è `white`, `miezo` è `center`).",
+          "Int'e selettori valeno 'e tag napoletani e 'e pseudo-classi: `citofono:passanno` addiventa `button:hover`. `@quanno` è `@media`, e se traducono pure 'e condizioni soje: `(larghezza-massima: 600px)` addiventa `(max-width: 600px)`.",
+          "'O punto e virgola nun serve: abbasta ji' a capo. Classe, id, unità, culure comme `#c8321e` e 'e nomme CSS ca nun teneno ancora na parola napoletana (`border-collapse`) passano comme so'."
+        ]
+      },
+      "snippets": ["09_cess.emmurt"]
+    },
+    {
+      "id": "pezzi",
+      "title": { "it": "Pezzi", "en": "Fragments", "nap": "'E pezzi" },
+      "body": {
+        "it": [
+          "`<chiamm da=\"pezzi/cappiell.emmurt\" />` incolla un altro file `.emmurt` quando compila: così cappello, piè di pagina e menù si scrivono una volta sola. Il percorso è relativo al file che chiama; se comincia con `/` parte dalla cartella del progetto.",
+          "Un pezzo può ricevere parametri: ogni attributo di `<chiamm>` tranne `da` riempie un segnaposto `{{…}}` del pezzo, nel testo e nei valori degli attributi. Quello che sta tra `<chiamm>` e `</chiamm>` va in `{{cuntenuto}}`.",
+          "Un parametro che manca, uno che il pezzo non usa e un contenuto che il pezzo non mette da nessuna parte sono errori, segnalati sul `<chiamm>`. Qui nel playground ci sono `pezzi/cappiell.emmurt`, `pezzi/carta.emmurt` (vuole `titolo` e un contenuto) e `pezzi/pere.emmurt`. Il secondo esempio dimentica `titolo`: eseguilo e correggilo."
+        ],
+        "en": [
+          "`<chiamm da=\"pezzi/cappiell.emmurt\" />` pastes another `.emmurt` file in at compile time: header, footer and menu are written once. The path is relative to the calling file; when it starts with `/` it starts from the project folder.",
+          "A fragment can take parameters: every attribute of `<chiamm>` except `da` fills a `{{…}}` placeholder of the fragment, in text and in attribute values. What sits between `<chiamm>` and `</chiamm>` goes into `{{cuntenuto}}`.",
+          "A missing parameter, one the fragment doesn't use and content the fragment puts nowhere are errors, reported on the `<chiamm>`. Here in the playground you have `pezzi/cappiell.emmurt`, `pezzi/carta.emmurt` (it wants `titolo` and some content) and `pezzi/pere.emmurt`. The second example forgets `titolo`: run it and fix it."
+        ],
+        "nap": [
+          "`<chiamm da=\"pezzi/cappiell.emmurt\" />` ncolla n'ato file `.emmurt` quanno se compila: accussì cappiello, pere e menù se scriveno na vota sola. 'O percorso parte d'o file ca chiamma; si accummencia cu `/` parte d'a cartella d'o progetto.",
+          "Nu pezzo pò piglià parametri: ogni attributo 'e `<chiamm>` fora 'e `da` jenche nu `{{…}}` d'o pezzo, int'o testo e int'e valori 'e l'attribute. Chello ca sta tra `<chiamm>` e `</chiamm>` va int'o `{{cuntenuto}}`.",
+          "Nu parametro ca manca, uno ca 'o pezzo nun usa e nu contenuto ca 'o pezzo nun mette da nisciuna parte so' errori, segnalati ncopp'o `<chiamm>`. Ccà int'o playground ce stanno `pezzi/cappiell.emmurt`, `pezzi/carta.emmurt` (vo' `titolo` e nu contenuto) e `pezzi/pere.emmurt`. L'esempio secondo se scorda `titolo`: fallo girà e aggiustalo."
+        ]
+      },
+      "snippets": ["10_pezzi.emmurt", "10_parametro.sbagliato.emmurt"]
+    },
+    {
+      "id": "sbagli",
+      "title": { "it": "Leggere gli errori", "en": "Reading errors", "nap": "Quanno sbaglie" },
+      "body": {
+        "it": [
+          "Quando qualcosa non va, il compilatore si ferma al primo errore e te lo dice in napoletano, con riga e colonna: `<div> nun è napoletano.` alla riga 3, colonna 4. Sotto c'è quasi sempre un suggerimento, qui `Vuoi dire <cascett>?`.",
+          "Gli errori più comuni sono un nome inglese che ha la sua parola, un nome che non esiste (`<cascet> nun 'o cunosco.`), un tag chiuso nell'ordine sbagliato (`Chiudi primma </chiacchier>.`) e un parametro che manca a un pezzo. Anche gli errori di FratmScript arrivano in napoletano, con la riga della pagina.",
+          "Esegui l'esempio, correggi la riga indicata e rieseguilo finché non compare la pagina. Con la CLI, `emmurt check --json` dà gli stessi errori con `message`, `line`, `column` e `suggestion`."
+        ],
+        "en": [
+          "When something is wrong, the compiler stops at the first error and tells you in Neapolitan, with line and column: `<div> nun è napoletano.` at line 3, column 4. Below it there is almost always a hint, here `Vuoi dire <cascett>?`.",
+          "The most common errors are an English name that has its Neapolitan word, a name that doesn't exist (`<cascet> nun 'o cunosco.`), a tag closed in the wrong order (`Chiudi primma </chiacchier>.`) and a parameter missing from a fragment. FratmScript errors come in Neapolitan too, with the line in the page.",
+          "Run the example, fix the line it points to and run it again until the page shows up. With the CLI, `emmurt check --json` gives the same errors with `message`, `line`, `column` and `suggestion`."
+        ],
+        "nap": [
+          "Quanno quaccosa nun va, 'o compilatore se ferma a 'o primmo errore e t'o dice in napoletano, cu riga e colonna: `<div> nun è napoletano.` a riga 3, colonna 4. Sotto ce sta quasi sempe nu cunziglio, ccà `Vuoi dire <cascett>?`.",
+          "L'errori cchiù comuni so' nu nomme inglese ca tene 'a parola soja, nu nomme ca nun esiste (`<cascet> nun 'o cunosco.`), nu tag chiuso int'all'ordine sbagliato (`Chiudi primma </chiacchier>.`) e nu parametro ca manca a nu pezzo. Pure l'errori 'e FratmScript arrivano in napoletano, cu 'a riga d'a paggena.",
+          "Fa' girà l'esempio, aggiusta 'a riga ca te dice e fallo girà n'ata vota fino a quanno nun compare 'a paggena. Cu 'a CLI, `emmurt check --json` dà l'istessi errori cu `message`, `line`, `column` e `suggestion`."
+        ]
+      },
+      "snippets": ["11_sbagli.sbagliato.emmurt"]
+    }
+  ]
+}

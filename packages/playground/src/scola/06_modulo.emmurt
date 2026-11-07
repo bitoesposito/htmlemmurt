@@ -1,0 +1,7 @@
+<chiacchier>
+  <etichetta pe="nomme">Nomme</etichetta>
+  <miett chi="nomme" tipo="testo" esempio="Gennaro">
+</chiacchier>
+<chiacchier>
+  <etichetta pe="posta">Posta</etichetta>
+</chiacchier>

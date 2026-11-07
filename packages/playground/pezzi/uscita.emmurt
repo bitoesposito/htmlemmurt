@@ -1,0 +1,43 @@
+<!-- 'O risultato: anteprima, errori, console e HTML. Ncopp'o telefono se vede na sezione 'a vota -->
+<cascett chi="pannello-uscita" classe="flessibile direzione-colonna cresce altezza-minima-0 trabocca-nascosto">
+  <cascett classe="annascuso md:flessibile allinea-cose-miezo sfunno-carta spazio-x-4 spazio-y-2.5 bordo-sotto-1 [flex-shrink:0]">
+    <scatulell classe="scrittura-grannezza-sm scrittura-peso-500" data-t="output.title">Risultato</scatulell>
+  </cascett>
+  <cascett chi="uscita" classe="flessibile direzione-colonna cresce altezza-minima-0 trabocca-automatico sfunno-paggena">
+    <piezz data-sezione="anteprima" classe="flessibile direzione-colonna spazio-mmiez-3 spazio-4 bordo-sotto-1 altezza-[55vh] md:altezza-[50%] [flex-shrink:0]">
+      <cascett classe="titoletto">
+        <scatulell classe="pallino sfunno-buono"></scatulell>
+        <scatulell data-t="output.preview">Anteprima</scatulell>
+      </cascett>
+      <cascett chi="anteprima" classe="cresce altezza-minima-0 bordo bordo-tunno-lg trabocca-nascosto transizione" data-t-title="output.stale"></cascett>
+    </piezz>
+    <piezz data-sezione="console" classe="flessibile direzione-colonna spazio-mmiez-3 spazio-4 bordo-sotto-1">
+      <cascett chi="sbagli" classe="flessibile direzione-colonna spazio-mmiez-2" aria-live="polite"></cascett>
+      <cascett classe="flessibile giustifica-spartuto allinea-cose-miezo">
+        <cascett classe="titoletto">
+          <scatulell classe="pallino sfunno-nfo"></scatulell>
+          <scatulell data-t="output.console">Console</scatulell>
+        </cascett>
+        <citofono chi="pulizza" tipo="buttone" classe="buttone buttone-fantasma buttone-piccolo culore-scritta-smorta">
+          <scatulell data-icona="pulizza"></scatulell>
+          <scatulell data-t="output.clear">Pulizza</scatulell>
+        </citofono>
+      </cascett>
+      <elenco chi="console" classe="bordo bordo-tunno-lg sfunno-carta" ruolo="log"></elenco>
+      <chiacchier chi="console-vacante" classe="scrittura-grannezza-sm culore-scritta-smorta" data-t="output.empty">'A console è vacante</chiacchier>
+    </piezz>
+    <piezz data-sezione="html" classe="flessibile direzione-colonna spazio-mmiez-3 spazio-4">
+      <cascett classe="flessibile giustifica-spartuto allinea-cose-miezo">
+        <cascett classe="titoletto">
+          <scatulell classe="pallino sfunno-attesa"></scatulell>
+          <scatulell data-t="output.html">HTML generato</scatulell>
+        </cascett>
+        <citofono chi="copia-html" tipo="buttone" classe="buttone buttone-fantasma buttone-piccolo culore-scritta-smorta">
+          <scatulell data-icona="copia"></scatulell>
+          <scatulell data-t="output.copyHtml">Copia HTML</scatulell>
+        </citofono>
+      </cascett>
+      <cascett chi="html" classe="bordo bordo-tunno-lg sfunno-carta trabocca-nascosto transizione" data-t-title="output.stale"></cascett>
+    </piezz>
+  </cascett>
+</cascett>

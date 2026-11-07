@@ -1,0 +1,36 @@
+// Link da condividere: 'o codice compresso int'o #codice=
+
+mann for mo vir facc comprimi(testo) {
+    chist è flusso = nu bell Blob([testo]).stream().pipeThrough(nu bell CompressionStream("deflate-raw"))
+    chist è byte = nu bell Uint8Array(aspett nu bell Response(flusso).arrayBuffer())
+    tien binario = ""
+    pe ogni (chist è b dint byte) {
+        binario += String.fromCharCode(b)
+    }
+    piglie btoa(binario).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/, "")
+}
+
+mann for mo vir facc decomprimi(base64) {
+    chist è binario = atob(base64.replaceAll("-", "+").replaceAll("_", "/"))
+    chist è byte = Uint8Array.from(binario, (c) => c.charCodeAt(0))
+    chist è flusso = nu bell Blob([byte]).stream().pipeThrough(nu bell DecompressionStream("deflate-raw"))
+    piglie aspett nu bell Response(flusso).text()
+}
+
+/** 'O link d'o playground cu stu codice. */
+mann for mo vir facc linkPe(codice) {
+    piglie `${location.origin}${location.pathname}#codice=${aspett comprimi(codice)}`
+}
+
+/** 'O codice d'o link, o nisciun si 'o link nun ne tene o è rotto. */
+mann for mo vir facc codiceDalLink() {
+    chist è trovato = location.hash.match(/^#codice=(.+)$/)
+    si (!trovato) {
+        piglie nisciun
+    }
+    pruvamm {
+        piglie aspett decomprimi(trovato[1])
+    } e si schiatta (e) {
+        piglie nisciun
+    }
+}
