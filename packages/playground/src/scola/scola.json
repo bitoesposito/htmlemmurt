@@ -1,0 +1,241 @@
+{
+  "lessons": [
+    {
+      "id": "01_ue_munno",
+      "title": { "it": "Ciao, mondo!", "en": "Hello, world!", "nap": "Uè, munno!" },
+      "body": {
+        "it": [
+          "Benvenuto nel tour! Qui impari htmlemmurt: HTML scritto come si deve, in napoletano. Il compilatore traduce ogni parola nel suo nome HTML.",
+          "Sotto c'è l'editor; la pagina compilata compare a destra, nell'anteprima (sul telefono, nella scheda Anteprima). Ogni volta che cambi il codice, la pagina si aggiorna.",
+          "`<cristian>` è `<html>`, `<capa>` è `<head>`, `<panz>` è `<body>`. `<luccolone>` è `<h1>`, il titolo grande.",
+          "Se scrivi un nome inglese o sbagliato, il compilatore te lo dice in napoletano e ti suggerisce quello giusto. Prova a scrivere `<h1>` invece di `<luccolone>`."
+        ],
+        "en": [
+          "Welcome to the tour! Here you learn htmlemmurt: HTML written the way it should be, in Neapolitan. The compiler turns every word into its HTML name.",
+          "The editor is below; the compiled page appears on the right, in the preview (on a phone, in the Anteprima tab). Every time you change the code, the page is rebuilt.",
+          "`<cristian>` is `<html>`, `<capa>` is `<head>`, `<panz>` is `<body>`. `<luccolone>` is `<h1>`, the big heading.",
+          "If you write an English or misspelled name, the compiler tells you in Neapolitan and suggests the right one. Try writing `<h1>` instead of `<luccolone>`."
+        ],
+        "nap": [
+          "Benvenuto a scola! Ccà mpare htmlemmurt, HTML scritto comme si deve: in napoletano. 'O compilatore traduce ogni parola int'o nomme HTML suoio.",
+          "Sotto ce sta l'editor; 'a paggena compilata esce a destra, int'a preview (ncopp'o telefono, int'a tab Anteprima). Ogni vota ca cagne 'o codice, 'a paggena se rifà.",
+          "`<cristian>` è `<html>`, `<capa>` è `<head>`, `<panz>` è `<body>`. `<luccolone>` è `<h1>`: 'o titolo gruosso.",
+          "Si scrive nu nomme inglese o sbagliato, 'o compilatore t'o dice in napoletano e te suggerisce chillo giusto. Prova a scrivere `<h1>` invece 'e `<luccolone>`."
+        ]
+      },
+      "task": {
+        "it": "Cambia il testo del titolo da \"Uè, munno!\" a \"Uè, Napule!\".",
+        "en": "Change the heading text from \"Uè, munno!\" to \"Uè, Napule!\".",
+        "nap": "Cagna 'o testo d'o titolo da \"Uè, munno!\" a \"Uè, Napule!\"."
+      }
+    },
+    {
+      "id": "02_chiacchier",
+      "title": { "it": "chiacchier e fort", "en": "chiacchier and fort", "nap": "chiacchier e fort" },
+      "body": {
+        "it": [
+          "`<chiacchier>` è `<p>`, un paragrafo. Ogni `<chiacchier>` va a capo da solo.",
+          "`<fort>` è `<strong>`: le parole importanti, in grassetto. Sta in mezzo al testo, come in HTML.",
+          "Ogni tag si chiude: `<chiacchier>…</chiacchier>`. Se ne manca uno, il compilatore te lo dice."
+        ],
+        "en": [
+          "`<chiacchier>` is `<p>`, a paragraph. Each `<chiacchier>` starts on a new line.",
+          "`<fort>` is `<strong>`: important words, in bold. It goes in the middle of the text, as in HTML.",
+          "Every tag is closed: `<chiacchier>…</chiacchier>`. If one is missing, the compiler tells you."
+        ],
+        "nap": [
+          "`<chiacchier>` è `<p>`, nu paragrafo. Ogni `<chiacchier>` va a capo pe cunto suoio.",
+          "`<fort>` è `<strong>`: 'e parole importante, in grassetto. Se mette mmiez'o testo, comme in HTML.",
+          "Ogni tag se chiude: `<chiacchier>…</chiacchier>`. Si ne manca uno, 'o compilatore t'o dice."
+        ]
+      },
+      "task": {
+        "it": "Metti \"comme se deve\" in grassetto con `<fort>`, poi aggiungi sotto un secondo paragrafo con il testo \"Stammo aperti tutt'e sere.\"",
+        "en": "Put \"comme se deve\" in bold with `<fort>`, then add a second paragraph below with the text \"Stammo aperti tutt'e sere.\"",
+        "nap": "Miette \"comme se deve\" in grassetto cu `<fort>`, po' aggiungi sotto nu secondo paragrafo cu 'o testo \"Stammo aperti tutt'e sere.\""
+      }
+    },
+    {
+      "id": "03_vattenn",
+      "title": { "it": "vattenn e arape", "en": "vattenn and arape", "nap": "vattenn e arape" },
+      "body": {
+        "it": [
+          "`<vattenn>` è `<a>`, un link. `addo` è `href`: l'indirizzo dove porta.",
+          "`arape` è `target` e dice dove si apre il link. Anche i valori hanno la loro parola: `arape=\"nuova\"` è `target=\"_blank\"`, una scheda nuova; `arape=\"ccà\"` è `_self`.",
+          "Un valore inglese dove esiste quello napoletano è un errore: `arape=\"_blank\"` non compila."
+        ],
+        "en": [
+          "`<vattenn>` is `<a>`, a link. `addo` is `href`: the address it goes to.",
+          "`arape` is `target` and says where the link opens. Values have their own words too: `arape=\"nuova\"` is `target=\"_blank\"`, a new tab; `arape=\"ccà\"` is `_self`.",
+          "An English value where a Neapolitan one exists is an error: `arape=\"_blank\"` does not compile."
+        ],
+        "nap": [
+          "`<vattenn>` è `<a>`, nu link. `addo` è `href`: l'indirizzo addò te porta.",
+          "`arape` è `target` e dice addò s'arape 'o link. Pure 'e valori teneno 'a parola lloro: `arape=\"nuova\"` è `target=\"_blank\"`, na scheda nova; `arape=\"ccà\"` è `_self`.",
+          "Nu valore inglese addò ce sta chillo napoletano è n'errore: `arape=\"_blank\"` nun compila."
+        ]
+      },
+      "task": {
+        "it": "Fai aprire il link in una scheda nuova: aggiungi `arape=\"nuova\"` a `<vattenn>`.",
+        "en": "Make the link open in a new tab: add `arape=\"nuova\"` to `<vattenn>`.",
+        "nap": "Fai arapì 'o link int'a na scheda nova: aggiungi `arape=\"nuova\"` a `<vattenn>`."
+      }
+    },
+    {
+      "id": "04_list",
+      "title": { "it": "list e voce", "en": "list and voce", "nap": "list e voce" },
+      "body": {
+        "it": [
+          "`<list>` è `<ul>`, una lista puntata. Ogni elemento è una `<voce>`, cioè un `<li>`.",
+          "`<elenco>` è `<ol>`, una lista numerata: le voci sono le stesse, cambia solo il contenitore."
+        ],
+        "en": [
+          "`<list>` is `<ul>`, a bulleted list. Each item is a `<voce>`, that is an `<li>`.",
+          "`<elenco>` is `<ol>`, a numbered list: the items stay the same, only the container changes."
+        ],
+        "nap": [
+          "`<list>` è `<ul>`, na lista cu 'e puntine. Ogni elemento è na `<voce>`, cioè nu `<li>`.",
+          "`<elenco>` è `<ol>`, na lista cu 'e nummere: 'e voce so' 'e stesse, cagna sulo 'o contenitore."
+        ]
+      },
+      "task": {
+        "it": "Aggiungi in fondo una terza `<voce>` con il testo \"Diavola\", poi rendi la lista numerata cambiando `<list>` in `<elenco>`.",
+        "en": "Add a third `<voce>` at the end with the text \"Diavola\", then make the list numbered by changing `<list>` to `<elenco>`.",
+        "nap": "Aggiungi in fondo na terza `<voce>` cu 'o testo \"Diavola\", po' fa' 'a lista cu 'e nummere cagnanno `<list>` cu `<elenco>`."
+      }
+    },
+    {
+      "id": "05_cartulin",
+      "title": { "it": "cartulin", "en": "cartulin", "nap": "cartulin" },
+      "body": {
+        "it": [
+          "`<cartulin>` è `<img>`, un'immagine. `da` è `src`: l'indirizzo del file.",
+          "`spiegazione` è `alt`: il testo per chi non vede l'immagine, che compare anche quando non si carica. `larghezza` e `altezza` sono `width` e `height`.",
+          "`<cartulin>` è un elemento vuoto: non ha contenuto e non si chiude, come `<acap>` (`<br>`)."
+        ],
+        "en": [
+          "`<cartulin>` is `<img>`, an image. `da` is `src`: the address of the file.",
+          "`spiegazione` is `alt`: the text for people who cannot see the image, also shown when it does not load. `larghezza` and `altezza` are `width` and `height`.",
+          "`<cartulin>` is an empty element: it has no content and is not closed, like `<acap>` (`<br>`)."
+        ],
+        "nap": [
+          "`<cartulin>` è `<img>`, na fotografia. `da` è `src`: l'indirizzo d'o file.",
+          "`spiegazione` è `alt`: 'o testo pe chi nun vede 'a fotografia, ca esce pure quanno nun se carica. `larghezza` e `altezza` so' `width` e `height`.",
+          "`<cartulin>` è n'elemento vacante: nun tene niente dinto e nun se chiude, comme `<acap>` (`<br>`)."
+        ]
+      },
+      "task": {
+        "it": "Aggiungi a `<cartulin>` gli attributi `spiegazione=\"Na pizza Margherita\"` e `larghezza=\"300\"`.",
+        "en": "Add the attributes `spiegazione=\"Na pizza Margherita\"` and `larghezza=\"300\"` to `<cartulin>`.",
+        "nap": "Aggiungi a `<cartulin>` `spiegazione=\"Na pizza Margherita\"` e `larghezza=\"300\"`."
+      }
+    },
+    {
+      "id": "06_modulo",
+      "title": { "it": "etichetta e miett", "en": "etichetta and miett", "nap": "etichetta e miett" },
+      "body": {
+        "it": [
+          "`<miett>` è `<input>`, un campo dove si scrive. `tipo` è `type`, e anche i suoi valori sono in napoletano: `testo` è `text`, `posta` è `email`, `fattimiei` è `password`.",
+          "`esempio` è `placeholder`, il testo grigio che sparisce quando scrivi. `chi` è `id`.",
+          "`<etichetta>` è `<label>`: con `pe` (`for`) uguale al `chi` del campo, toccare l'etichetta porta nel campo. Un modulo intero sta dentro `<modulo>`, cioè `<form>`."
+        ],
+        "en": [
+          "`<miett>` is `<input>`, a field to type in. `tipo` is `type`, and its values are in Neapolitan too: `testo` is `text`, `posta` is `email`, `fattimiei` is `password`.",
+          "`esempio` is `placeholder`, the grey text that disappears when you type. `chi` is `id`.",
+          "`<etichetta>` is `<label>`: with `pe` (`for`) equal to the field's `chi`, tapping the label moves into the field. A whole form goes inside `<modulo>`, that is `<form>`."
+        ],
+        "nap": [
+          "`<miett>` è `<input>`, nu campo addò se scrive. `tipo` è `type`, e pure 'e valori suoi so' in napoletano: `testo` è `text`, `posta` è `email`, `fattimiei` è `password`.",
+          "`esempio` è `placeholder`, 'o testo grigio ca se ne va quanno scrive. `chi` è `id`.",
+          "`<etichetta>` è `<label>`: cu `pe` (`for`) uguale a 'o `chi` d'o campo, si tuocche l'etichetta vaje int'o campo. Nu modulo sano sta dint'a `<modulo>`, cioè `<form>`."
+        ]
+      },
+      "task": {
+        "it": "Nel secondo paragrafo, sotto l'etichetta, aggiungi un `<miett>` con `chi=\"posta\"`, `tipo=\"posta\"` ed `esempio=\"gennaro@pizza.it\"`.",
+        "en": "In the second paragraph, below the label, add a `<miett>` with `chi=\"posta\"`, `tipo=\"posta\"` and `esempio=\"gennaro@pizza.it\"`.",
+        "nap": "Int'o secondo paragrafo, sotto l'etichetta, aggiungi nu `<miett>` cu `chi=\"posta\"`, `tipo=\"posta\"` e `esempio=\"gennaro@pizza.it\"`."
+      }
+    },
+    {
+      "id": "07_quanno",
+      "title": { "it": "quanno-tuocche", "en": "quanno-tuocche", "nap": "quanno-tuocche" },
+      "body": {
+        "it": [
+          "`<citofono>` è `<button>`. `tipo=\"buttone\"` è `type=\"button\"`: un bottone che non invia moduli.",
+          "Gli attributi `quanno-*` sono gli eventi: `quanno-tuocche` è `onclick`. Il loro valore è FratmScript, e il compilatore lo traduce in JavaScript. Per codice più lungo c'è `<fratm>`, che è `<script>`.",
+          "`stamm a dì(…)` scrive nella console del playground. `stu cos` è `this`: dentro `quanno-tuocche` è il bottone stesso."
+        ],
+        "en": [
+          "`<citofono>` is `<button>`. `tipo=\"buttone\"` is `type=\"button\"`: a button that does not submit forms.",
+          "The `quanno-*` attributes are the events: `quanno-tuocche` is `onclick`. Their value is FratmScript, and the compiler turns it into JavaScript. For longer code there is `<fratm>`, which is `<script>`.",
+          "`stamm a dì(…)` writes to the playground console. `stu cos` is `this`: inside `quanno-tuocche` it is the button itself."
+        ],
+        "nap": [
+          "`<citofono>` è `<button>`. `tipo=\"buttone\"` è `type=\"button\"`: nu buttone ca nun manna moduli.",
+          "'E attribute `quanno-*` so' 'e eventi: `quanno-tuocche` è `onclick`. 'O valore lloro è FratmScript, e 'o compilatore 'o traduce in JavaScript. Pe codice cchiù luongo ce sta `<fratm>`, ca è `<script>`.",
+          "`stamm a dì(…)` scrive int'a console d'o playground. `stu cos` è `this`: dint'a `quanno-tuocche` è 'o buttone stesso."
+        ]
+      },
+      "task": {
+        "it": "Fai cambiare testo al secondo bottone quando lo tocchi: aggiungi `quanno-tuocche=\"stu cos.textContent = 'Stutato!'\"`.",
+        "en": "Make the second button change its text when you tap it: add `quanno-tuocche=\"stu cos.textContent = 'Stutato!'\"`.",
+        "nap": "Fai cagnà 'o testo d'o secondo buttone quanno 'o tuocche: aggiungi `quanno-tuocche=\"stu cos.textContent = 'Stutato!'\"`."
+      }
+    },
+    {
+      "id": "08_cess",
+      "title": { "it": "cess", "en": "cess", "nap": "cess" },
+      "body": {
+        "it": [
+          "`<cess>` è `<style>`: dentro ci va CSS scritto in napoletano. Proprietà e valori hanno la loro parola: `culore` è `color`, `russo` è `red`, `sfunno` è `background`.",
+          "Nei selettori si usano i nomi napoletani degli elementi: `luccolone { … }` vale per tutti gli `<h1>`. Le classi restano come le scrivi.",
+          "L'attributo `cess=\"…\"` è `style=\"…\"`: lo stesso CSS, su un elemento solo."
+        ],
+        "en": [
+          "`<cess>` is `<style>`: it holds CSS written in Neapolitan. Properties and values have their own words: `culore` is `color`, `russo` is `red`, `sfunno` is `background`.",
+          "Selectors use the Neapolitan element names: `luccolone { … }` applies to every `<h1>`. Classes stay as you write them.",
+          "The `cess=\"…\"` attribute is `style=\"…\"`: the same CSS, on a single element."
+        ],
+        "nap": [
+          "`<cess>` è `<style>`: dinto ce va CSS scritto in napoletano. Proprietà e valori teneno 'a parola lloro: `culore` è `color`, `russo` è `red`, `sfunno` è `background`.",
+          "Int'e selettori se usano 'e nomme napoletani: `luccolone { … }` vale pe tutt'e `<h1>`. 'E classi restano comme 'e scrive.",
+          "L'attributo `cess=\"…\"` è `style=\"…\"`: 'o stesso CSS, ncopp'a n'elemento sulo."
+        ]
+      },
+      "task": {
+        "it": "Nel `<cess>` cambia `blu` in `russo`, poi colora il paragrafo di verde con `cess=\"culore: verde\"`.",
+        "en": "In `<cess>` change `blu` to `russo`, then make the paragraph green with `cess=\"culore: verde\"`.",
+        "nap": "Int'o `<cess>` cagna `blu` cu `russo`, po' fa' verde 'o paragrafo cu `cess=\"culore: verde\"`."
+      }
+    },
+    {
+      "id": "09_pezzi",
+      "title": { "it": "chiamm", "en": "chiamm", "nap": "chiamm" },
+      "body": {
+        "it": [
+          "`<chiamm da=\"…\">` incolla al suo posto un altro file `.emmurt`: un pezzo scritto una volta e usato dove serve. Non diventa un tag.",
+          "Gli attributi di `<chiamm>` riempiono i segnaposto del pezzo: `titolo=\"Margherita\"` va dove il pezzo scrive `{{titolo}}`. Quello che metti tra `<chiamm>` e `</chiamm>` va in `{{cuntenuto}}`.",
+          "Qui `pezzi/carta.emmurt` è un `<fattariello>` (`<article>`) con un `<luccolo>` (`<h2>`) per il titolo e il contenuto sotto. Un parametro che manca, o che il pezzo non usa, è un errore.",
+          "Hai finito il tour! Ora puoi provare gli esempi o scrivere la tua pagina."
+        ],
+        "en": [
+          "`<chiamm da=\"…\">` pastes another `.emmurt` file in its place: a piece written once and used wherever you need it. It does not become a tag.",
+          "The attributes of `<chiamm>` fill the piece's placeholders: `titolo=\"Margherita\"` goes where the piece writes `{{titolo}}`. What you put between `<chiamm>` and `</chiamm>` goes into `{{cuntenuto}}`.",
+          "Here `pezzi/carta.emmurt` is a `<fattariello>` (`<article>`) with a `<luccolo>` (`<h2>`) for the title and the content below it. A parameter that is missing, or that the piece does not use, is an error.",
+          "You finished the tour! Now you can try the examples or write your own page."
+        ],
+        "nap": [
+          "`<chiamm da=\"…\">` ncolla n'atu file `.emmurt` a 'o posto suoio: nu pezzo scritto na vota sola e usato addò serve. Nun diventa nu tag.",
+          "'E attribute 'e `<chiamm>` jengheno 'e segnaposto d'o pezzo: `titolo=\"Margherita\"` va addò 'o pezzo scrive `{{titolo}}`. Chello ca miette tra `<chiamm>` e `</chiamm>` va int'o `{{cuntenuto}}`.",
+          "Ccà `pezzi/carta.emmurt` è nu `<fattariello>` (`<article>`) cu nu `<luccolo>` (`<h2>`) pe 'o titolo e 'o contenuto sotto. Nu parametro ca manca, o ca 'o pezzo nun usa, è n'errore.",
+          "Hê fernuto 'a scola! Mo puoi pruvà 'e esempi o scrivere 'a paggena toja."
+        ]
+      },
+      "task": {
+        "it": "Sotto la prima carta aggiungi un secondo `<chiamm>` dello stesso pezzo, con `titolo=\"Marinara\"` e dentro `<chiacchier>Pummarola, aglio e arecheta.</chiacchier>`.",
+        "en": "Below the first card add a second `<chiamm>` of the same piece, with `titolo=\"Marinara\"` and inside it `<chiacchier>Pummarola, aglio e arecheta.</chiacchier>`.",
+        "nap": "Sotto 'a primma carta aggiungi n'atu `<chiamm>` d'o stesso pezzo, cu `titolo=\"Marinara\"` e dinto `<chiacchier>Pummarola, aglio e arecheta.</chiacchier>`."
+      }
+    }
+  ]
+}

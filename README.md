@@ -2,7 +2,7 @@
 
 HTML, ma comme si deve 🤌
 
-Provalo nel [playground](https://bitoesposito.github.io/htmlemmurt/): scrivi a sinistra, a destra vedi l'HTML e la pagina vera. Per partire da zero c'è la [guida passo passo](docs/guida.md), che arriva fino a un sito su GitHub Pages.
+Provalo nel [playground](https://bitoesposito.github.io/htmlemmurt/): scrivi a sinistra, a destra vedi la pagina, la console e l'HTML. Ci sono anche una guida al linguaggio con esempi da eseguire e un tour a lezioni, in italiano, inglese e napoletano. Per partire da zero c'è la [guida passo passo](docs/guida.md), che arriva fino a un sito su GitHub Pages.
 
 htmlemmurt è HTML in napoletano. Scrivi `<cascett>` e il compilatore scrive `<div>`. È il fratello di [FratmScript](https://github.com/kkratterf/fratmscript) e ne usa le stesse parole: `<cascett>` è `div` anche nel JSX di FratmScript. I blocchi `<fratm>` e gli attributi `quanno-*` sono FratmScript e diventano JavaScript, `<cess>` è CSS in napoletano. Il compilatore è in Rust e gira anche in Node, in Vite e nel browser grazie a WebAssembly.
 
@@ -60,7 +60,7 @@ htmlemmurt/
 │   └── emmurt-wasm/       # binding WebAssembly
 ├── packages/
 │   ├── htmlemmurt/        # pacchetto npm: API, plugin Vite, runtime per il browser
-│   ├── playground/        # il playground web, scritto in htmlemmurt e FratmScript
+│   ├── playground/        # il playground web, scritto in htmlemmurt, FratmScript e par-o-css
 │   └── vscode-extension/  # estensione VS Code
 ├── examples/              # pagine d'esempio e l'app pizzeria (Vite + FratmScript)
 └── e2e/                   # test in Chromium

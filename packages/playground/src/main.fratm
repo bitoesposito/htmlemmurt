@@ -1,410 +1,550 @@
-// 'O playground: scrive htmlemmurt a sinistra, vide HTML e paggena a destra
+// 'O playground: htmlemmurt a sinistra, paggena, console e HTML a destra.
+// Stesso aspetto e stesse funzioni d'o playground 'e FratmScript, ma scritto
+// in htmlemmurt, FratmScript e par-o-css.
 
-chiamm { EditorView, basicSetup } da "codemirror"
-chiamm { EditorState } da "@codemirror/state"
-chiamm { html, htmlLanguage, autoCloseTags } da "@codemirror/lang-html"
-chiamm { setDiagnostics, lintGutter } da "@codemirror/lint"
-chiamm { HighlightStyle, syntaxHighlighting, syntaxTree } da "@codemirror/language"
-chiamm { tags } da "@lezer/highlight"
-chiamm { init, compile, vocabulary, runtimeError } da "htmlemmurt/web"
+chiamm { t, traduci, cagnaLingua, quannoCagnaLingua, lenguaAttuale, nommeLingua, LINGUE } da "./lingua.fratm"
+chiamm { mettiIcone, icona } da "./icone.fratm"
+chiamm { crea, leggiSalvato, salva } da "./dom.fratm"
+chiamm { creaEditor, creaVista, metti, segnala, vaiA, imparaParole } da "./editor.fratm"
+chiamm { carica, compila, arrecetta, creaAnteprima, canonico } da "./paggena.fratm"
+chiamm { linkPe, codiceDalLink } da "./condividi.fratm"
+chiamm { preparaAiuto } da "./aiuto.fratm"
+chiamm { LEZIONI, creaScola } da "./scola.fratm"
+chiamm { SEZIONI, creaGuida } da "./guida.fratm"
 chiamm ue da "../esempi/ue.emmurt?raw"
 chiamm sbagliato da "../esempi/sbagliato.emmurt?raw"
+chiamm munno da "../../../examples/01_ue_munno.emmurt?raw"
 chiamm testo da "../../../examples/02_testo.emmurt?raw"
 chiamm modulo da "../../../examples/03_modulo.emmurt?raw"
 chiamm conFratm da "../../../examples/04_fratm.emmurt?raw"
+chiamm pezzi da "../../../examples/05_pezzi.emmurt?raw"
+chiamm tavula da "../../../examples/06_tavula_e_media.emmurt?raw"
 
 chist è ESEMPI = [
-    { nomme: "Uè, frà!", codice: ue },
-    { nomme: "Testo, liste e link", codice: testo },
-    { nomme: "Nu modulo", codice: modulo },
-    { nomme: "FratmScript int'a paggena", codice: conFratm },
-    { nomme: "Nu sbaglio, apposta", codice: sbagliato },
+    { id: "ue", codice: ue },
+    { id: "munno", codice: munno },
+    { id: "testo", codice: testo },
+    { id: "modulo", codice: modulo },
+    { id: "fratm", codice: conFratm },
+    { id: "pezzi", codice: pezzi },
+    { id: "tavula", codice: tavula },
+    { id: "sbagliato", codice: sbagliato },
 ]
+
 chist è SALVATO = "htmlemmurt:codice"
+chist è AUTOMATICO = "htmlemmurt:automatico"
+chist è TEMA = "htmlemmurt:tema"
+chist è CODICE_LEZIONE = "htmlemmurt:scola:"
+chist è FATTE = "htmlemmurt:scola:fatte"
+chist è ATTESA_MS = 700
 
 chist è pesca = (chi) => document.getElementById(chi)
+chist è tutti = (selettore) => [...document.querySelectorAll(selettore)]
 
-// ---------- Colori dell'editor, presi dalle variabili CSS (chiaro e scuro)
+// ---------- Stato
 
-chist è colori = HighlightStyle.define([
-    { tag: tags.tagName, color: "var(--c-tag)" },
-    { tag: tags.attributeName, color: "var(--c-attributo)" },
-    { tag: [tags.attributeValue, tags.string], color: "var(--c-valore)" },
-    { tag: tags.comment, color: "var(--c-commento)", fontStyle: "italic" },
-    { tag: [tags.angleBracket, tags.punctuation], color: "var(--c-punteggiatura)" },
-    { tag: [tags.keyword, tags.controlKeyword, tags.definitionKeyword], color: "var(--c-tag)" },
-])
-
-chist è tema = EditorView.theme({
-    "&": { height: "100%", fontSize: "14px", backgroundColor: "var(--carta)", color: "var(--mare)" },
-    // .editor taglia l'outline 'e CodeMirror: 'o focus se vede ccà dinto
-    "&.cm-focused": { outline: "2px solid var(--accento)", outlineOffset: "-2px" },
-    ".cm-scroller": { fontFamily: "var(--mono)", lineHeight: "1.6" },
-    ".cm-gutters": { backgroundColor: "var(--carta)", color: "var(--c-commento)", border: "none" },
-    ".cm-activeLine, .cm-activeLineGutter": { backgroundColor: "var(--riga-attiva)" },
-    "&.cm-focused .cm-cursor": { borderLeftColor: "var(--accento)" },
-    "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, ::selection": { backgroundColor: "var(--selezione)" },
-})
-
-// ---------- Completamento: sulo 'e parole d'o vocabolario, maje l'HTML inglese
-
-tien parole = nisciun
-
-// Comme fa @codemirror/lang-html: elemento, attributo o valore a seconda 'e addò sta 'o cursore
-facc completa(ctx) {
-    si (!parole) {
-        piglie nisciun
-    }
-    chist è nodo = syntaxTree(ctx.state).resolveInner(ctx.pos, -1)
-    chist è testo = (n) => ctx.state.sliceDoc(n.from, n.to).toLowerCase()
-    chist è nomme = /^[\p{L}\p{N}-]*$/u
-    si (["StartTag", "IncompleteTag", "StartCloseTag", "IncompleteCloseTag", "TagName"].includes(nodo.name)) {
-        piglie { from: nodo.name === "TagName" ? nodo.from : ctx.pos, options: parole.elementi, validFor: nomme }
-    }
-    tien tag = nodo
-    mentre che (tag && tag.name !== "OpenTag" && tag.name !== "SelfClosingTag") {
-        tag = tag.parent
-    }
-    chist è nommeTag = tag?.getChild("TagName")
-    si (!nommeTag) {
-        piglie nisciun
-    }
-    chist è elemento = parole.html[testo(nommeTag)] ?? testo(nommeTag)
-    chist è vale = (a) => !a.only || a.only.includes(elemento)
-    si (["OpenTag", "SelfClosingTag", "AttributeName"].includes(nodo.name)) {
-        chist è visti = nu bell Set()
-        chist è opzioni = []
-        pe ogni (chist è a dint parole.attributi) {
-            si (vale(a) && !visti.has(a.nap)) {
-                visti.add(a.nap)
-                opzioni.push({ label: a.nap, detail: a.html, type: "property" })
-            }
-        }
-        piglie { from: nodo.name === "AttributeName" ? nodo.from : ctx.pos, options: [...opzioni, ...parole.eventi, ...parole.comeSo], validFor: nomme }
-    }
-    si (nodo.name === "AttributeValue" || nodo.name === "UnquotedAttributeValue") {
-        chist è attributo = nodo.parent.getChild("AttributeName")
-        chist è a = attributo && parole.attributi.find((x) => x.nap === testo(attributo) && vale(x))
-        si (!a?.values) {
-            piglie nisciun
-        }
-        chist è virgulette = /^["']/.test(testo(nodo)) ? 1 : 0
-        chist è opzioni = a.values.map(([label, detail]) => ({ label, detail, type: "enum" }))
-        piglie { from: nodo.from + virgulette, options: opzioni, validFor: /^[^"'\s]*$/ }
-    }
-    piglie nisciun
+tien codice = ""
+tien ultimoLanciato = nisciun
+tien pronto = sfòls
+tien automatico = leggiSalvato(AUTOMATICO) !== "false"
+tien esempio = ""
+tien lezione = nisciun
+tien sezione = nisciun
+tien scheda = "codice"
+tien attesa = nisciun
+tien soluzioni = nu bell Map()
+tien fatte = nu bell Set()
+pruvamm {
+    fatte = nu bell Set(JSON.parse(leggiSalvato(FATTE) ?? "[]"))
+} e si schiatta (e) {
+    // Nu salvataggio rotto: se ricomincia
 }
 
-// ---------- Compilazione
+// ---------- Testata: lengua e tema
 
-// L'errore sotto 'o codice, ncopp'a parola sbagliata
-facc segnala(e) {
-    chist è doc = sorgente.state.doc
-    tien diagnosi = []
-    si (e && e.line <= doc.lines) {
-        chist è riga = doc.line(e.line)
-        chist è inizio = Math.min(riga.from + e.column - 1, riga.to)
-        chist è parola = riga.text.slice(e.column - 1).match(/^[^\s"'<>=\/]+/)
-        chist è fine = Math.min(inizio + (parola ? parola[0].length : 1), riga.to)
-        chist è testoErrore = e.suggestion ? `${e.message}\n${e.suggestion}` : e.message
-        diagnosi = [{ from: inizio, to: Math.max(fine, inizio), severity: "error", message: testoErrore }]
-    }
-    sorgente.dispatch(setDiagnostics(sorgente.state, diagnosi))
+pe ogni (chist è scegli dint tutti(".scegli-lingua")) {
+    scegli.append(...LINGUE.map((l) => nu bell Option(nommeLingua(l), l)))
+    scegli.value = lenguaAttuale()
+    scegli.addEventListener("change", (evento) => cagnaLingua(evento.target.value))
 }
 
-// Riscrive 'o stato sulo quanno cagne, accussì 'o lettore 'e schermo nun 'o ripete a ogni tasto
-facc dici(classe, testo) {
-    chist è stato = pesca("stato")
-    stato.className = classe
-    si (stato.textContent !== testo) {
-        stato.textContent = testo
+chist è scuroD_oSistema = matchMedia("(prefers-color-scheme: dark)")
+
+facc applicaTema() {
+    chist è scelta = leggiSalvato(TEMA) ?? "sistema"
+    chist è scuro = scelta === "scuro" || (scelta === "sistema" && scuroD_oSistema.matches)
+    document.documentElement.dataset.tema = scuro ? "scuro" : "chiaro"
+    pe ogni (chist è scegli dint tutti(".scegli-tema")) {
+        scegli.value = scelta
     }
 }
 
-// Mette nella paggena nu script ca manna 'a console e l'errori a 'o playground
-chist è SPIA = `<script>(() => {
-  const manna = (tipo, cose) => parent.postMessage({ emmurt: tipo, cose: cose.map((c) => {
-    try { return typeof c === "string" ? c : JSON.stringify(c) } catch { return String(c) }
-  }) }, "*");
-  for (const k of ["log", "info", "warn", "error"]) {
-    const vecchio = console[k];
-    console[k] = (...a) => { manna(k, a); vecchio.apply(console, a) };
-  }
-  addEventListener("error", (e) => parent.postMessage({ emmurt: "runtime", name: e.error?.name ?? "Error", message: e.message }, "*"));
-  addEventListener("unhandledrejection", (e) => parent.postMessage({ emmurt: "runtime", name: e.reason?.name ?? "Error", message: String(e.reason?.message ?? e.reason) }, "*"));
-})()</script>`
-
-facc conSpia(paggena) {
-    chist è capa = paggena.indexOf("<head>")
-    si (capa === -1) {
-        piglie SPIA + paggena
+facc scriviTemi() {
+    pe ogni (chist è scegli dint tutti(".scegli-tema")) {
+        scegli.replaceChildren(
+            nu bell Option(t("theme.system"), "sistema"),
+            nu bell Option(t("theme.light"), "chiaro"),
+            nu bell Option(t("theme.dark"), "scuro"),
+        )
     }
-    chist è dopo = capa + "<head>".length
-    piglie paggena.slice(0, dopo) + SPIA + paggena.slice(dopo)
+    applicaTema()
 }
 
-// L'anteprima è na fenestella senza accesso a 'o playground: sulo script
-chist è anteprima = document.createElement("iframe")
-anteprima.title = "Anteprima"
-anteprima.setAttribute("sandbox", "allow-scripts allow-modals allow-forms")
-pesca("anteprima").append(anteprima)
+pe ogni (chist è scegli dint tutti(".scegli-tema")) {
+    scegli.addEventListener("change", (evento) => {
+        salva(TEMA, evento.target.value)
+        applicaTema()
+    })
+}
+scuroD_oSistema.addEventListener("change", applicaTema)
 
-chist è uscita = nu bell EditorView({
-    parent: pesca("html"),
-    state: EditorState.create({
-        doc: "",
-        extensions: [
-            basicSetup,
-            html(),
-            syntaxHighlighting(colori),
-            tema,
-            EditorView.lineWrapping,
-            EditorState.readOnly.of(overo),
-            EditorView.contentAttributes.of({ "aria-label": "HTML compilato" }),
-        ],
-    }),
-})
+// ---------- Avvisi, comme 'e toast 'e FratmScript
+
+tien avvisoTimer = nisciun
+
+facc avvisa(titolo, descrizione) {
+    chist è avviso = pesca("avviso")
+    avviso.replaceChildren(crea("strong", "blocco scrittura-peso-500", titolo), crea("span", "blocco margine-ncoppa-0.5 culore-scritta-smorta", descrizione))
+    avviso.hidden = sfòls
+    clearTimeout(avvisoTimer)
+    avvisoTimer = setTimeout(() => {
+        avviso.hidden = overo
+    }, 4000)
+}
+
+// ---------- Barra 'e stato
+
+facc stato(tipo, testo, tiempo = "") {
+    chist è pallino = pesca("stato-pallino")
+    chist è culore = { pronto: "sfunno-buono", sbaglio: "sfunno-sbaglio", attesa: "sfunno-attesa", carica: "sfunno-attesa pulsa" }[tipo]
+    pallino.className = `pallino ${culore}`
+    // Pe chi prova 'o playground (e2e), senza dipendere d'a lengua
+    pesca("barra-stato").dataset.stato = tipo
+    chist è scritta = pesca("stato-testo")
+    // Sulo quanno cagna, accussì 'o lettore 'e schermo nun 'o ripete a ogni tasto
+    si (scritta.textContent !== testo) {
+        scritta.textContent = testo
+    }
+    pesca("tiempo").textContent = tiempo
+    pesca("tiempo").hidden = !tiempo
+    pesca("tiempo-filo").hidden = !tiempo
+}
+
+tien ultimoStato = () => stato("carica", t("status.loading"))
+
+// ---------- Risultato: anteprima, errori, console, HTML
+
+chist è anteprima = creaAnteprima(pesca("anteprima"), (tipo, testo) => scriviConsole(tipo, testo))
+chist è vistaHtml = creaVista({ parent: pesca("html"), etichetta: t("output.html") })
+
+facc contaConsole() {
+    chist è voci = pesca("console").children.length
+    chist è sbagli = pesca("sbagli").children.length + tutti("#console [data-tipo=error]").length
+    pesca("console").hidden = voci === 0
+    pesca("console-vacante").hidden = voci > 0
+    chist è contatore = document.querySelector("[data-contatore]")
+    chist è quante = sbagli > 0 ? sbagli : voci
+    contatore.hidden = quante === 0
+    contatore.toggleAttribute("data-sbagli", sbagli > 0)
+    contatore.textContent = quante > 99 ? "99+" : String(quante)
+    contatore.setAttribute("aria-label", t(sbagli > 0 ? "tabs.errors" : "tabs.messages", { n: quante }))
+}
 
 facc scriviConsole(tipo, testo) {
-    chist è voce = document.createElement("li")
-    voce.className = `voce-${tipo}`
-    voce.textContent = testo
+    chist è voce = crea("li", "voce-console")
+    voce.dataset.tipo = tipo
+    chist è segno = crea("span", "flessibile margine-ncoppa-0.5 [flex-shrink:0] culore-scritta-smorta")
+    segno.innerHTML = icona(tipo === "error" ? "sbaglio" : tipo === "warn" ? "attenzione" : "destra")
+    voce.append(segno, crea("span", "cresce", testo))
     pesca("console").append(voce)
-    voce.scrollIntoView({ block: "nearest" })
+    contaConsole()
 }
 
-window.addEventListener("message", (evento) => {
-    chist è d = evento.data
-    si (evento.source !== anteprima.contentWindow || !d?.emmurt) {
-        piglie
-    }
-    si (d.emmurt === "runtime") {
-        scriviConsole("error", runtimeError({ name: d.name, message: d.message }))
-    } sinnò {
-        scriviConsole(d.emmurt, d.cose.join(" "))
-    }
-})
+facc cartaSbaglio(e) {
+    chist è carta = crea("div", "spazio-3 bordo bordo-sbaglio/20 bordo-tunno-lg sfunno-sbaglio/5 scrittura-grannezza-sm")
+    chist è capo = crea("div", "flessibile a-capo allinea-cose-miezo giustifica-spartuto spazio-mmiez-2")
+    capo.append(crea("strong", "scrittura-peso-500 culore-sbaglio-scritta", t("error.compile")))
+    chist è dove = crea("button", "buttone buttone-fantasma buttone-piccolo culore-sbaglio-scritta", t("output.lineColumn", { line: e.line, column: e.column }))
+    dove.type = "button"
+    dove.addEventListener("click", () => {
+        mostraScheda("codice")
+        requestAnimationFrame(() => vaiA(editor, e.line, e.column))
+    })
+    capo.append(dove)
+    carta.append(capo, crea("p", "margine-ncoppa-1 scrittura-mono [white-space:pre-wrap]", e.suggestion ? `${e.message}\n${e.suggestion}` : e.message))
+    piglie carta
+}
 
-facc compila(codice) {
-    chist è { html: risultato, errors } = compile(codice, { filename: "index.emmurt", inline: overo })
-    chist è e = errors[0]
-    segnala(e)
-    // Cu n'errore anteprima e HTML restano chille d'apprimma: se vede ca so' vecchie
+facc vecchio(si_) {
     pe ogni (chist è vista dint [pesca("anteprima"), pesca("html")]) {
-        vista.toggleAttribute("data-vecchia", Boolean(e))
+        vista.classList.toggle("opacità-60", si_)
     }
-    si (e) {
-        dici("stato sbagliato", `✗ Riga ${e.line}, colonna ${e.column}: ${e.message}${e.suggestion ? " " + e.suggestion : ""}`)
+}
+
+/** Compila e fa vedé. `daBottone`: l'ha chiesto chi scrive (Esegui, Ctrl+Invio). */
+facc lancia(daBottone = sfòls) {
+    si (!pronto) {
         piglie
     }
-    dici("stato", "✓ Tutto a posto")
-    pesca("console").replaceChildren()
-    anteprima.srcdoc = conSpia(risultato)
-    uscita.dispatch({ changes: { from: 0, to: uscita.state.doc.length, insert: risultato } })
+    clearTimeout(attesa)
+    chist è { html, sbagli, ms } = compila(codice)
+    ultimoLanciato = codice
+    chist è e = sbagli[0]
+    segnala(editor, e)
+    pesca("sbagli").replaceChildren(...sbagli.map(cartaSbaglio))
+    si (e) {
+        // Anteprima e HTML restano chilli 'e primma: se vede ca so' viecchie
+        vecchio(overo)
+        ultimoStato = () => stato("sbaglio", t("status.compileError"))
+    } sinnò {
+        vecchio(sfòls)
+        pesca("console").replaceChildren()
+        anteprima.mostra(html)
+        metti(vistaHtml, html)
+        chist è tiempo = ms.toFixed(1)
+        ultimoStato = () => stato("pronto", t("status.done"), t("status.compiledIn", { ms: tiempo }))
+        controllaLezione(html)
+    }
+    ultimoStato()
+    contaConsole()
+    // Ncopp'o telefono 'o risultato sta int'a scheda soja: Esegui l'apre
+    si (daBottone && scheda === "codice" && telefono.matches) {
+        mostraScheda(e ? "console" : "anteprima")
+    }
 }
 
 // ---------- L'editor
 
-tien attesa = nisciun
+facc nomeFile() {
+    si (lezione !== nisciun) {
+        piglie `scola/${LEZIONI[lezione].id}.emmurt`
+    }
+    piglie esempio && esempio !== "proprio" ? `${esempio}.emmurt` : "index.emmurt"
+}
 
-chist è sorgente = nu bell EditorView({
+facc scriviEsempi() {
+    chist è scegli = pesca("esempi")
+    scegli.replaceChildren(nu bell Option(t("editor.chooseExample"), ""))
+    si (esempio === "proprio") {
+        chist è proprio = nu bell Option(t("editor.custom"), "proprio")
+        proprio.disabled = overo
+        scegli.append(proprio)
+    }
+    scegli.append(...ESEMPI.map((x) => nu bell Option(t(`ex.${x.id}`), x.id)))
+    scegli.value = esempio
+    pesca("file").textContent = nomeFile()
+    pesca("cagnato").hidden = esempio !== "proprio"
+}
+
+facc quannoCagna(nuovo) {
+    codice = nuovo
+    // Cagnà n'esempio 'o fa diventà codice tuoio
+    si (esempio && esempio !== "proprio" && ESEMPI.find((x) => x.id === esempio)?.codice !== nuovo) {
+        esempio = "proprio"
+        scriviEsempi()
+    }
+    // 'O codice cagnato nun è cchiù chillo d'o link: 'o salvataggio vale 'e cchiù
+    si (location.hash.startsWith("#codice=")) {
+        history.replaceState(nisciun, "", location.pathname + location.search)
+    }
+    salva(lezione === nisciun ? SALVATO : CODICE_LEZIONE + LEZIONI[lezione].id, nuovo)
+    si (!pronto) {
+        piglie
+    }
+    clearTimeout(attesa)
+    vecchio(nuovo !== ultimoLanciato)
+    si (automatico) {
+        ultimoStato = () => stato("attesa", t("status.staleAuto"))
+        attesa = setTimeout(lancia, ATTESA_MS)
+    } sinnò {
+        ultimoStato = () => stato("attesa", t("status.staleManual"))
+    }
+    ultimoStato()
+}
+
+facc arrecettaCodice() {
+    si (!pronto) {
+        piglie
+    }
+    chist è arrecettato = arrecetta(codice)
+    si (arrecettato !== nisciun && arrecettato !== codice) {
+        metti(editor, arrecettato)
+    }
+}
+
+chist è editor = creaEditor({
     parent: pesca("editor"),
-    state: EditorState.create({
-        doc: "",
-        extensions: [
-            basicSetup,
-            htmlLanguage,
-            htmlLanguage.data.of({ autocomplete: completa }),
-            autoCloseTags,
-            syntaxHighlighting(colori),
-            tema,
-            EditorView.lineWrapping,
-            EditorView.contentAttributes.of({ "aria-label": "Codice htmlemmurt" }),
-            lintGutter(),
-            EditorView.updateListener.of((u) => {
-                si (!u.docChanged) {
-                    piglie
-                }
-                // 'O codice cagnato nun è cchiù chillo d'o link: 'o salvataggio locale vale 'e cchiù
-                si (location.hash) {
-                    history.replaceState(nisciun, "", location.pathname)
-                }
-                clearTimeout(attesa)
-                attesa = setTimeout(() => {
-                    chist è codice = u.state.doc.toString()
-                    compila(codice)
-                    pruvamm {
-                        localStorage.setItem(SALVATO, codice)
-                    } e si schiatta (e) {
-                        // Senza localStorage (navigazione privata) se perde sulo 'o salvataggio
-                    }
-                }, 200)
-            }),
-        ],
-    }),
+    etichetta: t("editor.label"),
+    quannoCagna,
+    lancia: () => lancia(overo),
+    arrecetta: arrecettaCodice,
 })
 
-facc metti(codice) {
-    sorgente.dispatch({ changes: { from: 0, to: sorgente.state.doc.length, insert: codice } })
+facc mettiCodice(nuovo) {
+    metti(editor, nuovo)
+    codice = nuovo
 }
 
-// ---------- Link da condividere: 'o codice compresso int'o #codice=
+// ---------- Schede ncopp'o telefono
 
-mo vir facc comprimi(testo) {
-    chist è flusso = nu bell Blob([testo]).stream().pipeThrough(nu bell CompressionStream("deflate-raw"))
-    chist è byte = nu bell Uint8Array(aspett nu bell Response(flusso).arrayBuffer())
-    tien binario = ""
-    pe ogni (chist è b dint byte) {
-        binario += String.fromCharCode(b)
+chist è telefono = matchMedia("(max-width: 767px)")
+
+facc mostraScheda(nova) {
+    scheda = nova
+    pe ogni (chist è s dint tutti("[data-scheda]")) {
+        s.setAttribute("aria-selected", String(s.dataset.scheda === nova))
     }
-    piglie btoa(binario).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/, "")
+    chist è piccolo = telefono.matches
+    pesca("pannello-codice").hidden = piccolo && nova !== "codice"
+    pesca("pannello-uscita").hidden = piccolo && nova === "codice"
+    pe ogni (chist è piezz dint tutti("[data-sezione]")) {
+        piezz.hidden = piccolo && nova !== "codice" && piezz.dataset.sezione !== nova
+        piezz.toggleAttribute("data-sola", piccolo && piezz.dataset.sezione === nova)
+    }
+    vistaHtml.requestMeasure()
 }
 
-mo vir facc decomprimi(base64) {
-    chist è binario = atob(base64.replaceAll("-", "+").replaceAll("_", "/"))
-    chist è byte = Uint8Array.from(binario, (c) => c.charCodeAt(0))
-    chist è flusso = nu bell Blob([byte]).stream().pipeThrough(nu bell DecompressionStream("deflate-raw"))
-    piglie aspett nu bell Response(flusso).text()
+pe ogni (chist è s dint tutti("[data-scheda]")) {
+    s.addEventListener("click", () => mostraScheda(s.dataset.scheda))
 }
+telefono.addEventListener("change", () => mostraScheda(scheda))
+
+// ---------- Scola
+
+chist è scola = creaScola({
+    vai: (i) => apriLezione(i),
+    esci: () => esciDaScola(),
+    metti: mettiCodice,
+})
+
+facc controllaLezione(html) {
+    si (lezione === nisciun) {
+        piglie
+    }
+    chist è l = LEZIONI[lezione]
+    si (fatte.has(l.id)) {
+        piglie
+    }
+    si (!soluzioni.has(l.id)) {
+        soluzioni.set(l.id, canonico(compila(l.soluzione).html ?? ""))
+    }
+    si (canonico(html) === soluzioni.get(l.id)) {
+        fatte.add(l.id)
+        salva(FATTE, JSON.stringify([...fatte]))
+        scola.mostra(lezione, fatte)
+    }
+}
+
+facc apriLezione(i) {
+    chist è indice = Math.min(Math.max(i, 0), LEZIONI.length - 1)
+    si (sezione !== nisciun) {
+        esciDaGuida()
+    }
+    lezione = indice
+    esempio = ""
+    pesca("impara").setAttribute("aria-pressed", "true")
+    pesca("impara").title = t("header.tourExit")
+    pesca("esempi-barra").hidden = overo
+    scola.mostra(indice, fatte)
+    chist è l = LEZIONI[indice]
+    mettiCodice(leggiSalvato(CODICE_LEZIONE + l.id) ?? l.partenza)
+    scriviEsempi()
+    mostraScheda("codice")
+    history.replaceState(nisciun, "", `#scola=${indice + 1}`)
+    lancia()
+}
+
+facc esciDaScola() {
+    lezione = nisciun
+    scola.nasconde()
+    pesca("impara").setAttribute("aria-pressed", "false")
+    pesca("impara").title = t("header.tourOpen")
+    pesca("esempi-barra").hidden = sfòls
+    mettiCodice(leggiSalvato(SALVATO) ?? ue)
+    scriviEsempi()
+    history.replaceState(nisciun, "", location.pathname + location.search)
+    lancia()
+}
+
+pesca("impara").addEventListener("click", () => {
+    si (lezione !== nisciun) {
+        esciDaScola()
+        piglie
+    }
+    // Se ripiglia d'a primma lezione ca nun è fatta ancora
+    chist è prossima = LEZIONI.findIndex((l) => !fatte.has(l.id))
+    apriLezione(prossima === -1 ? 0 : prossima)
+})
+
+// ---------- Guida
+
+chist è guida = creaGuida({
+    vai: (i) => apriGuida(i),
+    apri: (nuovo) => {
+        esciDaGuida()
+        esempio = "proprio"
+        mettiCodice(nuovo)
+        scriviEsempi()
+        mostraScheda("codice")
+        lancia()
+    },
+})
+
+facc mostraGuida(si_) {
+    pesca("banco").hidden = si_
+    pesca("schede").hidden = si_
+    pesca("barra-stato").hidden = si_
+    pesca("azioni").hidden = si_
+    chist è link = pesca("guida")
+    link.href = si_ ? location.pathname + location.search : "#guida"
+    link.querySelector("[data-t]").dataset.t = si_ ? "header.playground" : "header.guide"
+    link.dataset.tAria = si_ ? "header.guideExit" : "header.guideLabel"
+    link.dataset.tTitle = si_ ? "header.guideExit" : "header.guideOpen"
+    link.querySelector("svg").outerHTML = icona(si_ ? "terminale" : "libro")
+    traduci(link.parentElement)
+}
+
+facc apriGuida(i) {
+    si (lezione !== nisciun) {
+        esciDaScola()
+    }
+    sezione = Math.min(Math.max(i, 0), SEZIONI.length - 1)
+    mostraGuida(overo)
+    guida.mostra(sezione)
+    history.replaceState(nisciun, "", `#guida=${SEZIONI[sezione].id}`)
+}
+
+facc esciDaGuida() {
+    sezione = nisciun
+    guida.nasconde()
+    mostraGuida(sfòls)
+    history.replaceState(nisciun, "", location.pathname + location.search)
+    mostraScheda(scheda)
+}
+
+pesca("guida").addEventListener("click", (evento) => {
+    // Nu click cu Ctrl o 'a rotella apre 'a guida n'ata scheda, comme nu link
+    si (evento.button !== 0 || evento.metaKey || evento.ctrlKey || evento.shiftKey || evento.altKey) {
+        piglie
+    }
+    evento.preventDefault()
+    si (sezione !== nisciun) {
+        esciDaGuida()
+    } sinnò {
+        apriGuida(0)
+    }
+})
+
+// ---------- Bottoni e menù
+
+pesca("esegui").addEventListener("click", () => lancia(overo))
+pesca("formatta").addEventListener("click", arrecettaCodice)
+pesca("pulizza").addEventListener("click", () => {
+    pesca("console").replaceChildren()
+    contaConsole()
+})
+
+chist è automaticoSpunta = pesca("automatico")
+automaticoSpunta.checked = automatico
+automaticoSpunta.addEventListener("change", () => {
+    automatico = automaticoSpunta.checked
+    salva(AUTOMATICO, String(automatico))
+    si (automatico && codice !== ultimoLanciato) {
+        lancia()
+    }
+})
+
+pesca("esempi").addEventListener("change", (evento) => {
+    chist è scigliuto = ESEMPI.find((x) => x.id === evento.target.value)
+    si (!scigliuto) {
+        piglie
+    }
+    esempio = scigliuto.id
+    mettiCodice(scigliuto.codice)
+    scriviEsempi()
+    lancia()
+})
 
 pesca("condividi").addEventListener("click", mo vir () => {
-    chist è link = `${location.origin}${location.pathname}#codice=${aspett comprimi(sorgente.state.doc.toString())}`
+    chist è link = aspett linkPe(codice)
     history.replaceState(nisciun, "", link)
-    chist è bottone = pesca("condividi")
     pruvamm {
         aspett navigator.clipboard.writeText(link)
-        bottone.textContent = "Link copiato"
+        avvisa(t("share.copied"), t("share.copiedDesc"))
     } e si schiatta (e) {
-        bottone.textContent = "Copialo d'a barra"
+        avvisa(t("share.failed"), link)
+    }
+})
+
+pesca("copia-html").addEventListener("click", mo vir () => {
+    chist è scritta = pesca("copia-html").querySelector("[data-t]")
+    pruvamm {
+        aspett navigator.clipboard.writeText(vistaHtml.state.doc.toString())
+        scritta.textContent = t("output.copied")
+    } e si schiatta (e) {
+        scritta.textContent = t("share.failed")
     }
     setTimeout(() => {
-        bottone.textContent = "Copia link"
+        scritta.textContent = t("output.copyHtml")
     }, 2000)
 })
 
-// ---------- Esempi
-
-pe ogni (chist è [i, esempio] dint ESEMPI.entries()) {
-    pesca("esempi").append(nu bell Option(esempio.nomme, String(i)))
-}
-pesca("esempi").addEventListener("change", (evento) => {
-    metti(ESEMPI[Number(evento.target.value)].codice)
-    // Torna a "Scegli…": l'editor nun è cchiù l'esempio appena 'o tocchi, e se po' ripiglià
-    evento.target.value = ""
+quannoCagnaLingua(() => {
+    scriviTemi()
+    scriviEsempi()
+    ultimoStato()
+    contaConsole()
+    si (lezione !== nisciun) {
+        scola.scrivi()
+    }
+    si (sezione !== nisciun) {
+        mostraGuida(overo)
+        guida.scrivi()
+    }
 })
-
-// ---------- Schede: Anteprima, HTML, Vocabolario
-
-chist è schede = [...document.querySelectorAll("[role=tab]")]
-
-facc apri(scheda) {
-    pe ogni (chist è s dint schede) {
-        chist è attiva = s === scheda
-        s.setAttribute("aria-selected", String(attiva))
-        s.tabIndex = attiva ? 0 : -1
-        pesca(s.getAttribute("aria-controls")).hidden = !attiva
-    }
-    si (scheda.id === "scheda-html") {
-        uscita.requestMeasure()
-    }
-}
-
-pe ogni (chist è [i, scheda] dint schede.entries()) {
-    scheda.addEventListener("click", () => apri(scheda))
-    scheda.addEventListener("keydown", (evento) => {
-        chist è dove = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: schede.length - 1 }[evento.key]
-        si (dove !== undefined) {
-            evento.preventDefault()
-            chist è prossima = schede[(dove + schede.length) % schede.length]
-            apri(prossima)
-            prossima.focus()
-        }
-    })
-}
-
-// ---------- Vocabolario
-
-facc tavula(titolo, colonne, righe) {
-    chist è piezz = document.createElement("section")
-    chist è h = document.createElement("h2")
-    h.textContent = titolo
-    piezz.append(h)
-    chist è t = document.createElement("table")
-    chist è capo = t.createTHead().insertRow()
-    pe ogni (chist è colonna dint colonne) {
-        chist è th = document.createElement("th")
-        th.scope = "col"
-        th.textContent = colonna
-        capo.append(th)
-    }
-    chist è cuorpo = t.createTBody()
-    pe ogni (chist è riga dint righe) {
-        chist è r = cuorpo.insertRow()
-        pe ogni (chist è cella dint riga) {
-            r.insertCell().textContent = cella
-        }
-    }
-    piezz.append(t)
-    piglie piezz
-}
 
 // ---------- Si parte
 
+mettiIcone()
+traduci()
+scriviTemi()
+scriviEsempi()
+mostraScheda("codice")
+contaConsole()
+ultimoStato()
+
+chist è dalHash = nu bell URLSearchParams(location.hash.slice(1))
+chist è dalLink = aspett codiceDalLink()
+mettiCodice(dalLink ?? leggiSalvato(SALVATO) ?? ue)
+si (!dalLink) {
+    // Nu codice salvato ca è ancora n'esempio se tene 'o nomme suojo
+    esempio = codice === ue ? "" : ESEMPI.find((x) => x.codice === codice)?.id ?? "proprio"
+    scriviEsempi()
+}
+
 pruvamm {
-    aspett init()
+    chist è { versione, vocabolario } = aspett carica()
+    pesca("versione").textContent = versione
+    imparaParole(vocabolario)
+    preparaAiuto(vocabolario)
+    pronto = overo
+    pe ogni (chist è b dint [pesca("esegui"), pesca("formatta")]) {
+        b.disabled = sfòls
+    }
+    pesca("carica").hidden = overo
+    ultimoStato = () => stato("pronto", t("status.ready"))
+    si (dalHash.has("scola")) {
+        apriLezione(Number.parseInt(dalHash.get("scola"), 10) - 1 || 0)
+    } sinnò si (dalHash.has("guida")) {
+        apriGuida(Math.max(SEZIONI.findIndex((s) => s.id === dalHash.get("guida")), 0))
+        lancia()
+    } sinnò {
+        lancia()
+    }
 } e si schiatta (e) {
-    dici("stato sbagliato", `✗ Nun riesco a carricà 'o compilatore: ${e.message}`)
+    pesca("carica").replaceChildren(crea("strong", "blocco scrittura-peso-600 culore-sbaglio-scritta", t("error.load")), crea("span", "blocco margine-ncoppa-1 larghezza-massima-md allinea-testo-miezo", t("error.loadMessage")))
+    pesca("carica").classList.add("direzione-colonna")
+    ultimoStato = () => stato("sbaglio", t("status.loadFailed"))
+    ultimoStato()
     iett e
 }
-
-chist è v = vocabulary()
-chist è nommeTag = Object.fromEntries(v.tags.map(([nap, h]) => [h, nap]))
-parole = {
-    elementi: [
-        ...v.tags.map(([nap, h]) => ({ label: nap, detail: `<${h}>`, type: "type" })),
-        { label: "chiamm", detail: "ncolla n'atu file", type: "type" },
-        ...v.untranslated.tags.map((label) => ({ label, detail: "HTML", type: "type" })),
-    ],
-    html: Object.fromEntries(v.tags),
-    attributi: v.attributes,
-    eventi: v.events.map(([nap, h]) => ({ label: nap, detail: `${h} (FratmScript)`, type: "event" })),
-    // Nomi HTML ca nun teneno ancora na parola: 'o compilatore 'e fa passà comme so'
-    comeSo: [...v.untranslated.attributes, ...v.untranslated.events].map((label) => ({ label, detail: "HTML", type: "property" })),
-}
-pesca("parole").append(
-    tavula("Elementi", ["htmlemmurt", "HTML"], v.tags.map(([nap, h]) => [`<${nap}>`, `<${h}>`])),
-    tavula("Attributi", ["htmlemmurt", "HTML", "Addò e valori"], v.attributes.map((a) => [
-        a.nap,
-        a.html,
-        [
-            a.only ? `ncopp'a ${a.only.map((o) => `<${nommeTag[o] ?? o}>`).join(", ")}` : "",
-            (a.values ?? []).map(([n, h]) => `${n} → ${h}`).join(", "),
-        ].filter(Boolean).join(" · "),
-    ])),
-    tavula("Eventi, cu FratmScript dint'ê virgulette", ["htmlemmurt", "HTML"], v.events.map(([nap, h]) => [nap, h])),
-)
-pesca("cerca").addEventListener("input", (evento) => {
-    chist è cosa = evento.target.value.trim().toLowerCase()
-    pe ogni (chist è piezz dint document.querySelectorAll("#parole section")) {
-        pe ogni (chist è r dint piezz.querySelectorAll("tbody tr")) {
-            r.hidden = cosa !== "" && !r.textContent.toLowerCase().includes(cosa)
-        }
-        piezz.hidden = !piezz.querySelector("tbody tr:not([hidden])")
-    }
-    chist è nisciuna = pesca("nisciuna")
-    nisciuna.hidden = Boolean(document.querySelector("#parole section:not([hidden])"))
-    nisciuna.textContent = `Nun trovo "${evento.target.value.trim()}" int'o vocabolario.`
-})
-
-tien iniziale = ESEMPI[0].codice
-pruvamm {
-    chist è codiceNelLink = location.hash.match(/^#codice=(.+)$/)
-    si (codiceNelLink) {
-        iniziale = aspett decomprimi(codiceNelLink[1])
-    } sinnò {
-        iniziale = localStorage.getItem(SALVATO) ?? iniziale
-    }
-} e si schiatta (e) {
-    // Nu link rotto o niente localStorage: se parte dall'esempio
-}
-metti(iniziale)

@@ -1,0 +1,11 @@
+<luccolone chi="pizza">Che pizza facimm?</luccolone>
+<citofono tipo="buttone" quanno-tuocche="scegli()">Scigli tu</citofono>
+<fratm>
+  chiamm { uno_a_caso } da "fratm"
+
+  chist è pizze = ["Margherita", "Marinara", "Diavola", "Capricciosa"]
+
+  facc scegli() {
+      document.querySelector("#pizza").textContent = uno_a_caso(pizze)
+  }
+</fratm>

@@ -1,0 +1,40 @@
+<!-- 'A testata: nomme, Impara, Guida, lengua, tema, Esegui, Condividi e GitHub -->
+<cappiell classe="flessibile direzione-colonna spazio-mmiez-2 sfunno-carta spazio-x-4 spazio-y-3 bordo-sotto-1">
+  <cascett classe="flessibile giustifica-spartuto allinea-cose-miezo spazio-mmiez-3">
+    <luccolone classe="taglia larghezza-minima-0 grassetto scrittura-grannezza-lg sm:scrittura-grannezza-xl culore-primario">htmlemmurt<scatulell classe="annascuso sm:in-linea" aria-hidden="true"> 🤌🏻</scatulell></luccolone>
+    <cascett classe="flessibile allinea-cose-miezo spazio-mmiez-1 sm:spazio-mmiez-3 [flex-shrink:0]">
+      <citofono chi="impara" tipo="buttone" classe="buttone buttone-fantasma" aria-pressed="false" data-t-aria="header.tourLabel" data-t-title="header.tourOpen">
+        <scatulell data-icona="cappiello-dottore"></scatulell>
+        <scatulell classe="annascuso sm:in-linea" data-t="header.tour">Impara</scatulell>
+      </citofono>
+      <vattenn chi="guida" addo="#guida" classe="buttone buttone-fantasma" data-t-aria="header.guideLabel" data-t-title="header.guideOpen">
+        <scatulell data-icona="libro"></scatulell>
+        <scatulell classe="annascuso sm:in-linea" data-t="header.guide">Guida</scatulell>
+      </vattenn>
+      <cascett classe="annascuso sm:flessibile allinea-cose-miezo spazio-mmiez-2">
+        <scegli classe="scegli scegli-lingua larghezza-32" data-t-aria="lang.label"></scegli>
+        <scegli classe="scegli scegli-tema larghezza-[6.5rem]" data-t-aria="theme.label"></scegli>
+      </cascett>
+      <cascett chi="azioni" classe="flessibile allinea-cose-miezo spazio-mmiez-1.5">
+        <citofono chi="esegui" tipo="buttone" classe="buttone buttone-primario" stutato data-t="header.run" data-t-title="header.runTip">Esegui</citofono>
+        <citofono chi="condividi" tipo="buttone" classe="buttone buttone-contorno" data-t-aria="header.share">
+          <scatulell classe="sm:annascuso" data-icona="condividi"></scatulell>
+          <scatulell classe="annascuso sm:in-linea" data-t="header.share">Condividi</scatulell>
+        </citofono>
+      </cascett>
+      <cascett classe="annascuso sm:flessibile">
+        <vattenn addo="https://github.com/bitoesposito/htmlemmurt" arape="nuova" rapporto="noopener" classe="buttone buttone-contorno buttone-icona" data-t-aria="header.github" data-t-title="header.githubTip">
+          <scatulell data-icona="github"></scatulell>
+        </vattenn>
+      </cascett>
+    </cascett>
+  </cascett>
+  <!-- Ncopp'o telefono lengua e tema stanno a na riga lloro -->
+  <cascett classe="flessibile sm:annascuso spazio-mmiez-2">
+    <scegli classe="scegli scegli-lingua larghezza-32" data-t-aria="lang.label"></scegli>
+    <scegli classe="scegli scegli-tema larghezza-[6.5rem]" data-t-aria="theme.label"></scegli>
+    <vattenn addo="https://github.com/bitoesposito/htmlemmurt" arape="nuova" rapporto="noopener" classe="buttone buttone-contorno buttone-icona margine-manca-automatico" data-t-aria="header.github">
+      <scatulell data-icona="github"></scatulell>
+    </vattenn>
+  </cascett>
+</cappiell>

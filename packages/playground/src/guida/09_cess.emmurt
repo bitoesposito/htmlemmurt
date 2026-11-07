@@ -1,0 +1,21 @@
+<cess>
+  .carta {
+    sfunno-culore: janco
+    bordo: 2px continuo russo
+    bordo-tunno: 8px
+    spazio: 16px
+  }
+  citofono {
+    sfunno-culore: russo
+    culore: janco
+    cursore: manella
+  }
+  citofono:passanno { sfunno-culore: niro }
+  @quanno (larghezza-massima: 600px) {
+    .carta { allinea-testo: miezo }
+  }
+</cess>
+<cascett classe="carta">
+  <luccolo cess="culore: verde">Margherita</luccolo>
+  <citofono tipo="buttone">Ordina</citofono>
+</cascett>

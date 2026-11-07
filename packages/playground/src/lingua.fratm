@@ -1,0 +1,453 @@
+// 'A lengua 'e l'interfaccia: chella d'o browser (italiano, napoletano, sinnò
+// inglese), o chella scigliuta int'a testata o cu ?lang=. Cagna sulo 'o testo
+// d'o playground: l'errori d'o compilatore e 'o codice restano in napoletano.
+
+chist è CHIAVE = "htmlemmurt:lingua"
+mann for chist è LINGUE = ["it", "en", "nap"]
+
+chist è it = {
+    "lang.name": "Italiano",
+    "lang.label": "Lingua",
+    "theme.label": "Tema",
+    "theme.system": "Sistema",
+    "theme.light": "Chiaro",
+    "theme.dark": "Scuro",
+
+    "header.tour": "Impara",
+    "header.tourLabel": "Impara htmlemmurt",
+    "header.tourOpen": "Impara htmlemmurt passo passo",
+    "header.tourExit": "Esci dal tour",
+    "header.guide": "Guida",
+    "header.guideLabel": "Guida al linguaggio",
+    "header.guideOpen": "Guida al linguaggio, con esempi da eseguire",
+    "header.guideExit": "Torna al playground",
+    "header.playground": "Playground",
+    "header.run": "Esegui",
+    "header.runTip": "Esegui il codice ({shortcut})",
+    "header.share": "Condividi",
+    "header.github": "Vedi su GitHub",
+    "header.githubTip": "Lascia una stella 🤌🏻",
+    "footer.madeBy": "Fatto con amore da",
+
+    "share.copied": "Link copiato!",
+    "share.copiedDesc": "Invia questo link per condividere il tuo codice.",
+    "share.failed": "Copia non riuscita: copia il link dalla barra degli indirizzi.",
+
+    "loading": "Caricamento di htmlemmurt…",
+    "editor.edited": "(modificato)",
+    "editor.examples": "Esempi:",
+    "editor.chooseExample": "-- Scegli un esempio --",
+    "editor.custom": "Codice tuo",
+    "editor.autoRun": "Esecuzione automatica",
+    "editor.label": "Codice htmlemmurt",
+    "editor.format": "Formatta il codice",
+    "editor.formatTip": "Formatta il codice (Shift+Alt+F)",
+
+    "help.open": "Vocabolario: tutte le parole",
+    "help.title": "Vocabolario",
+    "help.close": "Chiudi",
+    "help.search": "Cerca una parola: cascett, div, quanno…",
+    "help.hint": "I nomi HTML che non hanno ancora una parola napoletana passano come sono.",
+    "help.none": "Nessuna parola trovata per \"{query}\".",
+    "help.tags": "Elementi",
+    "help.attributes": "Attributi",
+    "help.events": "Eventi, con FratmScript tra le virgolette",
+    "help.where": "Dove e valori",
+    "help.on": "su {tags}",
+
+    "tabs.label": "Pannelli del playground",
+    "tabs.code": "Codice",
+    "tabs.preview": "Anteprima",
+    "tabs.console": "Console",
+    "tabs.errors": "{n} errori",
+    "tabs.messages": "{n} messaggi",
+
+    "output.title": "Risultato",
+    "output.preview": "Anteprima",
+    "output.console": "Console",
+    "output.html": "HTML generato",
+    "output.clear": "Pulisci",
+    "output.empty": "Nessun output in console",
+    "output.copyHtml": "Copia HTML",
+    "output.copied": "Copiato",
+    "output.stale": "Il codice è cambiato dopo questo risultato",
+    "output.lineColumn": "Riga {line}, colonna {column}",
+
+    "error.compile": "Errore di compilazione",
+    "error.runtime": "Errore nella pagina",
+    "error.load": "Compilatore non disponibile",
+    "error.loadMessage": "Non è stato possibile scaricare il compilatore di htmlemmurt. Controlla la connessione e ricarica la pagina.",
+
+    "status.loading": "Caricamento…",
+    "status.ready": "Compilatore pronto",
+    "status.loadFailed": "Il compilatore non si è caricato",
+    "status.compileError": "Errore di compilazione",
+    "status.done": "Fatto",
+    "status.staleAuto": "Codice cambiato, aggiorno…",
+    "status.staleManual": "Codice cambiato: il risultato non è aggiornato, premi Esegui",
+    "status.compiledIn": "Compilato in {ms}ms",
+
+    "guide.title": "Guida a htmlemmurt",
+    "guide.sections": "Sezioni della guida",
+    "guide.section": "Sezione",
+    "guide.intro": "Gli esempi si modificano e si eseguono qui: premi Esegui o {shortcut}.",
+    "guide.run": "Esegui",
+    "guide.runLabel": "Esegui l'esempio",
+    "guide.reset": "Ripristina",
+    "guide.resetTip": "Torna al codice originale",
+    "guide.showHtml": "HTML",
+    "guide.showHtmlTip": "Mostra l'HTML generato",
+    "guide.open": "Apri nell'editor",
+    "guide.openTip": "Continua con questo codice nel playground",
+    "guide.previous": "Indietro",
+    "guide.next": "Avanti",
+
+    "lesson.label": "Lezione",
+    "lesson.index": "Indice delle lezioni",
+    "lesson.exit": "Esci dal tour",
+    "lesson.done": "Bravo! 🤌",
+    "lesson.exercise": "Esercizio",
+    "lesson.expected": "È fatto quando la tua pagina è uguale a quella della soluzione.",
+    "lesson.reset": "Ricomincia",
+    "lesson.resetTip": "Torna al codice iniziale",
+    "lesson.solution": "Soluzione",
+    "lesson.solutionTip": "Mostra la soluzione",
+    "lesson.previous": "Lezione precedente",
+    "lesson.next": "Avanti",
+    "lesson.finish": "Finito",
+
+    "ex.ue": "Uè, frà!",
+    "ex.munno": "La pagina più piccola",
+    "ex.testo": "Testo, liste e link",
+    "ex.modulo": "Un modulo",
+    "ex.fratm": "FratmScript nella pagina",
+    "ex.pezzi": "Pezzi riusati",
+    "ex.tavula": "Tabelle e media",
+    "ex.sbagliato": "Un errore, apposta",
+}
+
+chist è en = {
+    "lang.name": "English",
+    "lang.label": "Language",
+    "theme.label": "Theme",
+    "theme.system": "System",
+    "theme.light": "Light",
+    "theme.dark": "Dark",
+
+    "header.tour": "Learn",
+    "header.tourLabel": "Learn htmlemmurt",
+    "header.tourOpen": "Learn htmlemmurt step by step",
+    "header.tourExit": "Leave the tour",
+    "header.guide": "Guide",
+    "header.guideLabel": "Language guide",
+    "header.guideOpen": "Language guide, with examples you can run",
+    "header.guideExit": "Back to the playground",
+    "header.playground": "Playground",
+    "header.run": "Run",
+    "header.runTip": "Run code ({shortcut})",
+    "header.share": "Share",
+    "header.github": "View on GitHub",
+    "header.githubTip": "Star this repo 🤌🏻",
+    "footer.madeBy": "Made with love by",
+
+    "share.copied": "Link copied!",
+    "share.copiedDesc": "Send this link to share your code.",
+    "share.failed": "Copy failed: copy the link from the address bar.",
+
+    "loading": "Loading htmlemmurt…",
+    "editor.edited": "(edited)",
+    "editor.examples": "Examples:",
+    "editor.chooseExample": "-- Choose an example --",
+    "editor.custom": "Custom code",
+    "editor.autoRun": "Auto-run",
+    "editor.label": "htmlemmurt code",
+    "editor.format": "Format code",
+    "editor.formatTip": "Format code (Shift+Alt+F)",
+
+    "help.open": "Vocabulary: every word",
+    "help.title": "Vocabulary",
+    "help.close": "Close",
+    "help.search": "Search a word: cascett, div, quanno…",
+    "help.hint": "HTML names that have no Neapolitan word yet pass as they are.",
+    "help.none": "No word found for \"{query}\".",
+    "help.tags": "Elements",
+    "help.attributes": "Attributes",
+    "help.events": "Events, with FratmScript between the quotes",
+    "help.where": "Where and values",
+    "help.on": "on {tags}",
+
+    "tabs.label": "Playground panels",
+    "tabs.code": "Code",
+    "tabs.preview": "Preview",
+    "tabs.console": "Console",
+    "tabs.errors": "{n} errors",
+    "tabs.messages": "{n} messages",
+
+    "output.title": "Output",
+    "output.preview": "Preview",
+    "output.console": "Console",
+    "output.html": "Generated HTML",
+    "output.clear": "Clear",
+    "output.empty": "No console output",
+    "output.copyHtml": "Copy HTML",
+    "output.copied": "Copied",
+    "output.stale": "The code changed since this output was produced",
+    "output.lineColumn": "Line {line}, column {column}",
+
+    "error.compile": "Compilation error",
+    "error.runtime": "Error in the page",
+    "error.load": "Compiler not available",
+    "error.loadMessage": "The htmlemmurt compiler could not be downloaded. Check your connection and reload the page.",
+
+    "status.loading": "Loading…",
+    "status.ready": "Compiler ready",
+    "status.loadFailed": "Compiler failed to load",
+    "status.compileError": "Compilation error",
+    "status.done": "Done",
+    "status.staleAuto": "Code changed, updating…",
+    "status.staleManual": "Code changed: output is out of date, press Run",
+    "status.compiledIn": "Compiled in {ms}ms",
+
+    "guide.title": "htmlemmurt guide",
+    "guide.sections": "Guide sections",
+    "guide.section": "Section",
+    "guide.intro": "Edit and run the examples right here: press Run or {shortcut}.",
+    "guide.run": "Run",
+    "guide.runLabel": "Run the example",
+    "guide.reset": "Reset",
+    "guide.resetTip": "Back to the original code",
+    "guide.showHtml": "HTML",
+    "guide.showHtmlTip": "Show the generated HTML",
+    "guide.open": "Open in editor",
+    "guide.openTip": "Keep going with this code in the playground",
+    "guide.previous": "Back",
+    "guide.next": "Next",
+
+    "lesson.label": "Lesson",
+    "lesson.index": "Lesson index",
+    "lesson.exit": "Leave the tour",
+    "lesson.done": "Well done! 🤌",
+    "lesson.exercise": "Exercise",
+    "lesson.expected": "It is done when your page is the same as the solution's.",
+    "lesson.reset": "Start over",
+    "lesson.resetTip": "Back to the starting code",
+    "lesson.solution": "Solution",
+    "lesson.solutionTip": "Show the solution",
+    "lesson.previous": "Previous lesson",
+    "lesson.next": "Next",
+    "lesson.finish": "Finish",
+
+    "ex.ue": "Uè, frà!",
+    "ex.munno": "The smallest page",
+    "ex.testo": "Text, lists and links",
+    "ex.modulo": "A form",
+    "ex.fratm": "FratmScript in the page",
+    "ex.pezzi": "Reused pieces",
+    "ex.tavula": "Tables and media",
+    "ex.sbagliato": "An error, on purpose",
+}
+
+chist è nap = {
+    "lang.name": "Napulitano",
+    "lang.label": "Lengua",
+    "theme.label": "Tema",
+    "theme.system": "Sistema",
+    "theme.light": "Chiaro",
+    "theme.dark": "Scuro",
+
+    "header.tour": "Scola",
+    "header.tourLabel": "'A scola 'e htmlemmurt",
+    "header.tourOpen": "'A scola 'e htmlemmurt: impara passo passo",
+    "header.tourExit": "Esci d'a scola",
+    "header.guide": "Guida",
+    "header.guideLabel": "Guida d'o linguaggio",
+    "header.guideOpen": "Guida d'o linguaggio, cu l'esempi ca puoi fà girà",
+    "header.guideExit": "Torna a 'o playground",
+    "header.playground": "Playground",
+    "header.run": "Lancia",
+    "header.runTip": "Lancia 'o codice ({shortcut})",
+    "header.share": "Condividi",
+    "header.github": "Vire ncopp'a GitHub",
+    "header.githubTip": "Miette na stella 🤌🏻",
+    "footer.madeBy": "Fatto cu ammore da",
+
+    "share.copied": "Link copiato!",
+    "share.copiedDesc": "Manna stu link a chi vuò pe fà vedé 'o codice tuoio.",
+    "share.failed": "Nun se pò copià: piglia 'o link d'a barra 'e l'indirizze.",
+
+    "loading": "Sto caricanno htmlemmurt…",
+    "editor.edited": "(cagnato)",
+    "editor.examples": "Esempi:",
+    "editor.chooseExample": "-- Sciglie n'esempio --",
+    "editor.custom": "Codice tuoio",
+    "editor.autoRun": "Parte sulo",
+    "editor.label": "Codice htmlemmurt",
+    "editor.format": "Arrecetta 'o codice",
+    "editor.formatTip": "Arrecetta 'o codice (Shift+Alt+F)",
+
+    "help.open": "Vocabolario: tutte 'e parole",
+    "help.title": "Vocabolario",
+    "help.close": "Chiure",
+    "help.search": "Cerca na parola: cascett, div, quanno…",
+    "help.hint": "'E nomme HTML ca nun teneno ancora na parola napoletana passano comme so'.",
+    "help.none": "Nun trovo \"{query}\" int'o vocabolario.",
+    "help.tags": "Elementi",
+    "help.attributes": "Attributi",
+    "help.events": "Eventi, cu FratmScript dint'ê virgulette",
+    "help.where": "Addò e valori",
+    "help.on": "ncopp'a {tags}",
+
+    "tabs.label": "Pannielle d'o playground",
+    "tabs.code": "Codice",
+    "tabs.preview": "Anteprima",
+    "tabs.console": "Console",
+    "tabs.errors": "{n} errori",
+    "tabs.messages": "{n} messaggi",
+
+    "output.title": "Risultato",
+    "output.preview": "Anteprima",
+    "output.console": "Console",
+    "output.html": "HTML ca esce",
+    "output.clear": "Pulizza",
+    "output.empty": "'A console è vacante",
+    "output.copyHtml": "Copia l'HTML",
+    "output.copied": "Copiato",
+    "output.stale": "'O codice è cagnato doppo stu risultato",
+    "output.lineColumn": "Riga {line}, colonna {column}",
+
+    "error.compile": "Errore 'e compilazione",
+    "error.runtime": "Errore int'a paggena",
+    "error.load": "'O compilatore nun ce sta",
+    "error.loadMessage": "Nun se pò scarrecà 'o compilatore 'e htmlemmurt. Controlla 'a connessione e ricarica 'a paggena.",
+
+    "status.loading": "Sto caricanno…",
+    "status.ready": "'O compilatore è pronto",
+    "status.loadFailed": "'O compilatore nun s'è caricato",
+    "status.compileError": "Errore 'e compilazione",
+    "status.done": "Fatto",
+    "status.staleAuto": "'O codice è cagnato, sto aggiurnanno…",
+    "status.staleManual": "'O codice è cagnato: 'o risultato è viecchio, pigia Lancia",
+    "status.compiledIn": "Compilato in {ms}ms",
+
+    "guide.title": "Guida 'e htmlemmurt",
+    "guide.sections": "Sezioni d'a guida",
+    "guide.section": "Sezione",
+    "guide.intro": "L'esempi se cagnano e se fanno girà ccà: pigia Lancia o {shortcut}.",
+    "guide.run": "Lancia",
+    "guide.runLabel": "Fa' girà l'esempio",
+    "guide.reset": "Ripristina",
+    "guide.resetTip": "Torna a 'o codice 'e primma",
+    "guide.showHtml": "HTML",
+    "guide.showHtmlTip": "Fa vedé l'HTML ca esce",
+    "guide.open": "Apri int'a l'editor",
+    "guide.openTip": "Continua cu stu codice int'o playground",
+    "guide.previous": "Arreto",
+    "guide.next": "Appriesso",
+
+    "lesson.label": "Lezione",
+    "lesson.index": "Indice d'e lezioni",
+    "lesson.exit": "Esci d'a scola",
+    "lesson.done": "Bravo! 🤌",
+    "lesson.exercise": "Esercizio",
+    "lesson.expected": "È fatto quanno 'a paggena toja è tale e quale a chella d'a soluzione.",
+    "lesson.reset": "Ricomincia",
+    "lesson.resetTip": "Torna a 'o codice 'e partenza",
+    "lesson.solution": "Soluzione",
+    "lesson.solutionTip": "Fa vedé 'a soluzione",
+    "lesson.previous": "Lezione 'e primma",
+    "lesson.next": "Appriesso",
+    "lesson.finish": "Fernuto",
+
+    "ex.ue": "Uè, frà!",
+    "ex.munno": "'A paggena cchiù piccerella",
+    "ex.testo": "Testo, liste e link",
+    "ex.modulo": "Nu modulo",
+    "ex.fratm": "FratmScript int'a paggena",
+    "ex.pezzi": "Pezzi riusati",
+    "ex.tavula": "Tavule e media",
+    "ex.sbagliato": "Nu sbaglio, apposta",
+}
+
+chist è TESTI = { it, en, nap }
+
+facc dalBrowser() {
+    chist è dalLink = nu bell URLSearchParams(location.search).get("lang")
+    si (LINGUE.includes(dalLink)) {
+        piglie dalLink
+    }
+    pruvamm {
+        chist è salvata = localStorage.getItem(CHIAVE)
+        si (LINGUE.includes(salvata)) {
+            piglie salvata
+        }
+    } e si schiatta (e) {
+        // Senza localStorage se piglia chella d'o browser
+    }
+    pe ogni (chist è l dint navigator.languages ?? [navigator.language]) {
+        chist è base = String(l).toLowerCase().split("-")[0]
+        si (base === "nap" || base === "it") {
+            piglie base
+        }
+    }
+    piglie "en"
+}
+
+tien lingua = dalBrowser()
+chist è ascoltatori = []
+
+mann for facc lenguaAttuale() {
+    piglie lingua
+}
+
+/** 'O testo 'e na chiave, cu {parametri} sostituiti. */
+mann for facc t(chiave, parametri = {}) {
+    chist è testo = TESTI[lingua][chiave] ?? TESTI.it[chiave] ?? chiave
+    piglie testo.replace(/\{(\w+)\}/g, (tutto, nomme) => String(parametri[nomme] ?? tutto))
+}
+
+/** Mette 'e testi int'e elementi cu data-t, data-t-aria, data-t-title e data-t-esempio. */
+mann for facc traduci(radice = document) {
+    pe ogni (chist è el dint radice.querySelectorAll("[data-t]")) {
+        el.textContent = t(el.dataset.t)
+    }
+    pe ogni (chist è el dint radice.querySelectorAll("[data-t-aria]")) {
+        el.setAttribute("aria-label", t(el.dataset.tAria))
+    }
+    pe ogni (chist è el dint radice.querySelectorAll("[data-t-title]")) {
+        el.title = t(el.dataset.tTitle, { shortcut: SCORCIATOIA })
+    }
+    pe ogni (chist è el dint radice.querySelectorAll("[data-t-esempio]")) {
+        el.placeholder = t(el.dataset.tEsempio)
+    }
+}
+
+mann for chist è SCORCIATOIA = /Mac|iPhone|iPad/.test(navigator.platform) ? "⌘↵" : "Ctrl+↵"
+
+mann for facc cagnaLingua(nova) {
+    si (!LINGUE.includes(nova) || nova === lingua) {
+        piglie
+    }
+    lingua = nova
+    pruvamm {
+        localStorage.setItem(CHIAVE, nova)
+    } e si schiatta (e) {
+        // Vale pe sta visita
+    }
+    document.documentElement.lang = nova
+    traduci()
+    pe ogni (chist è f dint ascoltatori) {
+        f(nova)
+    }
+}
+
+/** Chiamma f ogni vota ca cagna 'a lengua. */
+mann for facc quannoCagnaLingua(f) {
+    ascoltatori.push(f)
+}
+
+/** 'E nomme d'e lengue, pe 'o menù: ognuna scritta int'a lengua soja. */
+mann for facc nommeLingua(l) {
+    piglie TESTI[l]["lang.name"]
+}
+
+document.documentElement.lang = lingua
