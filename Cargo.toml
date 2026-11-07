@@ -15,6 +15,10 @@ repository = "https://github.com/bitoesposito/htmlemmurt"
 [workspace.dependencies]
 # FratmScript: the compiler for <fratm> blocks and quanno-* handlers, stile for
 # <cess>, and the vocabulary (html.rs) shared with its JSX
-fratm-core = { git = "https://github.com/kkratterf/fratmscript", tag = "v0.17.1" }
+# ponytail: the fork's branch with kkratterf/fratmscript#264, #266 and #268, the one
+# par-o-css uses, until they are released; then the tag again
+fratm-core = { git = "https://github.com/bitoesposito/fratmscript", rev = "705846174e2e6c6bb50ef86a0a0ad340af290b0f" }
+# par-o-css: <cess> and cess="…" are its strict CSS in Neapolitan, with its classes
+parocss-core = { git = "https://github.com/bitoesposito/par-o-css", rev = "a7e7bed676f6e8bbb0471ee32463c0f58cf5e782" }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"

@@ -8,4 +8,5 @@ repository.workspace = true
 
 [dependencies]
 fratm-core.workspace = true
+parocss-core.workspace = true
 serde.workspace = true

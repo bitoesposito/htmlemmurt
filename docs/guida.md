@@ -81,7 +81,7 @@ I tag si chiudono sempre, nell'ordine in cui li hai aperti. Fanno eccezione quel
 
 ## 5. Lo stile
 
-Lo stile dell'app sta in `stile.css`, collegato nella `<capa>` con `<attacca rapporto="stile" addo="/stile.css">`. È CSS normale. Dentro `<cess>`, e nell'attributo `cess`, lo puoi scrivere anche in napoletano:
+Lo stile dell'app sta in `stile.css`, collegato nella `<capa>` con `<attacca rapporto="stile" addo="/stile.css">`. È CSS normale. Dentro `<cess>`, e nell'attributo `cess`, è CSS in napoletano, severo come la pagina: `color` è un errore che ti dice di scrivere `culore`. I nomi CSS che non hanno ancora una parola napoletana, come `border-collapse`, passano come sono:
 
 ```html
 <cess>

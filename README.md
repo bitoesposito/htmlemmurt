@@ -106,7 +106,16 @@ Un parametro che manca, uno che il pezzo non usa e un contenuto che il pezzo non
 
 Con un `tipo` diverso da `modulo` il contenuto di `<fratm>` non è FratmScript e resta com'è, come fa l'HTML: `tipo="text/javascript"` per il JavaScript normale, `tipo="application/ld+json"` per i dati strutturati, `tipo="importmap"`. Anche `<fratm da="lib.js" />` o un indirizzo esterno caricano lo script così com'è: si compilano solo i file `.fratm`.
 
-`<cess>` e l'attributo `cess` sono CSS in napoletano, tradotto con lo `stile` di FratmScript: `citofono:passanno { culore: russo }` diventa `button:hover { color: red }`. Il CSS normale passa com'è.
+`<cess>` e l'attributo `cess` sono CSS in napoletano, compilato da [par-o-css](https://github.com/bitoesposito/par-o-css) con le parole dello `stile` di FratmScript: `citofono:passanno { culore: russo }` diventa `button:hover { color: red }`. È severo come le pagine: `color`, `:hover`, `@media` e `div` sono errori che ti dicono la parola napoletana, mentre i nomi CSS che non ne hanno ancora una passano come sono.
+
+Con `@chiamm "par-o-css"` dentro un `<cess>` la pagina ha anche le classi pronte di par-o-css, alla Tailwind: il compilatore mette il tema e una regola per ogni classe che la pagina e i suoi pezzi usano davvero.
+
+```html
+<cess>@chiamm "par-o-css";</cess>
+<cascett classe="flessibile giustifica-spartuto spazio-4 md:spazio-8 sfunno-janco ombra-md">…</cascett>
+```
+
+Una classe di Tailwind in `classe` è un errore che suggerisce quella di par-o-css: `p-4` → `spazio-4`, `hover:bg-blue-600` → `passanno:sfunno-blu-600`. `@tema`, `@applica` e `@chiamm "pezzi/carta.cess"` funzionano come nei file `.cess` di par-o-css.
 
 ## Con Vite
 
