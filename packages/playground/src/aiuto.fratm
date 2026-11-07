@@ -1,0 +1,78 @@
+// L'aiuto (il bottone ?): tutte 'e parole d'o vocabolario, cu l'HTML lloro e na ricerca
+
+chiamm { t, quannoCagnaLingua } da "./lingua.fratm"
+chiamm { crea, scriviTesto } da "./dom.fratm"
+
+chist è pesca = (chi) => document.getElementById(chi)
+
+facc tavula(titolo, colonne, righe) {
+    chist è piezz = crea("section", "margine-sotto-6")
+    piezz.append(crea("h3", "margine-sotto-2 scrittura-peso-600", titolo))
+    chist è tavola = crea("table", "larghezza-chino")
+    chist è capo = tavola.createTHead().insertRow()
+    pe ogni (chist è colonna dint colonne) {
+        chist è th = crea("th", "allinea-testo-manca spazio-x-2 spazio-y-1.5 bordo-sotto-1 scrittura-grannezza-xs scrittura-peso-500 culore-scritta-smorta", colonna)
+        th.scope = "col"
+        capo.append(th)
+    }
+    chist è cuorpo = tavola.createTBody()
+    pe ogni (chist è riga dint righe) {
+        chist è r = cuorpo.insertRow()
+        pe ogni (chist è [i, cella] dint riga.entries()) {
+            chist è td = r.insertCell()
+            td.className = i < 2 ? "spazio-x-2 spazio-y-1 bordo-sotto-1 scrittura-mono" : "spazio-x-2 spazio-y-1 bordo-sotto-1 culore-scritta-smorta"
+            td.textContent = cella
+        }
+    }
+    piezz.append(tavola)
+    piglie piezz
+}
+
+facc filtra() {
+    chist è scritto = pesca("cerca").value.trim()
+    chist è cosa = scritto.toLowerCase()
+    pe ogni (chist è piezz dint pesca("parole").querySelectorAll("section")) {
+        pe ogni (chist è r dint piezz.querySelectorAll("tbody tr")) {
+            r.hidden = cosa !== "" && !r.textContent.toLowerCase().includes(cosa)
+        }
+        piezz.hidden = !piezz.querySelector("tbody tr:not([hidden])")
+    }
+    chist è nisciuna = pesca("nisciuna")
+    nisciuna.hidden = Boolean(pesca("parole").querySelector("section:not([hidden])"))
+    nisciuna.textContent = t("help.none", { query: scritto })
+}
+
+/** Prepara l'aiuto cu 'o vocabolario d'o compilatore. */
+mann for facc preparaAiuto(v) {
+    chist è nommeTag = Object.fromEntries(v.tags.map(([nap, h]) => [h, nap]))
+    facc scrivi() {
+        pesca("parole").replaceChildren(
+            tavula(t("help.tags"), ["htmlemmurt", "HTML"], v.tags.map(([nap, h]) => [`<${nap}>`, `<${h}>`])),
+            tavula(t("help.attributes"), ["htmlemmurt", "HTML", t("help.where")], v.attributes.map((a) => [
+                a.nap,
+                a.html,
+                [
+                    a.only ? t("help.on", { tags: a.only.map((o) => `<${nommeTag[o] ?? o}>`).join(", ") }) : "",
+                    (a.values ?? []).map(([n, h]) => `${n} → ${h}`).join(", "),
+                ].filter(Boolean).join(" · "),
+            ])),
+            tavula(t("help.events"), ["htmlemmurt", "HTML"], v.events.map(([nap, h]) => [nap, h])),
+        )
+        scriviTesto(document.querySelector("[data-t='help.hint']"), t("help.hint"))
+        filtra()
+    }
+    scrivi()
+    quannoCagnaLingua(scrivi)
+    pesca("cerca").addEventListener("input", filtra)
+    pesca("aiuto-apri").addEventListener("click", () => {
+        pesca("aiuto").showModal()
+        pesca("cerca").focus()
+    })
+    pesca("aiuto-chiude").addEventListener("click", () => pesca("aiuto").close())
+    // Nu click fora d'a fenesta 'a chiure
+    pesca("aiuto").addEventListener("click", (evento) => {
+        si (evento.target === pesca("aiuto")) {
+            pesca("aiuto").close()
+        }
+    })
+}

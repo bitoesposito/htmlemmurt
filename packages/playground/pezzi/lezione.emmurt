@@ -1,0 +1,38 @@
+<!-- 'A lezione 'e scola, ncopp'a l'editor: 'e testi 'e mette scola.fratm -->
+<piezz chi="lezione" classe="flessibile direzione-colonna sfunno-carta bordo-sotto-1 altezza-massima-[40%] trabocca-automatico md:altezza-massima-[55%] [flex-shrink:0]" data-t-aria="lesson.label" annascuso>
+  <cascett classe="flessibile giustifica-spartuto allinea-cose-miezo spazio-mmiez-2 spazio-x-4 spazio-ncoppa-3">
+    <scegli chi="lezione-scegli" classe="scegli larghezza-60" data-t-aria="lesson.index"></scegli>
+    <citofono chi="lezione-esci" tipo="buttone" classe="buttone buttone-fantasma buttone-icona" data-t-aria="lesson.exit" data-t-title="lesson.exit">
+      <scatulell data-icona="chiude"></scatulell>
+    </citofono>
+  </cascett>
+  <cascett classe="testo flessibile direzione-colonna spazio-mmiez-2 spazio-x-4 spazio-y-3 scrittura-grannezza-sm altezza-riga-[1.625]">
+    <luccolo classe="scrittura-peso-600 scrittura-grannezza-base">
+      <scatulell chi="lezione-numero" classe="margine-destra-1.5 culore-scritta-smorta"></scatulell>
+      <scatulell chi="lezione-titolo"></scatulell>
+    </luccolo>
+    <cascett chi="lezione-testo" classe="flessibile direzione-colonna spazio-mmiez-2 culore-scritta-smorta"></cascett>
+  </cascett>
+  <cascett chi="lezione-compito" classe="testo margine-x-4 margine-sotto-3 spazio-3 bordo bordo-tunno-md scrittura-grannezza-sm" aria-live="polite">
+    <chiacchier chi="lezione-stato" classe="scrittura-peso-500"></chiacchier>
+    <chiacchier chi="lezione-esercizio" classe="margine-ncoppa-1 culore-scritta-smorta"></chiacchier>
+  </cascett>
+  <cascett classe="flessibile giustifica-spartuto allinea-cose-miezo spazio-mmiez-2 spazio-x-4 spazio-sotto-3">
+    <cascett classe="flessibile spazio-mmiez-1">
+      <citofono chi="lezione-ricomincia" tipo="buttone" classe="buttone buttone-fantasma buttone-piccolo" data-t-aria="lesson.reset" data-t-title="lesson.resetTip">
+        <scatulell data-icona="ricomincia"></scatulell>
+        <scatulell classe="annascuso sm:in-linea" data-t="lesson.reset">Ricomincia</scatulell>
+      </citofono>
+      <citofono chi="lezione-soluzione" tipo="buttone" classe="buttone buttone-fantasma buttone-piccolo" data-t-aria="lesson.solution" data-t-title="lesson.solutionTip">
+        <scatulell data-icona="lampadina"></scatulell>
+        <scatulell classe="annascuso sm:in-linea" data-t="lesson.solution">Soluzione</scatulell>
+      </citofono>
+    </cascett>
+    <cascett classe="flessibile spazio-mmiez-1">
+      <citofono chi="lezione-arreto" tipo="buttone" classe="buttone buttone-contorno buttone-piccolo" data-t-aria="lesson.previous">
+        <scatulell data-icona="sinistra"></scatulell>
+      </citofono>
+      <citofono chi="lezione-appriesso" tipo="buttone" classe="buttone buttone-contorno buttone-piccolo"></citofono>
+    </cascett>
+  </cascett>
+</piezz>

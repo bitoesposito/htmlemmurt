@@ -90,26 +90,26 @@ async function runtimeWorks(browser, base) {
 
 async function playgroundWorks(browser, base) {
   const page = await open(browser, base + '/');
-  const stato = page.locator('#stato');
   const anteprima = page.frameLocator('#anteprima iframe');
-  await page.waitForFunction(() => document.querySelector('#stato').textContent.includes('Tutto a posto'));
+  // The status bar says how things are without words: pronto, sbaglio, attesa, carica
+  const stato = (s) => page.locator(`#barra-stato[data-stato="${s}"]`).waitFor();
+  await stato('pronto');
   assert.equal(await anteprima.locator('h1').textContent(), 'Uè, frà!');
   await anteprima.locator('button').click();
   await page.locator('#console li', { hasText: 'Driiin! 1' }).waitFor();
-
-  await page.click('#scheda-html');
   await page.locator('#html .cm-content', { hasText: '<!DOCTYPE html>' }).waitFor();
-  await page.click('#scheda-vocabolario');
+
+  // The vocabulary, behind the ? button
+  await page.click('#aiuto-apri');
   await page.fill('#cerca', 'cascett');
   assert.ok((await page.locator('#parole tr:visible').allTextContents()).some((r) => r.includes('<div>')));
-  await page.click('#scheda-anteprima');
+  await page.click('#aiuto-chiude');
 
   // A mistake on purpose: the error in Neapolitan, also under the code
-  await page.selectOption('#esempi', { label: 'Nu sbaglio, apposta' });
-  await page.waitForFunction(() => document.querySelector('#stato').textContent.includes('nun è napoletano'));
-  assert.match(await stato.textContent(), /Vuoi dire <cascett>\?/);
+  await page.selectOption('#esempi', 'sbagliato');
+  await stato('sbaglio');
+  assert.match(await page.locator('#sbagli').textContent(), /<div> nun è napoletano\.\s*Vuoi dire <cascett>\?/);
   await page.locator('.cm-lintRange-error').first().waitFor();
-  await page.locator('#anteprima[data-vecchia]').waitFor({ state: 'attached' });
 
   // The editor completes with Neapolitan names, never English HTML
   await page.click('#editor .cm-content');
@@ -120,9 +120,32 @@ async function playgroundWorks(browser, base) {
   assert.ok(proposte.some((p) => p.startsWith('cascett')) && !proposte.some((p) => p.startsWith('canvas')), proposte.join());
   await page.keyboard.press('Escape');
 
+  // Format: only spaces and line breaks move
+  await page.selectOption('#esempi', 'munno');
+  await stato('pronto');
+  await page.click('#editor .cm-content');
+  await page.keyboard.press('Control+Home');
+  await page.keyboard.type('   ');
+  await page.click('#formatta');
+  await page.locator('#editor .cm-line').first().filter({ hasText: /^<!--/ }).waitFor();
+
+  // Learn: the solution of the first lesson marks it done
+  await page.click('#impara');
+  await page.locator('#lezione:not([hidden])').waitFor();
+  await page.click('#lezione-soluzione');
+  await page.locator('#lezione-compito[data-fatto]').waitFor();
+  await page.click('#lezione-esci');
+
+  // The guide: every snippet runs in its own preview and opens in the editor
+  await page.click('#guida');
+  await page.frameLocator('#guida-esempi iframe').first().locator('h1').waitFor();
+  await page.click('#guida-esempi [data-azione="apri"]');
+  await page.locator('#guida-paggena').waitFor({ state: 'hidden' });
+  await stato('pronto');
+
   // The shared link opens the same code
-  await page.selectOption('#esempi', { label: 'Nu modulo' });
-  await page.waitForFunction(() => document.querySelector('#stato').textContent.includes('Tutto a posto'));
+  await page.selectOption('#esempi', 'modulo');
+  await stato('pronto');
   await page.click('#condividi');
   await page.waitForFunction(() => location.hash.startsWith('#codice='));
   const link = page.url();
@@ -131,9 +154,11 @@ async function playgroundWorks(browser, base) {
   await page.close();
 
   const shared = await open(browser, link);
-  await shared.waitForFunction(() => document.querySelector('#stato').textContent.includes('Tutto a posto'));
+  await shared.locator('#barra-stato[data-stato="pronto"]').waitFor();
   await shared.frameLocator('#anteprima iframe').locator('form').waitFor();
   // Once open, the code lives in localStorage: a reload after an edit keeps the edit
+  await shared.click('#editor .cm-content');
+  await shared.keyboard.type(' ');
   assert.equal(await shared.evaluate(() => location.hash), '');
   assert.deepEqual(shared.problems.filter((p) => !p.startsWith('Blocked autofocusing')), []);
   await shared.close();

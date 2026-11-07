@@ -1,0 +1,224 @@
+// L'editor (CodeMirror), cu 'o tema d'o playground 'e FratmScript e 'o
+// completamento ca propone sulo 'e parole d'o vocabolario.
+
+chiamm { EditorState, Prec } da "@codemirror/state"
+chiamm { EditorView, keymap, lineNumbers, highlightActiveLine, highlightSpecialChars, drawSelection } da "@codemirror/view"
+chiamm { defaultKeymap, history, historyKeymap, indentWithTab } da "@codemirror/commands"
+chiamm { autocompletion, completionKeymap } da "@codemirror/autocomplete"
+chiamm { html, htmlLanguage, autoCloseTags } da "@codemirror/lang-html"
+chiamm { setDiagnostics, lintGutter } da "@codemirror/lint"
+chiamm { HighlightStyle, syntaxHighlighting, syntaxTree } da "@codemirror/language"
+chiamm { tags } da "@lezer/highlight"
+
+// 'E culure stanno int'e variabili CSS 'e stile.cess, chiaro e scuro
+chist è colori = HighlightStyle.define([
+    { tag: tags.tagName, color: "var(--cm-tag)" },
+    { tag: tags.attributeName, color: "var(--cm-attributo)" },
+    { tag: [tags.attributeValue, tags.string], color: "var(--cm-valore)" },
+    { tag: tags.comment, color: "var(--cm-commento)", fontStyle: "italic" },
+    { tag: [tags.angleBracket, tags.punctuation], color: "var(--cm-punteggiatura)" },
+    { tag: [tags.keyword, tags.controlKeyword, tags.definitionKeyword, tags.meta], color: "var(--cm-parola)" },
+    { tag: [tags.number, tags.atom, tags.bool], color: "var(--cm-numero)" },
+    { tag: [tags.function(tags.variableName), tags.propertyName], color: "var(--cm-funzione)" },
+    { tag: tags.operator, color: "var(--cm-operatore)" },
+    { tag: [tags.variableName, tags.name], color: "var(--cm-nomme)" },
+])
+
+chist è tema = EditorView.theme({
+    "&": { height: "100%", backgroundColor: "transparent", color: "var(--culore-scritta)" },
+    "&.cm-focused": { outline: "none" },
+    ".cm-content": {
+        fontFamily: "var(--scrittura-mono)",
+        fontSize: "14px",
+        lineHeight: "1.6",
+        padding: "16px 0",
+        caretColor: "var(--cm-cursore)",
+    },
+    ".cm-line": { padding: "0 16px" },
+    ".cm-cursor, .cm-dropCursor": { borderLeftColor: "var(--cm-cursore)", borderLeftWidth: "2px" },
+    ".cm-activeLine, .cm-activeLineGutter": { backgroundColor: "var(--culore-smorto)" },
+    "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection": {
+        backgroundColor: "var(--cm-selezione)",
+    },
+    ".cm-gutters": {
+        backgroundColor: "transparent",
+        borderRight: "1px solid var(--culore-filo)",
+        color: "var(--culore-scritta-smorta)",
+        fontSize: "12px",
+    },
+    ".cm-lineNumbers .cm-gutterElement": { padding: "0 12px 0 8px", minWidth: "40px" },
+    ".cm-scroller": { overflow: "auto", fontFamily: "var(--scrittura-mono)" },
+    ".cm-tooltip": {
+        backgroundColor: "var(--culore-carta)",
+        color: "var(--culore-scritta)",
+        border: "1px solid var(--culore-filo)",
+        borderRadius: "8px",
+    },
+    ".cm-tooltip-autocomplete ul li[aria-selected]": {
+        backgroundColor: "var(--culore-smorto)",
+        color: "var(--culore-scritta)",
+    },
+    ".cm-diagnostic-error": { borderLeftColor: "var(--culore-sbaglio)", whiteSpace: "pre-wrap" },
+})
+
+// ---------- Completamento: sulo 'e parole d'o vocabolario, maje l'HTML inglese
+
+tien parole = nisciun
+
+/** 'E parole pe 'o completamento, d'o vocabulary() d'o compilatore. */
+mann for facc imparaParole(v) {
+    parole = {
+        elementi: [
+            ...v.tags.map(([nap, h]) => ({ label: nap, detail: `<${h}>`, type: "type" })),
+            { label: "chiamm", detail: "ncolla n'atu file", type: "type" },
+            ...v.untranslated.tags.map((label) => ({ label, detail: "HTML", type: "type" })),
+        ],
+        html: Object.fromEntries(v.tags.map(([nap, h]) => [nap, h])),
+        attributi: v.attributes,
+        eventi: v.events.map(([nap, h]) => ({ label: nap, detail: `${h} (FratmScript)`, type: "event" })),
+        // Nomi HTML ca nun teneno ancora na parola: 'o compilatore 'e fa passà comme so'
+        comeSo: [...v.untranslated.attributes, ...v.untranslated.events].map((label) => ({ label, detail: "HTML", type: "property" })),
+    }
+}
+
+// Comme fa @codemirror/lang-html: elemento, attributo o valore a seconda 'e addò sta 'o cursore
+facc completa(ctx) {
+    si (!parole) {
+        piglie nisciun
+    }
+    chist è nodo = syntaxTree(ctx.state).resolveInner(ctx.pos, -1)
+    chist è testo = (n) => ctx.state.sliceDoc(n.from, n.to).toLowerCase()
+    chist è nomme = /^[\p{L}\p{N}-]*$/u
+    si (["StartTag", "IncompleteTag", "StartCloseTag", "IncompleteCloseTag", "TagName"].includes(nodo.name)) {
+        piglie { from: nodo.name === "TagName" ? nodo.from : ctx.pos, options: parole.elementi, validFor: nomme }
+    }
+    tien tag = nodo
+    mentre che (tag && tag.name !== "OpenTag" && tag.name !== "SelfClosingTag") {
+        tag = tag.parent
+    }
+    chist è nommeTag = tag?.getChild("TagName")
+    si (!nommeTag) {
+        piglie nisciun
+    }
+    chist è elemento = parole.html[testo(nommeTag)] ?? testo(nommeTag)
+    chist è vale = (a) => !a.only || a.only.includes(elemento)
+    si (["OpenTag", "SelfClosingTag", "AttributeName"].includes(nodo.name)) {
+        chist è visti = nu bell Set()
+        chist è opzioni = []
+        pe ogni (chist è a dint parole.attributi) {
+            si (vale(a) && !visti.has(a.nap)) {
+                visti.add(a.nap)
+                opzioni.push({ label: a.nap, detail: a.html, type: "property" })
+            }
+        }
+        piglie { from: nodo.name === "AttributeName" ? nodo.from : ctx.pos, options: [...opzioni, ...parole.eventi, ...parole.comeSo], validFor: nomme }
+    }
+    si (nodo.name === "AttributeValue" || nodo.name === "UnquotedAttributeValue") {
+        chist è attributo = nodo.parent.getChild("AttributeName")
+        chist è a = attributo && parole.attributi.find((x) => x.nap === testo(attributo) && vale(x))
+        si (!a?.values) {
+            piglie nisciun
+        }
+        chist è virgulette = /^["']/.test(testo(nodo)) ? 1 : 0
+        chist è opzioni = a.values.map(([label, detail]) => ({ label, detail, type: "enum" }))
+        piglie { from: nodo.from + virgulette, options: opzioni, validFor: /^[^"'\s]*$/ }
+    }
+    piglie nisciun
+}
+
+// ---------- L'editor
+
+// Comme FratmScript: nummere 'e riga, riga attiva, cronologia, Tab pe 'o rientro
+chist è base = [
+    lineNumbers(),
+    highlightActiveLine(),
+    highlightSpecialChars(),
+    drawSelection(),
+    history(),
+    keymap.of([...completionKeymap, ...defaultKeymap, ...historyKeymap, indentWithTab]),
+]
+
+/**
+ * N'editor htmlemmurt. `quannoCagna(codice)` a ogni modifica, `lancia()` cu
+ * Ctrl/Cmd+Invio, `arrecetta()` cu Shift+Alt+F.
+ */
+mann for facc creaEditor({ parent, codice = "", etichetta, quannoCagna, lancia, arrecetta }) {
+    chist è tasti = Prec.highest(keymap.of([
+        { key: "Mod-Enter", run: () => { lancia?.(); piglie overo } },
+        { key: "Shift-Alt-f", run: () => { arrecetta?.(); piglie overo } },
+    ]))
+    piglie nu bell EditorView({
+        parent,
+        state: EditorState.create({
+            doc: codice,
+            extensions: [
+                tasti,
+                base,
+                autocompletion(),
+                htmlLanguage,
+                htmlLanguage.data.of({ autocomplete: completa }),
+                autoCloseTags,
+                syntaxHighlighting(colori),
+                tema,
+                EditorView.lineWrapping,
+                EditorView.contentAttributes.of({ "aria-label": etichetta }),
+                lintGutter(),
+                EditorView.updateListener.of((u) => {
+                    si (u.docChanged) {
+                        quannoCagna?.(u.state.doc.toString())
+                    }
+                }),
+            ],
+        }),
+    })
+}
+
+/** Na vista sulo pe leggere, pe l'HTML ca esce. */
+mann for facc creaVista({ parent, etichetta }) {
+    piglie nu bell EditorView({
+        parent,
+        state: EditorState.create({
+            doc: "",
+            extensions: [
+                lineNumbers(),
+                highlightSpecialChars(),
+                html(),
+                syntaxHighlighting(colori),
+                tema,
+                EditorView.lineWrapping,
+                EditorState.readOnly.of(overo),
+                EditorView.editable.of(sfòls),
+                EditorView.contentAttributes.of({ "aria-label": etichetta }),
+            ],
+        }),
+    })
+}
+
+/** Sostituisce tutto 'o testo. */
+mann for facc metti(vista, testo) {
+    vista.dispatch({ changes: { from: 0, to: vista.state.doc.length, insert: testo } })
+}
+
+/** L'errore sotto 'o codice, ncopp'a parola sbagliata, o niente. */
+mann for facc segnala(vista, e) {
+    chist è doc = vista.state.doc
+    tien diagnosi = []
+    si (e && e.line <= doc.lines) {
+        chist è riga = doc.line(e.line)
+        chist è inizio = Math.min(riga.from + e.column - 1, riga.to)
+        chist è parola = riga.text.slice(e.column - 1).match(/^[^\s"'<>=\/]+/)
+        chist è fine = Math.min(inizio + (parola ? parola[0].length : 1), riga.to)
+        chist è testoErrore = e.suggestion ? `${e.message}\n${e.suggestion}` : e.message
+        diagnosi = [{ from: inizio, to: Math.max(fine, inizio), severity: "error", message: testoErrore }]
+    }
+    vista.dispatch(setDiagnostics(vista.state, diagnosi))
+}
+
+/** Porta 'o cursore a riga e colonna, e ce mette 'o fuoco. */
+mann for facc vaiA(vista, riga, colonna = 1) {
+    chist è doc = vista.state.doc
+    chist è linea = doc.line(Math.min(Math.max(riga, 1), doc.lines))
+    chist è pos = Math.min(linea.from + colonna - 1, linea.to)
+    vista.dispatch({ selection: { anchor: pos }, scrollIntoView: overo })
+    vista.focus()
+}

@@ -1,0 +1,11 @@
+<luccolo>Nu filmato</luccolo>
+<filmato
+  da="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+  comandi
+  muto
+  larghezza="320"
+></filmato>
+<luccolo>Nu suono</luccolo>
+<suono comandi>
+  <funtana da="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3" tipo="audio/mpeg">
+</suono>

@@ -1,0 +1,10 @@
+<!-- Ncopp'o telefono nu pannello 'a vota: codice, anteprima, console, HTML -->
+<cascett chi="schede" classe="flessibile md:annascuso sfunno-carta bordo-sotto-1 [flex-shrink:0]" ruolo="tablist" data-t-aria="tabs.label">
+  <citofono tipo="buttone" classe="scheda" ruolo="tab" data-scheda="codice" aria-controls="pannello-codice" aria-selected="true" data-t="tabs.code">Codice</citofono>
+  <citofono tipo="buttone" classe="scheda" ruolo="tab" data-scheda="anteprima" aria-controls="pannello-uscita" aria-selected="false" data-t="tabs.preview">Anteprima</citofono>
+  <citofono tipo="buttone" classe="scheda" ruolo="tab" data-scheda="console" aria-controls="pannello-uscita" aria-selected="false">
+    <scatulell data-t="tabs.console">Console</scatulell>
+    <scatulell classe="contatore" data-contatore annascuso></scatulell>
+  </citofono>
+  <citofono tipo="buttone" classe="scheda" ruolo="tab" data-scheda="html" aria-controls="pannello-uscita" aria-selected="false">HTML</citofono>
+</cascett>

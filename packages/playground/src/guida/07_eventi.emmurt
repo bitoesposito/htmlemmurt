@@ -1,0 +1,13 @@
+<citofono tipo="buttone" quanno-tuocche="stu cos.textContent = 'Sfurnata!'">Sforna</citofono>
+<miett
+  tipo="testo"
+  esempio="Comme te chiamme?"
+  quanno-scrive="document.querySelector('#saluto').textContent = `Uè ${stu cos.value}!`"
+>
+<chiacchier chi="saluto"></chiacchier>
+<chiacchier
+  quanno-trase="stu cos.style.fontWeight = 'bold'"
+  quanno-esce="stu cos.style.fontWeight = ''"
+>
+  Passa cu 'o mouse ccà ncoppa.
+</chiacchier>

@@ -1,0 +1,24 @@
+<tavulat>
+  <cartello>'O listino</cartello>
+  <capotavula>
+    <fila>
+      <capocasella>Pizza</capocasella>
+      <capocasella>Prezzo</capocasella>
+    </fila>
+  </capotavula>
+  <cuorpotavula>
+    <fila>
+      <casella>Margherita</casella>
+      <casella>5 €</casella>
+    </fila>
+    <fila>
+      <casella>Marinara</casella>
+      <casella>4 €</casella>
+    </fila>
+  </cuorpotavula>
+  <peretavula>
+    <fila>
+      <casella allarga="2">Coperto escluso</casella>
+    </fila>
+  </peretavula>
+</tavulat>

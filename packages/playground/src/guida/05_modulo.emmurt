@@ -1,0 +1,15 @@
+<modulo addo="/ordina" metodo="manna">
+  <etichetta pe="nomme">Nomme</etichetta>
+  <miett chi="nomme" nomme="nomme" tipo="testo" esempio="Gennaro" obbligatorio>
+  <etichetta pe="parola">Parola segreta</etichetta>
+  <miett chi="parola" nomme="parola" tipo="fattimiei">
+  <etichetta pe="pizza">Pizza</etichetta>
+  <scegli chi="pizza" nomme="pizza">
+    <opzione valore="margherita" scigliuto>Margherita</opzione>
+    <opzione valore="marinara">Marinara</opzione>
+  </scegli>
+  <etichetta><miett tipo="spunta" nomme="bufala"> Cu 'a bufala</etichetta>
+  <etichetta pe="note">Note</etichetta>
+  <ragionamento chi="note" nomme="note" righe="3" esempio="Senza aglio, pe' piacere"></ragionamento>
+  <citofono tipo="manna">Ordina</citofono>
+</modulo>
