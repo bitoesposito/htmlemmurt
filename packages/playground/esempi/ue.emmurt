@@ -2,8 +2,8 @@
   <capa>
     <titolo>Uè!</titolo>
     <cess>
-      body { font-family: system-ui, sans-serif; text-align: center; padding: 2rem; }
-      button { font: inherit; padding: .5rem 1.2rem; cursor: pointer; }
+      panz { scrittura: system-ui, sans-serif; allinea-testo: miezo; spazio: 2rem; }
+      citofono { font: ereditato; spazio: .5rem 1.2rem; cursore: manella; }
     </cess>
   </capa>
   <panz>

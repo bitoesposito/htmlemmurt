@@ -4,7 +4,7 @@ Regole per agenti (Claude, Codex, Copilot, Cursor…) e persone che lavorano su 
 
 ## Cos'è il repo
 
-htmlemmurt è HTML in napoletano: un compilatore severo che traduce nomi napoletani di elementi, attributi e valori in HTML standard. I blocchi `<fratm>` e gli attributi `quanno-*` sono FratmScript, compilato con `fratm-core` (dipendenza git, tag fissato in `Cargo.toml`); `<cess>` e `cess="…"` sono CSS in napoletano, tradotto dallo `stile` di `fratm-core`. Le parole sono quelle di `fratm_core::html`, le stesse del JSX di FratmScript.
+htmlemmurt è HTML in napoletano: un compilatore severo che traduce nomi napoletani di elementi, attributi e valori in HTML standard. I blocchi `<fratm>` e gli attributi `quanno-*` sono FratmScript, compilato con `fratm-core` (dipendenza git, tag fissato in `Cargo.toml`); `<cess>` e `cess="…"` sono CSS in napoletano, compilato da `parocss-core` (dipendenza git da bitoesposito/par-o-css): severo, con le classi di par-o-css quando un `<cess>` scrive `@chiamm "par-o-css"`, e una classe Tailwind in `classe` è un errore. Le parole sono quelle di `fratm_core::html`, le stesse del JSX di FratmScript.
 
 | Percorso | Cosa contiene |
 | --- | --- |

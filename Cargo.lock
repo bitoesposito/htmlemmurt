@@ -28,6 +28,7 @@ name = "emmurt-core"
 version = "0.4.0"
 dependencies = [
  "fratm-core",
+ "parocss-core",
  "serde",
 ]
 
@@ -47,7 +48,7 @@ dependencies = [
 [[package]]
 name = "fratm-core"
 version = "0.17.1"
-source = "git+https://github.com/kkratterf/fratmscript?tag=v0.17.1#b821a4fbdec14ce75a2b042bdeea8f6258cfe96d"
+source = "git+https://github.com/kkratterf/fratmscript?rev=d533b342f933e77e2d629a8a13b0472efe17d2a5#d533b342f933e77e2d629a8a13b0472efe17d2a5"
 dependencies = [
  "serde",
  "serde_json",
@@ -106,6 +107,15 @@ name = "once_cell"
 version = "1.21.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9f7c3e4beb33f85d45ae3e3a1792185706c8e16d043238c593331cc7cd313b50"
+
+[[package]]
+name = "parocss-core"
+version = "0.1.0"
+source = "git+https://github.com/bitoesposito/par-o-css?rev=86a00100233d3a2478d23b11b22c17d8cf3802cb#86a00100233d3a2478d23b11b22c17d8cf3802cb"
+dependencies = [
+ "fratm-core",
+ "serde",
+]
 
 [[package]]
 name = "pin-project-lite"
