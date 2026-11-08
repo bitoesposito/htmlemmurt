@@ -1,0 +1,11 @@
+<chiacchier chi="ora"></chiacchier>
+<chiacchier chi="js"></chiacchier>
+<!-- tipo="modulo": 'o blocco addiventa nu modulo -->
+<fratm tipo="modulo">
+  chist è ora = nu bell Date().toLocaleTimeString("it")
+  document.querySelector("#ora").textContent = `So' 'e ${ora}.`
+</fratm>
+<!-- Cu n'ato tipo 'o contenuto resta comm'è -->
+<fratm tipo="text/javascript">
+  document.querySelector("#js").textContent = "Chesto è JavaScript normale.";
+</fratm>

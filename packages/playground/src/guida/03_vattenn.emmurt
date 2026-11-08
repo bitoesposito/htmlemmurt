@@ -1,0 +1,14 @@
+<chiacchier>
+  Leggi 'o
+  <vattenn addo="https://it.wikipedia.org/wiki/Pizza_napoletana" arape="nuova">disciplinare</vattenn>
+  o va <vattenn addo="#foto">a 'a foto</vattenn>.
+</chiacchier>
+<quadro chi="foto">
+  <cartulin
+    da="https://upload.wikimedia.org/wikipedia/commons/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg"
+    spiegazione="Na margherita appena sfurnata"
+    larghezza="320"
+    carica="chianochiano"
+  >
+  <didascalia>Na margherita.</didascalia>
+</quadro>

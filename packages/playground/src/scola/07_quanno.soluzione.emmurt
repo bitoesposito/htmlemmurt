@@ -1,0 +1,3 @@
+<luccolone>'O furno</luccolone>
+<citofono tipo="buttone" quanno-tuocche="stamm a dì('Pizza sfurnata!')">Sforna</citofono>
+<citofono tipo="buttone" quanno-tuocche="stu cos.textContent = 'Stutato!'">Stuta 'o furno</citofono>

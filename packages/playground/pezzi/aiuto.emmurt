@@ -1,0 +1,17 @@
+<!-- L'aiuto: tutte 'e parole, cu l'HTML lloro. 'E tavule 'e mette aiuto.fratm -->
+<dialogo chi="aiuto" classe="margine-automatico larghezza-[min(48rem,calc(100vw-2rem))] altezza-[min(40rem,calc(100dvh-2rem))] bordo bordo-tunno-xl sfunno-carta culore-scritta ombra-xl" data-t-aria="help.title">
+  <cascett classe="flessibile direzione-colonna altezza-chino">
+    <cascett classe="flessibile giustifica-spartuto allinea-cose-miezo spazio-mmiez-3 spazio-x-4 spazio-y-3 bordo-sotto-1">
+      <luccolo classe="scrittura-peso-600" data-t="help.title">Vocabolario</luccolo>
+      <citofono chi="aiuto-chiude" tipo="buttone" classe="buttone buttone-fantasma buttone-icona" data-t-aria="help.close">
+        <scatulell data-icona="chiude"></scatulell>
+      </citofono>
+    </cascett>
+    <cascett classe="spazio-x-4 spazio-y-3 bordo-sotto-1">
+      <miett chi="cerca" tipo="cerca" classe="larghezza-chino altezza-8 bordo bordo-casella bordo-tunno-lg sfunno-smorto spazio-x-3 scrittura-grannezza-sm" data-t-esempio="help.search" data-t-aria="help.search">
+      <chiacchier classe="testo margine-ncoppa-2 scrittura-grannezza-xs culore-scritta-smorta" data-t="help.hint"></chiacchier>
+    </cascett>
+    <cascett chi="parole" classe="cresce altezza-minima-0 trabocca-automatico spazio-x-4 spazio-y-3 scrittura-grannezza-sm"></cascett>
+    <chiacchier chi="nisciuna" classe="spazio-x-4 spazio-y-3 culore-scritta-smorta" annascuso></chiacchier>
+  </cascett>
+</dialogo>

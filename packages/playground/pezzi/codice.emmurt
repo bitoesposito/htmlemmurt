@@ -1,0 +1,30 @@
+<!-- 'O pannello d'o codice: 'a lezione (int'a scola), 'o file, l'editor e 'a barra cu l'esempi -->
+<cascett chi="pannello-codice" classe="flessibile direzione-colonna cresce altezza-minima-0 trabocca-nascosto md:bordo-destra-1">
+  <chiamm da="lezione.emmurt" />
+  <cascett classe="flessibile giustifica-spartuto allinea-cose-miezo spazio-mmiez-2 sfunno-carta spazio-x-4 spazio-y-2.5 bordo-sotto-1 [flex-shrink:0]">
+    <scatulell classe="taglia scrittura-grannezza-sm scrittura-peso-500 culore-scritta-smorta">
+      <scatulell chi="file">index.emmurt</scatulell>
+      <scatulell chi="cagnato" classe="margine-manca-1.5 scrittura-grannezza-xs" data-t="editor.edited" annascuso>(cagnato)</scatulell>
+    </scatulell>
+    <scatulell chi="versione" classe="distintivo"></scatulell>
+  </cascett>
+  <cascett chi="editor" classe="cresce altezza-minima-0 trabocca-automatico sfunno-paggena"></cascett>
+  <cascett classe="flessibile a-capo allinea-cose-miezo giustifica-spartuto spazio-mmiez-2 sfunno-carta spazio-x-4 spazio-y-2.5 bordo-ncoppa-1 [flex-shrink:0]">
+    <cascett chi="esempi-barra" classe="flessibile allinea-cose-miezo spazio-mmiez-3 larghezza-minima-0">
+      <etichetta pe="esempi" classe="scrittura-grannezza-xs culore-scritta-smorta" data-t="editor.examples">Esempi:</etichetta>
+      <scegli chi="esempi" classe="scegli larghezza-56"></scegli>
+    </cascett>
+    <cascett classe="flessibile allinea-cose-miezo spazio-mmiez-3 margine-manca-automatico [flex-shrink:0]">
+      <etichetta classe="flessibile allinea-cose-miezo spazio-mmiez-1.5 scrittura-grannezza-xs culore-scritta-smorta cursore-manella selezione-nisciuno">
+        <miett chi="automatico" tipo="spunta" classe="larghezza-3.5 altezza-3.5 [accent-color:var(--culore-primario)]">
+        <scatulell data-t="editor.autoRun">Esecuzione automatica</scatulell>
+      </etichetta>
+      <citofono chi="formatta" tipo="buttone" classe="buttone buttone-contorno buttone-icona" stutato data-t-aria="editor.format" data-t-title="editor.formatTip">
+        <scatulell data-icona="formatta"></scatulell>
+      </citofono>
+      <citofono chi="aiuto-apri" tipo="buttone" classe="buttone buttone-contorno buttone-icona" data-t-aria="help.open" data-t-title="help.open">
+        <scatulell data-icona="aiuto"></scatulell>
+      </citofono>
+    </cascett>
+  </cascett>
+</cascett>

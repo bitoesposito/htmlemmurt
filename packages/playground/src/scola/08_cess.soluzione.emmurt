@@ -1,0 +1,5 @@
+<cess>
+  luccolone { culore: russo; }
+</cess>
+<luccolone>'A pizzeria</luccolone>
+<chiacchier cess="culore: verde">Stammo aperti tutt'e sere.</chiacchier>

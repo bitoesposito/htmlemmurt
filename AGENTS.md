@@ -15,7 +15,8 @@ htmlemmurt è HTML in napoletano: un compilatore severo che traduce nomi napolet
 | `crates/emmurt-wasm` | Binding WebAssembly usati da npm ed estensione |
 | `packages/htmlemmurt` | Pacchetto npm: API Node, plugin Vite, runtime browser (`wasm/` è generato) |
 | `packages/vscode-extension` | Grammatica, snippet, completamento, diagnostica (`compiler/` è generato) |
-| `packages/playground` | Playground web su GitHub Pages, scritto in htmlemmurt e FratmScript con il plugin Vite |
+| `packages/playground` | Playground web su GitHub Pages, scritto in htmlemmurt, FratmScript e par-o-css (`src/stile.cess`), con l'aspetto e le funzioni di quello di FratmScript |
+| `packages/playground/src/guida`, `src/scola` | Guida e lezioni del playground: testi in it, en e nap nei `.json`, esempi `.emmurt` che un test compila |
 | `crates/emmurt-cli/src/nuovo/` | Il modello dell'app di `emmurt nuovo` |
 | `packages/playground/public/llms.txt` | Istruzioni per gli agenti AI: il sito le serve come `llms.txt`, `emmurt guida` le stampa |
 | `crates/emmurt-cli/src/nuovo-completa/` | Quello che `emmurt nuovo --completa` aggiunge o sostituisce: API Hono e SQLite in `server/` |

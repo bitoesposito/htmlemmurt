@@ -1,0 +1,106 @@
+// Compila e fa vedé: 'o compilatore, 'e pezzi pe <chiamm>, l'anteprima cu 'a
+// console, e 'o confronto tra doje paggene pe 'e lezioni.
+
+chiamm { init, compile, format, vocabulary, version, runtimeError } da "htmlemmurt/web"
+
+// <chiamm da="pezzi/carta.emmurt"> int'o playground legge 'e pezzi 'e examples/pezzi
+chist è FILE = import.meta.glob("../../../examples/pezzi/*.emmurt", { query: "?raw", import: "default", eager: overo })
+chist è PEZZI = Object.fromEntries(Object.entries(FILE).map(([p, testo]) => ["pezzi/" + p.split("/").pop(), testo]))
+
+facc leggi(percorso) {
+    piglie PEZZI[percorso.replace(/^\.?\//, "")] ?? nisciun
+}
+
+/** Carica 'o WebAssembly; dà versione e vocabolario. */
+mann for mo vir facc carica() {
+    aspett init()
+    piglie { versione: version(), vocabolario: vocabulary() }
+}
+
+/** HTML, errori e millisecondi. */
+mann for facc compila(codice) {
+    chist è inizio = performance.now()
+    chist è { html, errors } = compile(codice, { filename: "index.emmurt", read: leggi, inline: overo })
+    piglie { html, sbagli: errors, ms: performance.now() - inizio }
+}
+
+/** 'O codice arrecettato comme fa emmurt fmt, o nisciun si tene errori. */
+mann for facc arrecetta(codice) {
+    piglie format(codice)
+}
+
+// Nu script dint'a paggena ca manna 'a console e l'errori a 'o playground
+chist è SPIA = `<script>(() => {
+  const manna = (tipo, cose) => parent.postMessage({ emmurt: tipo, cose: cose.map((c) => {
+    try { return typeof c === "string" ? c : JSON.stringify(c) } catch { return String(c) }
+  }) }, "*");
+  for (const k of ["log", "info", "warn", "error"]) {
+    const vecchio = console[k];
+    console[k] = (...a) => { manna(k, a); vecchio.apply(console, a) };
+  }
+  addEventListener("error", (e) => parent.postMessage({ emmurt: "runtime", name: e.error?.name ?? "Error", message: e.message }, "*"));
+  addEventListener("unhandledrejection", (e) => parent.postMessage({ emmurt: "runtime", name: e.reason?.name ?? "Error", message: String(e.reason?.message ?? e.reason) }, "*"));
+  // Nu modulo int'a fenestella nun va addò nun ce sta niente: 'o dice 'a console
+  addEventListener("submit", (e) => {
+    e.preventDefault();
+    const dati = [...new FormData(e.target)].map(([k, v]) => k + "=" + v).join(" ");
+    manna("info", ["📨 " + (e.target.method || "get").toUpperCase() + " " + (e.target.getAttribute("action") || "") + (dati ? " " + dati : "")]);
+  });
+})()</script>`
+
+facc conSpia(paggena) {
+    chist è capa = paggena.indexOf("<head>")
+    si (capa === -1) {
+        piglie SPIA + paggena
+    }
+    chist è dopo = capa + "<head>".length
+    piglie paggena.slice(0, dopo) + SPIA + paggena.slice(dopo)
+}
+
+/**
+ * Na fenestella senza accesso a 'o playground (sulo script). `scrive(tipo, testo)`
+ * riceve 'a console d'a paggena: log, info, warn, error.
+ */
+mann for facc creaAnteprima(parent, scrive) {
+    chist è fenestella = document.createElement("iframe")
+    fenestella.title = "Anteprima"
+    fenestella.setAttribute("sandbox", "allow-scripts allow-modals allow-forms allow-popups allow-popups-to-escape-sandbox")
+    parent.append(fenestella)
+    window.addEventListener("message", (evento) => {
+        chist è d = evento.data
+        si (evento.source !== fenestella.contentWindow || !d?.emmurt) {
+            piglie
+        }
+        si (d.emmurt === "runtime") {
+            scrive("error", runtimeError({ name: d.name, message: d.message }))
+        } sinnò {
+            scrive(d.emmurt, d.cose.join(" "))
+        }
+    })
+    piglie {
+        mostra: (html) => {
+            fenestella.srcdoc = conSpia(html)
+        },
+    }
+}
+
+/**
+ * Na paggena scritta 'e na manera sola: attributi in ordine, spazi d'o testo
+ * ristretti. Doje paggene so' tale e quale si 'o canonico è uguale.
+ */
+mann for facc canonico(html) {
+    chist è doc = nu bell DOMParser().parseFromString(html, "text/html")
+    facc nodo(n) {
+        si (n.nodeType === Node.TEXT_NODE) {
+            chist è testo = n.data.replace(/\s+/g, " ").trim()
+            piglie testo ? JSON.stringify(testo) : ""
+        }
+        si (n.nodeType !== Node.ELEMENT_NODE) {
+            piglie ""
+        }
+        chist è attributi = [...n.attributes].map((a) => `${a.name}=${JSON.stringify(a.value)}`).sort().join(" ")
+        chist è figli = [...n.childNodes].map(nodo).filter(Boolean).join(",")
+        piglie `<${n.localName} ${attributi}>[${figli}]`
+    }
+    piglie nodo(doc.documentElement)
+}

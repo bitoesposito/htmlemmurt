@@ -1,0 +1,8 @@
+<piezz chi="margherita" classe="carta" data-gusto="margherita" aria-label="Pizza Margherita">
+  <luccolo titolo="Cotta a legna">Margherita</luccolo>
+  <chiacchier cess="culore: russo">Pummarola, mozzarella e vasenicola.</chiacchier>
+  <chiacchier annascuso>Chesto nun se vede.</chiacchier>
+  <chiacchier scrivibile="overo">Tocca ccà e scrive.</chiacchier>
+  <misura valore="0.8" low="0.3" high="0.7">Cottura: 80%</misura>
+  <pizza-card gusto="diavola">Na pizza-card: 'o nomme cu 'o trattino è 'o tuoio.</pizza-card>
+</piezz>
