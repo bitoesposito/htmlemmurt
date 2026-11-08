@@ -48,7 +48,7 @@ dependencies = [
 [[package]]
 name = "fratm-core"
 version = "0.17.1"
-source = "git+https://github.com/bitoesposito/fratmscript?rev=705846174e2e6c6bb50ef86a0a0ad340af290b0f#705846174e2e6c6bb50ef86a0a0ad340af290b0f"
+source = "git+https://github.com/kkratterf/fratmscript?rev=d533b342f933e77e2d629a8a13b0472efe17d2a5#d533b342f933e77e2d629a8a13b0472efe17d2a5"
 dependencies = [
  "serde",
  "serde_json",
@@ -111,7 +111,7 @@ checksum = "9f7c3e4beb33f85d45ae3e3a1792185706c8e16d043238c593331cc7cd313b50"
 [[package]]
 name = "parocss-core"
 version = "0.1.0"
-source = "git+https://github.com/bitoesposito/par-o-css?tag=v0.1.0#85f63fa75a10efe4a1111a20a560f87fc94a66b0"
+source = "git+https://github.com/bitoesposito/par-o-css?rev=86a00100233d3a2478d23b11b22c17d8cf3802cb#86a00100233d3a2478d23b11b22c17d8cf3802cb"
 dependencies = [
  "fratm-core",
  "serde",
